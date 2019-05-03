@@ -4,7 +4,7 @@
 module.exports = {
     root_container: {
         flex: 1,
-        backgroundColor: '#F5F6F9',
+        backgroundColor: '#F5F5F5',
     },
     /* 公共Text样式 */
     ItemText_12_B3B3B3: { fontSize: 12, color: '#B3B3B3' },

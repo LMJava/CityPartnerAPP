@@ -1,71 +1,85 @@
 import { StyleSheet } from "react-native"
 
+import Tool from "../../common/Tool";
 
 export default StyleSheet.create({
+    headerBGImage: {
+        height: Tool.isIphoneX() ? 204 : 180,
+        justifyContent: 'center',
+        backgroundColor: '#fff',
+    },
     homeHeader: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 15,
-        paddingVertical: 25,
-        backgroundColor: '#CCC',
     },
     homeHeaderImg: {
-        width: 50,
-        height: 50
+        margin: 20,
+        width: 60,
+        height: 60
     },
     homeHeaderMsg: {
         flex: 1,
-        marginLeft: 15
+    },
+    homeHeaderName: {
+        fontSize: 18,
+        color: "#FFF"
     },
     homeHeaderAdd: {
-        flexDirection: 'row',
+        marginTop: 10,
+        flexDirection: 'row'
     },
-    homeHeaderNum: {
+    homeHeaderAddTxt: {
+        fontSize: 12,
+        color: "#FFF"
+    },
+    // homeHeaderNum: {
+    //     alignItems: 'center',
+    // },
+    // homeHeaderCnt: {
+    //     flexDirection: 'row',
+    // },
+    homeCode: {
         alignItems: 'center',
-    },
-    homeHeaderCnt: {
-        flexDirection: 'row',
+        padding: 30,
+        backgroundColor: '#FFF'
     },
 
-    homeCode: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        margin: 15,
-        padding: 30,
-        borderWidth: 1,
-        borderColor: '#E5E5E5',
-        borderRadius: 5,
-        shadowOpacity: 0.2,
-        shadowColor: '#B3B3B3',
-        shadowOffset: { width: 0, height: 3 },
-        elevation: 3,
-    },
-    homeCodeImg: {
-        width: 22,
-        height: 22
-    },
-    homeCodeText: {
-        paddingHorizontal: 15,
-        fontSize: 16,
-        color: "#000"
+
+    homeButtonsWrap: {
+        marginTop: 10
     },
     homeButtons: {
         flexDirection: 'row',
-        paddingBottom: 10,
-        marginHorizontal: 15,
-        marginVertical: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#999'
+        alignItems: 'center',
+        backgroundColor: '#FFF'
+    },
+    homeButtonsImg: {
+        marginLeft: 22,
+        marginRight: 12,
     },
     homeButtonsCon: {
+        flex: 1,
+        height: 55,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#E0E0E0',
+    },
+    homeButtonsTxt: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    homeButtonsImg: {
-        width: 18,
-        height: 18
+    homeButtonsTit: {
+        fontSize: 14,
+        color: "#323232"
     },
-
+    homeButtonsNum: {
+        fontSize: 12,
+        color: "#A7A7A7"
+    },
+    homeButtonsRight: {
+        marginLeft: 15,
+        marginRight: 25
+    }
 })

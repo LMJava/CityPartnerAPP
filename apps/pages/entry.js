@@ -24,7 +24,6 @@ class Entry extends Component {
     
     componentDidMount() {
         this.props.getUser((User) => {
-            console.log("User"+ JSON.stringify(User))
             if(JSON.stringify(User) == "{}") {
                 this.setState({ReturnDom: "Login"})
             }
@@ -59,7 +58,7 @@ class Entry extends Component {
     render() {
         const { User } = this.props
         if (this.state.ReturnDom) {
-            let ReturnDom = createAppContainer(StackNav(this.state.ReturnDom, User.role))// , '推广员'
+            let ReturnDom = createAppContainer(StackNav(this.state.ReturnDom, User.role))
             return <View style={GlobalStyles.root_container}>
                     <ReturnDom />
                     <Toast ref={toast => global.GlobalToast = toast} />
