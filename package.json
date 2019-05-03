@@ -1,0 +1,33 @@
+{
+  "name": "CityPartnerAPP",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "abuild": "node node_modules/react-native/local-cli/cli.js run-android",
+    "ibuild": "node node_modules/react-native/local-cli/cli.js run-ios",
+    "test": "jest"
+  },
+  "dependencies": {
+    "moment": "^2.24.0",
+    "react": "16.8.3",
+    "react-native": "0.59.5",
+    "react-native-gesture-handler": "^1.2.1",
+    "react-navigation": "^3.9.1",
+    "react-redux": "^7.0.3",
+    "realm": "^2.26.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/runtime": "7.4.4",
+    "babel-jest": "^24.7.1",
+    "jest": "^24.7.1",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "react-test-renderer": "16.8.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
