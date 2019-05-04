@@ -46,13 +46,13 @@ export default class ViewUtils {
      * @memberof ViewUtils
      */
     static itemSeparatorComponent() {
-        return <View style={{ backgroundColor: "#fff", height: 1 }}>
-            <View style={{ backgroundColor: "#EEE", height: 1, marginLeft: 15 }} />
+        return <View style={{ backgroundColor: "#FFF", height: 0.5 }}>
+            <View style={{ backgroundColor: "#E0E0E0", height: 0.5, marginLeft: 15 }} />
         </View>
     }
 
     static itemAllSeparatorComponent() {
-        return <View style={{ backgroundColor: "#EEE", height: 1 }} />
+        return <View style={{ backgroundColor: "#E0E0E0", height: 0.5 }} />
     }
 
 

@@ -4,7 +4,7 @@ import Tool from "../../common/Tool";
 
 export default StyleSheet.create({
     headerBGImage: {
-        height: Tool.isIphoneX() ? 204 : 180,
+        height: Tool.isIphoneX() ? 184 : 160,
         justifyContent: 'center',
         backgroundColor: '#fff',
     },
@@ -22,7 +22,8 @@ export default StyleSheet.create({
     },
     homeHeaderName: {
         fontSize: 18,
-        color: "#FFF"
+        color: "#FFF",
+        backgroundColor: 'transparent'
     },
     homeHeaderAdd: {
         marginTop: 10,
@@ -30,7 +31,8 @@ export default StyleSheet.create({
     },
     homeHeaderAddTxt: {
         fontSize: 12,
-        color: "#FFF"
+        color: "#FFF",
+        backgroundColor: 'transparent'
     },
     // homeHeaderNum: {
     //     alignItems: 'center',

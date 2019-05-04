@@ -3,23 +3,21 @@ import PropTypes from 'prop-types'
 import {
     View,
     Text,
-    Image,
     StyleSheet,
-    Platform,
-    StatusBar,
+    TouchableOpacity,
+    Image,
+    ImageBackground
 } from 'react-native'
 
 import Tool from "../common/Tool";
+import Images from "../assets/styles/Images"
 
 export default class HeaderBar extends Component {
     static propTypes = {
         headerView: PropTypes.element,
         title: PropTypes.string,
         titleView: PropTypes.element,
-        leftButton: PropTypes.oneOfType([
-            PropTypes.element,
-            PropTypes.arrayOf(PropTypes.element)
-        ]),
+        leftButton: PropTypes.bool,
         rightButton: PropTypes.oneOfType([
             PropTypes.element,
             PropTypes.arrayOf(PropTypes.element)
@@ -32,56 +30,61 @@ export default class HeaderBar extends Component {
 
     render() {
         let isIphoneX = Tool.isIphoneX();
-        // headerBar的noshadow主要用在了登录页和协议页面
-        const shadowStyle = this.props.noShadow ? {backgroundColor: '#fff'} : styles.container;
-        return (
-            <View
-                style={[
-                    shadowStyle, {height: isIphoneX ? 88 : 64,}
-                ]}
-            >
-                {Tool.statusBar(1)}
-                <View style={styles.content}>
-                    {this.props.headerView
-                        ? this.props.headerView
-                        : <View style={styles.navBar}>
-                            <View style={styles.leftButton}>
-                                {this.props.leftButton}
-                            </View>
-                            <View style={styles.titleViewContainer}>
-                                {this.props.titleView
-                                    ? this.props.titleView
-                                    : <Text numberOfLines={1} style={styles.title}>{this.props.title}</Text>
+        const {headerView, leftButton, titleView, title, rightButton, backgroundG, navigation} = this.props
+        return <ImageBackground 
+            resizeMode={'stretch'} 
+            source={Images.headerBg} 
+            style={{
+                height: isIphoneX ? 98 : 74, 
+                backgroundColor: backgroundG ? '#F5F5F5': '#FFF'
+            }}
+        >
+            {Tool.statusBar()}
+            <View style={styles.content}>
+                {headerView
+                    ? headerView
+                    : <View style={styles.navBar}>
+                        {leftButton
+                            ? <TouchableOpacity 
+                                style={styles.leftButton} 
+                                onPress={() => navigation 
+                                    && navigation.goBack 
+                                    && navigation.goBack(null)
                                 }
-                            </View>
-                            <View style={styles.rightButton}>
-                                {this.props.rightButton}
-                            </View>
+                            >
+                                <Image source={Images.left} />
+                                <Text style={styles.leftButtonTxt}>返回</Text>
+                            </TouchableOpacity>
+                            : <View/>
+                        }
+                        <View style={styles.titleViewContainer}>
+                            {titleView
+                                ? titleView
+                                : <Text numberOfLines={1} style={styles.title}>{title}</Text>
+                            }
                         </View>
-                    }
-                </View>
+                        {rightButton
+                            ? rightButton
+                            : null
+                        }
+                    </View>
+                }
             </View>
-        )
+        </ImageBackground>
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        shadowOffset: {width: 0, height: 5},
-        shadowOpacity: 0.2,
-        shadowColor: '#B3B3B3',
-        elevation: 5,
-        backgroundColor: '#FFF'
-    },
     content: {
         flex: 1,
         justifyContent: 'flex-end',
     },
     navBar: {
-        height: 50,
+        paddingHorizontal: 15,
+        marginBottom: 25,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'space-between'
     },
     titleViewContainer: {
         justifyContent: 'center',
@@ -94,18 +97,18 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: 'center',
-        fontSize: 17,
-        color: '#333',
+        fontSize: 16,
+        color: '#FFF',
         backgroundColor: 'transparent'
     },
     leftButton: {
-        padding: 5,
         flexDirection: 'row',
-        alignItems: 'flex-start',
+        alignItems: 'center'
     },
-    rightButton: {
-        padding: 5,
-        flexDirection: 'row',
-        alignItems: 'flex-end',
+    leftButtonTxt: { 
+        marginLeft: 7,
+        fontSize: 13, 
+        color: '#FFF', 
+        backgroundColor: 'transparent' 
     }
 })

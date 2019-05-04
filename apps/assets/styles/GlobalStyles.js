@@ -7,9 +7,9 @@ module.exports = {
         backgroundColor: '#F5F5F5',
     },
     /* 公共Text样式 */
-    ItemText_12_B3B3B3: { fontSize: 12, color: '#B3B3B3' },
-    ItemText_13_888: { fontSize: 13, color: '#888' },
-    ItemText_17_333: { flex: 1, fontSize: 17, color: '#333' },
+    itemTxt_15_32: { fontSize: 15, color: '#323232' },
+    itemTxt_12_64: { fontSize: 12, color: '#646464' },
+    itemTxt_12_96: { fontSize: 12, color: '#969696' },
     /* 公共icon样式 */
     icon_20_white: {width: 20, height: 20, tintColor: '#FFF'},
     icon_20_gray: {width: 20, height: 20, tintColor: '#777'},

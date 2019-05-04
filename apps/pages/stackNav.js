@@ -9,6 +9,7 @@ import Images from "../assets/styles/Images"
 import TabNav from "./tabNav";
 
 import Login from './login'; // 登录页面
+import Forgot from './login/forgot'; // 忘记密码页面
 
 export default function StackNav(type, user) {
     return createStackNavigator(
@@ -23,6 +24,12 @@ export default function StackNav(type, user) {
                 screen: Login,
                 navigationOptions: {
                     header: null
+                }
+            },
+            Forgot: {
+                screen: Forgot,
+                navigationOptions: {
+                    header: ({navigation}) => <HeaderBar title={"忘记密码"} leftButton={true} navigation={navigation} backgroundG={true}/>
                 }
             },
         }, {

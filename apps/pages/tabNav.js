@@ -57,7 +57,7 @@ export default function TabNav(user) {
         Partner: {
             screen: Partner,
             navigationOptions: {
-                tabBarLabel: "合伙人",
+                tabBarLabel: "渠道",
                 tabBarIcon: ({ focused }) => (<Image
                     style={styles.img}
                     source={focused
@@ -70,14 +70,14 @@ export default function TabNav(user) {
         Promoter: {
             screen: Promoter,
             navigationOptions: {
-                tabBarLabel: "推广人",
+                tabBarLabel: "推广员",
                 tabBarIcon: ({ focused }) => (<Image
                     style={styles.img}
                     source={focused
                         ? Images.tab.tab3
                         : Images.tab.tab3_un
                     }
-                />),
+                />)
             }
         },
         PersonalCenter: {
@@ -101,6 +101,7 @@ export default function TabNav(user) {
         delete RouteConfigs.Promoter
     }
     return createBottomTabNavigator(RouteConfigs, {
+        initialRouteName: 'Promoter',
         lazy: true, // 是否懒加载
         animationEnabled: true, // 切换页面时是否有动画效果
         tabBarPosition: "bottom", // 显示在底端，android 默认是显示在页面顶端的

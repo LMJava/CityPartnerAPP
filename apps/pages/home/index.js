@@ -41,7 +41,7 @@ export default class Home extends Component {
             {Tool.statusBar()}
             <ImageBackground 
                 resizeMode={'stretch'} 
-                source={Images.headerBg} 
+                source={Images.homeBg} 
                 style={styles.headerBGImage}
             >
                 <View style={styles.homeHeader}>
