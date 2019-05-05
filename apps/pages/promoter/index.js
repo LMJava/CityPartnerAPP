@@ -29,7 +29,8 @@ export default class Promoter extends Component {
                 title={"推广员"}
                 rightButton={<TouchableOpacity 
                     style={styles.rightButton} 
-                    onPress={() => this.props.navigation.navigate('Forgot')}
+                    hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+                    onPress={() => this.props.navigation.navigate('AddPromoter')}
                 >
                     <Image source={Images.add} />
                     <Text style={styles.rightButtonTxt}>添加</Text>

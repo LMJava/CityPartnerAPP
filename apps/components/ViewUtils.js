@@ -24,16 +24,13 @@ export default class ViewUtils {
     static getTabBtn(content, callBack, _key) {
         return <TouchableOpacity
             key={_key ? _key : null}
-            style={{ padding: 5 }}
+            hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
             onPress={() => callBack && callBack()}
         >
             {typeof (content) == 'string'
                 ? <Text numberOfLines={1}
-                    style={{ fontSize: 14, color: '#333', backgroundColor: 'transparent' }}>{content}</Text>
-                : <Image
-                    style={GlobalStyles.icon_20_gray}
-                    source={content}
-                />
+                    style={{ fontSize: 13, color: '#FFF', backgroundColor: 'transparent' }}>{content}</Text>
+                : <Image source={content}/>
             }
         </TouchableOpacity>
     }

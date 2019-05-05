@@ -21,4 +21,26 @@ module.exports = {
     headerInputBox: {padding: 0, borderColor: "#C7C7CC", borderWidth: 1, borderRadius: 4, flex: 1, textAlign: "center", fontSize: 12, textAlignVertical: 'center'},
     headerButtonText: {fontSize: 12},
     headerInputSeparator: {textAlignVertical: "center", paddingHorizontal: 5, color: "#333"},
+
+    /* 单选框样式 */
+    radioWrap: {
+        flex: 1,
+        paddingLeft: 12,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    radioContent: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    radioImg: {
+        width: 16,
+        height: 16,
+        marginRight: 7,
+    },
+    radioTxt: {
+        fontSize: 15,
+        color: "#646464"
+    },
 };

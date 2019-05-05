@@ -8,6 +8,8 @@ import Images from "../assets/styles/Images"
 
 import TabNav from "./tabNav";
 
+import AddPromoter from './promoter/addPromoter'; // 添加推广员
+
 import Login from './login'; // 登录页面
 import Forgot from './login/forgot'; // 忘记密码页面
 
@@ -20,6 +22,9 @@ export default function StackNav(type, user) {
                     header: null
                 }
             },
+
+            AddPromoter: { screen: AddPromoter },
+
             Login: {
                 screen: Login,
                 navigationOptions: {

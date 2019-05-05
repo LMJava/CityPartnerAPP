@@ -47,8 +47,8 @@ export default class Login extends Component {
                             <Image source={radioValue === 'partner'
                                 ? Images.login.iconChked
                                 : Images.login.iconChk
-                            } style={styles.radioImg} />
-                            <Text style={styles.radioTxt}>我是合伙人</Text>
+                            } style={GlobalStyles.radioImg} />
+                            <Text style={GlobalStyles.radioTxt}>我是合伙人</Text>
                         </View>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={() => this.onChecked('promoter')}>
@@ -56,8 +56,8 @@ export default class Login extends Component {
                             <Image source={radioValue === 'promoter'
                                 ? Images.login.iconChked
                                 : Images.login.iconChk
-                            } style={styles.radioImg} />
-                            <Text style={styles.radioTxt}>我是推广员</Text>
+                            } style={GlobalStyles.radioImg} />
+                            <Text style={GlobalStyles.radioTxt}>我是推广员</Text>
                         </View>
                     </TouchableWithoutFeedback>
                 </View>

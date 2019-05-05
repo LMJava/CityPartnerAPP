@@ -33,16 +33,7 @@ export default StyleSheet.create({
     },
     radioContent: {
         flexDirection: 'row',
-        alignItems: 'center',
-    },
-    radioImg: {
-        width: 16,
-        height: 16,
-        marginRight: 7,
-    },
-    radioTxt: {
-        fontSize: 15,
-        color: "#646464"
+        alignItems: 'center'
     },
 
     inputWrap: {

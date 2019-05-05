@@ -37,6 +37,14 @@ export default {
     right: require('../images/right.png'),
     search: require('../images/icon-search.png'),
     location: require('../images/icon-location.png'),
+    pho: require('../images/icon-pho.png'),
+    card: require('../images/icon-card.png'),
+    name: require('../images/icon-name.png'),
+    sex: require('../images/icon-sex.png'),
+    age: require('../images/icon-age.png'),
+    city: require('../images/icon-city.png'),
+    addr: require('../images/icon-addr.png'),
+
     
     head: require('../images/head.png'),
 }

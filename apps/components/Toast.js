@@ -134,19 +134,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     content: {
-        backgroundColor: '#4A8EF2',
-        borderRadius: 4,
-        paddingHorizontal: 15,
-        paddingVertical: 12,
+        backgroundColor: '#7A7A7A',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
     },
     text: {
-        color: 'white',
-        fontSize: 16,
+        color: '#FFF',
+        fontSize: 12,
     },
     icontent: {
-        backgroundColor: '#4A8EF2',
-        padding: 15,
-        borderRadius: 4,
+        backgroundColor: '#7A7A7A',
+        padding: 20,
         justifyContent: 'center',
         alignItems: 'center',
 
