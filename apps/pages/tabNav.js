@@ -101,7 +101,7 @@ export default function TabNav(user) {
         delete RouteConfigs.Promoter
     }
     return createBottomTabNavigator(RouteConfigs, {
-        initialRouteName: 'Promoter',
+        initialRouteName: 'Partner',
         lazy: true, // 是否懒加载
         animationEnabled: true, // 切换页面时是否有动画效果
         tabBarPosition: "bottom", // 显示在底端，android 默认是显示在页面顶端的

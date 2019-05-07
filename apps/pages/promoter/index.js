@@ -62,17 +62,14 @@ export default class Promoter extends Component {
         </View>
     }
     renderItem = ({item}) => {
-        return <TouchableOpacity
-            style={styles.listItem}
-            onPress={() => {}}
-        >
+        return <View style={styles.listItem}>
             <View style={styles.itemAlignRow}>
                 <View style={styles.itemRow}>
                     <Text style={GlobalStyles.itemTxt_15_32}>张无忌</Text>
                     <Text style={GlobalStyles.itemTxt_12_64}>1357924680</Text>
                     <Text style={GlobalStyles.itemTxt_12_64}>116</Text>
                 </View>
-                <Image source={Images.right} style={{marginLeft: 15}} />
+                {/* <Image source={Images.right} style={{marginLeft: 15}} /> */}
             </View>
             <View style={[styles.itemRow, {marginTop: 12}]}>
                 <View style={styles.itemAlignRow}>
@@ -81,6 +78,6 @@ export default class Promoter extends Component {
                 </View>
                 <Text style={GlobalStyles.itemTxt_12_96}>2019/04/21加入</Text>
             </View>
-        </TouchableOpacity>
+        </View>
     }
 }

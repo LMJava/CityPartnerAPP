@@ -8,6 +8,7 @@ import Images from "../assets/styles/Images"
 
 import TabNav from "./tabNav";
 
+import AddPartner from './partner/addPartner'; // 添加渠道
 import AddPromoter from './promoter/addPromoter'; // 添加推广员
 
 import Login from './login'; // 登录页面
@@ -23,6 +24,7 @@ export default function StackNav(type, user) {
                 }
             },
 
+            AddPartner: { screen: AddPartner },
             AddPromoter: { screen: AddPromoter },
 
             Login: {

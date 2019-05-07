@@ -35,6 +35,8 @@ export default {
     add: require('../images/icon-add.png'),
     left: require('../images/icon-back.png'),
     right: require('../images/right.png'),
+    arrow: require('../images/arrow.png'),
+    arrowOpen: require('../images/arrow-open.png'),
     search: require('../images/icon-search.png'),
     location: require('../images/icon-location.png'),
     pho: require('../images/icon-pho.png'),
