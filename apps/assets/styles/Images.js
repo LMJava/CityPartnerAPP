@@ -25,6 +25,7 @@ export default {
         eye1: require('../images/login/icon-eye1.png'),
     },
     homeBg: require('../images/index-header-bg.png'),
+    userBg: require('../images/user-header-bg.png'),
     headerBg: require('../images/list-header-bg.png'),
     F2F: require('../images/F2F.png'),
 
@@ -46,6 +47,11 @@ export default {
     age: require('../images/icon-age.png'),
     city: require('../images/icon-city.png'),
     addr: require('../images/icon-addr.png'),
+    
+    share: require('../images/icon-share.png'),
+    handle: require('../images/icon-handle.png'),
+    payDetail: require('../images/icon-pay-detail.png'),
+    setting: require('../images/setting.png'),
 
     
     head: require('../images/head.png'),

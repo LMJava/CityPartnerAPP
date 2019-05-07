@@ -7,6 +7,7 @@ import {
     View
 } from 'react-native';
 
+import HomeList from "../../components/HomeList";
 import Tool from "../../common/Tool";
 import Images from "../../assets/styles/Images"
 import GlobalStyles from "../../assets/styles/GlobalStyles"
@@ -65,27 +66,9 @@ export default class Home extends Component {
                     <Image source={Images.F2F} />
                 </TouchableOpacity>
             </View>
-            <View style={styles.homeButtonsWrap}>
-                {buttons.map(this.renderButtons)}
-            </View>
+            <HomeList buttons={buttons} navigation={this.props.navigation}/>
         </View>
     }
-    renderButtons = (item, index) => (
-        <TouchableOpacity 
-            key={index} 
-            style={styles.homeButtons} 
-            onPress={this.goToList}
-        >
-            <Image style={styles.homeButtonsImg} source={item.img} />
-            <View style={styles.homeButtonsCon}>
-                <View style={styles.homeButtonsTxt}>
-                    <Text style={styles.homeButtonsTit}>{item.title}</Text>
-                    <Text style={styles.homeButtonsNum}>{item.number}</Text>
-                </View>
-                <Image style={styles.homeButtonsRight} source={Images.right} />
-            </View>
-        </TouchableOpacity>
-    );
     goToList = () => {
         // this.props.navigation.navigate('businessDetails');
     }
