@@ -77,9 +77,9 @@ export default class FilterItem extends Component {
                 avoidKeyboard
                 propagateSwipe
             >
-            <View style={[styles.modalWrap, {top: locationTop}]}>
-                {children}
-            </View>
+                <View style={[styles.modalWrap, {top: locationTop}]}>
+                    {children}
+                </View>
             </Modal>
         </View>
     }

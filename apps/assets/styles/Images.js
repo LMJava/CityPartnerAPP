@@ -24,6 +24,12 @@ export default {
         eye: require('../images/login/icon-eye.png'),
         eye1: require('../images/login/icon-eye1.png'),
     },
+    credentials: {
+        IdCard1: require('../images/credentials/IdCard1.png'),
+        IdCard2: require('../images/credentials/IdCard2.png'),
+        DrivingPermit1: require('../images/credentials/DrivingPermit1.png'),
+        DrivingPermit2: require('../images/credentials/DrivingPermit2.png'),
+    },
     homeBg: require('../images/index-header-bg.png'),
     userBg: require('../images/user-header-bg.png'),
     headerBg: require('../images/list-header-bg.png'),
@@ -47,6 +53,8 @@ export default {
     age: require('../images/icon-age.png'),
     city: require('../images/icon-city.png'),
     addr: require('../images/icon-addr.png'),
+    close: require('../images/close.png'),
+
     
     share: require('../images/icon-share.png'),
     handle: require('../images/icon-handle.png'),

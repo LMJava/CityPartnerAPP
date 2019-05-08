@@ -7,9 +7,10 @@ module.exports = {
         backgroundColor: '#F5F5F5',
     },
     /* 公共Text样式 */
-    itemTxt_15_32: { fontSize: 15, color: '#323232' },
     itemTxt_12_64: { fontSize: 12, color: '#646464' },
     itemTxt_12_96: { fontSize: 12, color: '#969696' },
+    itemTxt_12_ff: { fontSize: 12, color: '#FFF' },
+    itemTxt_15_32: { fontSize: 15, color: '#323232' },
     /* 公共icon样式 */
     icon_20_white: {width: 20, height: 20, tintColor: '#FFF'},
     icon_20_gray: {width: 20, height: 20, tintColor: '#777'},

@@ -19,7 +19,7 @@ export default class Home extends Component {
         this.state = {
             buttons: [{
                 title: "待审核",
-                target: "unreviewed",
+                target: "Unreviewed",
                 number: "12",
                 img: Images.unreviewed
             }, {

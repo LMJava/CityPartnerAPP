@@ -75,6 +75,7 @@ export default class Partner extends Component {
                     keyExtractor={(item, index) => item.name +''+ index}
                     renderItem={this.renderItem}
                     ItemSeparatorComponent={ViewUtils.itemSeparatorComponent}
+                    style={{marginTop: 10}}
                 />
             </View>
         </View>
