@@ -30,6 +30,12 @@ export default {
         DrivingPermit1: require('../images/credentials/DrivingPermit1.png'),
         DrivingPermit2: require('../images/credentials/DrivingPermit2.png'),
     },
+    sharePage: {
+        shareBg: require('../images/share/share-bg.png'),
+        wechat: require('../images/share/icon-wechat.png'),
+        friends: require('../images/share/icon-friends.png'),
+        miniProgram: require('../images/share/miniProgram.png'),
+    },
     homeBg: require('../images/index-header-bg.png'),
     userBg: require('../images/user-header-bg.png'),
     headerBg: require('../images/list-header-bg.png'),

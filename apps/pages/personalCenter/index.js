@@ -29,7 +29,7 @@ export default class PersonalCenter extends Component {
             }],
             buttons: [{
                 title: "推荐给他人",
-                target: "unreviewed",
+                target: "Recommend",
                 img: Images.share
             }, {
                 title: "办理数量明细",

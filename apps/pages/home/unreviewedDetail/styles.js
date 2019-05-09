@@ -43,7 +43,8 @@ export default StyleSheet.create({
         margin: 10
     },
     detailImgItemTxt: {
-        paddingVertical: 7
+        paddingVertical: 7,
+        backgroundColor: 'transparent'
     },
 
     detailBtns: {

@@ -10,6 +10,9 @@ import UnreviewedDetail from './home/unreviewedDetail'; // 待审核详情
 import AddPartner from './partner/addPartner'; // 添加渠道
 import AddPromoter from './promoter/addPromoter'; // 添加推广员
 
+import Recommend from './personalCenter/recommend'; // 添加推广员
+
+
 import Login from './login'; // 登录页面
 import Forgot from './login/forgot'; // 忘记密码页面
 
@@ -38,6 +41,15 @@ export default function StackNav(type, user) {
 
             AddPartner: { screen: AddPartner },
             AddPromoter: { screen: AddPromoter },
+
+
+            Recommend: {
+                screen: Recommend,
+                navigationOptions: {
+                    header: ({navigation}) => <HeaderBar title={"推荐给他人"} leftButton={true} navigation={navigation} backgroundG={true}/>
+                }
+            },
+
 
             Login: {
                 screen: Login,
