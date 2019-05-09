@@ -23,7 +23,7 @@ export default class Recommend extends Component {
         return <View style={GlobalStyles.root_container}>
             <View style={[GlobalStyles.root_container, styles.bgImageWrap]}>
                 <ImageBackground
-                    resizeMode={'stretch'} 
+                    resizeMode={'contain'} 
                     source={Images.sharePage.shareBg} 
                     style={styles.bgImage}
                 >
