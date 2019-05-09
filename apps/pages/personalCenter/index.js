@@ -33,11 +33,11 @@ export default class PersonalCenter extends Component {
                 img: Images.share
             }, {
                 title: "办理数量明细",
-                target: "inactivated",
+                target: "HandleList",
                 img: Images.handle
             }, {
                 title: "续费数量明细",
-                target: "done",
+                target: "HandleList",
                 img: Images.payDetail
             }]
         }

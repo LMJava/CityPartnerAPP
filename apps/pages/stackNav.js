@@ -10,7 +10,8 @@ import UnreviewedDetail from './home/unreviewedDetail'; // 待审核详情
 import AddPartner from './partner/addPartner'; // 添加渠道
 import AddPromoter from './promoter/addPromoter'; // 添加推广员
 
-import Recommend from './personalCenter/recommend'; // 添加推广员
+import Recommend from './personalCenter/recommend'; // 推荐给他人
+import HandleList from './personalCenter/handleList'; // 办理数量明细
 
 
 import Login from './login'; // 登录页面
@@ -47,6 +48,12 @@ export default function StackNav(type, user) {
                 screen: Recommend,
                 navigationOptions: {
                     header: ({navigation}) => <HeaderBar title={"推荐给他人"} leftButton={true} navigation={navigation} backgroundG={true}/>
+                }
+            },
+            HandleList: {
+                screen: HandleList,
+                navigationOptions: {
+                    header: ({navigation}) => <HeaderBar title={"办理数量明细"} leftButton={true} navigation={navigation}/>
                 }
             },
 

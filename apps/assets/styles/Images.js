@@ -60,6 +60,7 @@ export default {
     city: require('../images/icon-city.png'),
     addr: require('../images/icon-addr.png'),
     close: require('../images/close.png'),
+    datePicker: require('../images/datePicker.png'),
 
     
     share: require('../images/icon-share.png'),
