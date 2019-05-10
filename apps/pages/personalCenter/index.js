@@ -66,7 +66,7 @@ export default class PersonalCenter extends Component {
                             </View>
                         </View>
                         <TouchableOpacity 
-                            // onPress={this.goToList}
+                            onPress={() => this.props.navigation.navigate("EditPwd")}
                             style={styles.settingBtn}
                         >
                             <Image source={Images.setting} />

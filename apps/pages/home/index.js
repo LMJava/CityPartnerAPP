@@ -6,6 +6,7 @@ import {
     ImageBackground,
     View
 } from 'react-native';
+import Modal from 'react-native-modal'
 
 import HomeList from "../../components/HomeList";
 import Tool from "../../common/Tool";
@@ -17,6 +18,7 @@ export default class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            isVisible: false,
             buttons: [{
                 title: "待审核",
                 target: "Unreviewed",
@@ -24,20 +26,22 @@ export default class Home extends Component {
                 img: Images.unreviewed
             }, {
                 title: "待激活",
-                target: "inactivated",
+                target: "Inactivated",
                 number: "110",
                 img: Images.inactivated
             }, {
                 title: "已完成",
-                target: "done",
+                target: "Done",
                 number: "1692",
                 img: Images.done
             }]
         }
     }
 
+    // 传入bool控制弹窗显示（true）隐藏（false）
+    toggle(flag) {this.setState({isVisible: flag})}
     render() {
-        const { buttons } = this.state
+        const { isVisible, buttons } = this.state
         return <View style={GlobalStyles.root_container}>
             {Tool.statusBar()}
             <ImageBackground 
@@ -61,15 +65,30 @@ export default class Home extends Component {
             </ImageBackground>
             <View style={styles.homeCode}>
                 <TouchableOpacity 
-                    onPress={this.goToList}
+                    onPress={() => this.toggle(true)}
                 >
                     <Image source={Images.F2F} />
                 </TouchableOpacity>
             </View>
             <HomeList buttons={buttons} navigation={this.props.navigation}/>
+            
+            <Modal
+                style={{margin: 0, alignItems: 'center'}}
+                backdropColor={'black'}
+                backdropOpacity={0.5}
+                animationIn={'fadeIn'}
+                animationOut={'fadeOut'}
+                isVisible={isVisible}
+                onBackdropPress={() => this.toggle(false)}
+                onBackButtonPress={() => this.toggle(false)}
+                avoidKeyboard
+                propagateSwipe
+            >
+                <View style={styles.modalContent}>
+                    <Image source={Images.sharePage.miniProgram} />
+                    <Text style={styles.modalTxt}>使用微信扫描办理</Text>
+                </View>
+            </Modal>
         </View>
-    }
-    goToList = () => {
-        // this.props.navigation.navigate('businessDetails');
     }
 }

@@ -103,7 +103,6 @@ export default class RenewList extends Component {
                     <Text style={GlobalStyles.itemTxt_12_64}>2019/04/21</Text>
                 </Text>
             </View>
-            
         </View>
     }
 }

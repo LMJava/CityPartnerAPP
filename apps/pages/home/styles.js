@@ -46,5 +46,14 @@ export default StyleSheet.create({
         backgroundColor: '#FFF'
     },
 
-
+    modalContent: {
+        padding: 30,
+        alignItems: 'center',
+        backgroundColor: '#FFF'
+    },
+    modalTxt: {
+        marginTop: 10,
+        fontSize: 20,
+        color: "#000",
+    }
 })
