@@ -37,7 +37,7 @@ export default class PersonalCenter extends Component {
                 img: Images.handle
             }, {
                 title: "续费数量明细",
-                target: "HandleList",
+                target: "RenewList",
                 img: Images.payDetail
             }]
         }

@@ -12,6 +12,7 @@ import AddPromoter from './promoter/addPromoter'; // 添加推广员
 
 import Recommend from './personalCenter/recommend'; // 推荐给他人
 import HandleList from './personalCenter/handleList'; // 办理数量明细
+import RandleList from './personalCenter/renewList'; // 续费数量明细
 
 
 import Login from './login'; // 登录页面
@@ -54,6 +55,12 @@ export default function StackNav(type, user) {
                 screen: HandleList,
                 navigationOptions: {
                     header: ({navigation}) => <HeaderBar title={"办理数量明细"} leftButton={true} navigation={navigation}/>
+                }
+            },
+            RandleList: {
+                screen: RandleList,
+                navigationOptions: {
+                    header: ({navigation}) => <HeaderBar title={"续费数量明细"} leftButton={true} navigation={navigation}/>
                 }
             },
 
