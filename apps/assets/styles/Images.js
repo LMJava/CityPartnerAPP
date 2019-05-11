@@ -40,6 +40,7 @@ export default {
     userBg: require('../images/user-header-bg.png'),
     headerBg: require('../images/list-header-bg.png'),
     F2F: require('../images/F2F.png'),
+    line: require('../images/line.png'),
 
     unreviewed: require('../images/unreviewed.png'),
     inactivated: require('../images/inactivated.png'),

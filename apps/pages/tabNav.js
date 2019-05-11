@@ -11,7 +11,7 @@ import PersonalCenter from "./personalCenter" // 个人中心
 
 
 
-export default function TabNav(user) {
+export default function TabNav(userType) {
     // let RouteData = [{
     //     name: "Home", 
     //     label: "首页",
@@ -94,9 +94,9 @@ export default function TabNav(user) {
             }
         }
     }
-    if(user === '2') {
+    if(userType === '2') {
         delete RouteConfigs.Promoter
-    }else if(user === '3') {
+    }else if(userType === '3') {
         delete RouteConfigs.Partner
         delete RouteConfigs.Promoter
     }

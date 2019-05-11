@@ -13,9 +13,13 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     homeHeaderImg: {
-        margin: 20,
-        width: 60,
-        height: 60
+        margin: 20
+    },
+    homeHeaderCon: {
+        flex: 1,
+        marginRight: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     homeHeaderMsg: {
         flex: 1,
@@ -34,12 +38,22 @@ export default StyleSheet.create({
         color: "#FFF",
         backgroundColor: 'transparent'
     },
-    // homeHeaderNum: {
-    //     alignItems: 'center',
-    // },
-    // homeHeaderCnt: {
-    //     flexDirection: 'row',
-    // },
+    homeHeaderNumWrap: {
+        alignItems: 'flex-end'
+    },
+    homeHeaderNum: {
+        fontSize: 18,
+        color: "#FFF000"
+    },
+    homeHeaderMan: {
+        fontSize: 12,
+        color: "#FFF"
+    },
+    homeHeaderNumTxt: {
+        marginTop: 10,
+        fontSize: 12,
+        color: "#FFF"
+    },
     homeCode: {
         alignItems: 'center',
         padding: 30,

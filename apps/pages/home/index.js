@@ -8,6 +8,12 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal'
 
+import { 
+    getStatisticsBySession, 
+    getStatisticsByChildPartner,
+    getStatisticsByPromoters,
+    getQRcodeForF2F 
+} from "../../common/AppFetch";
 import { connect } from '../../store/combin';
 import HomeList from "../../components/HomeList";
 import Tool from "../../common/Tool";
@@ -19,32 +25,59 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            todayHandledCount: 0,
+            QRcodeForF2F: null,
             isVisible: false,
             buttons: [{
                 title: "待审核",
                 target: "Unreviewed",
-                number: "12",
+                number: "",
                 img: Images.unreviewed
             }, {
                 title: "待激活",
                 target: "Inactivated",
-                number: "110",
+                number: "",
                 img: Images.inactivated
             }, {
                 title: "已完成",
                 target: "Done",
-                number: "1692",
+                number: "",
                 img: Images.done
             }]
         }
     }
     componentDidMount() {
-        
+        const { userType, userId } = this.props.User
+        let getStatistics = '',
+            params = {}
+        if(userType === '1') {
+            getStatistics = getStatisticsBySession
+        }else if(userType === '2') {
+            getStatistics = getStatisticsByChildPartner
+            params = {childPartnerId: userId}
+        }else if(userType === '3') {
+            getStatistics = getStatisticsByPromoters
+            params = {promotersId: userId}
+        }
+        getStatistics && getStatistics({
+            ...params,
+            success: ({result}) => {
+                const {buttons} = [...this.state.buttons]
+                buttons[0].number = result[0].auditedCount
+                buttons[1].number = result[0].activatedCount
+                buttons[2].number = result[0].completedCount
+                this.setState({buttons})
+            }
+        })
+        getQRcodeForF2F({success: data => {
+            GlobalToast && GlobalToast.show(JSON.stringify(data))
+            // this.setState({QRcodeForF2F: data.result})
+        }})
     }
     // 传入bool控制弹窗显示（true）隐藏（false）
     toggle(flag) {this.setState({isVisible: flag})}
     render() {
-        const { isVisible, buttons } = this.state,
+        const { todayHandledCount, QRcodeForF2F, isVisible, buttons } = this.state,
             {name, address} = this.props.User
         return <View style={GlobalStyles.root_container}>
             {Tool.statusBar()}
@@ -55,10 +88,20 @@ class Home extends Component {
             >
                 <View style={styles.homeHeader}>
                     <Image source={Images.head} style={styles.homeHeaderImg} />
-                    <View style={styles.homeHeaderMsg}>
-                        <Text style={styles.homeHeaderName}>{name}</Text>
-                        <View style={styles.homeHeaderAdd}>
-                            <Text style={styles.homeHeaderAddTxt}>{address}</Text>
+                    <View style={styles.homeHeaderCon}>
+                        <View style={styles.homeHeaderMsg}>
+                            <Text style={styles.homeHeaderName}>{name}</Text>
+                            <View style={styles.homeHeaderAdd}>
+                                <Text style={styles.homeHeaderAddTxt}>{address}</Text>
+                            </View>
+                        </View>
+                        <Image source={Images.line} style={styles.homeHeaderImg} />
+                        <View style={styles.homeHeaderNumWrap}>
+                            <Text style={styles.homeHeaderNum}>
+                                {todayHandledCount}
+                                <Text style={styles.homeHeaderMan}>人</Text>
+                            </Text>
+                            <Text style={styles.homeHeaderNumTxt}>今日办理</Text>
                         </View>
                     </View>
                 </View>
@@ -85,7 +128,7 @@ class Home extends Component {
                 propagateSwipe
             >
                 <View style={styles.modalContent}>
-                    <Image source={Images.sharePage.miniProgram} />
+                    <Image source={QRcodeForF2F || Images.sharePage.miniProgram} />
                     <Text style={styles.modalTxt}>使用微信扫描办理</Text>
                 </View>
             </Modal>

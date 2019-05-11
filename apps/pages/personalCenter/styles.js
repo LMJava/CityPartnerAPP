@@ -13,9 +13,7 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     homeHeaderImg: {
-        margin: 20,
-        width: 60,
-        height: 60
+        margin: 20
     },
     homeHeaderMsg: {
         flex: 1,
