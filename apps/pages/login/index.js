@@ -6,27 +6,63 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     ImageBackground,
+    Keyboard,
     View
 } from 'react-native';
 
+import { connect, actions } from '../../store/combin';
+import { login } from "../../common/AppFetch";
+import ViewUtils from "../../components/ViewUtils";
 import Tool from "../../common/Tool";
 import Images from "../../assets/styles/Images"
 import GlobalStyles from "../../assets/styles/GlobalStyles"
 import styles from "./styles"
 
-export default class Login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            radioValue: 'partner',
+            radioValue: 1,
             phoneNum: '',
             passwordNum: '',
             passwordHidden: true
         }
     }
-    onChecked = (radioValue) => {
-        this.setState({radioValue})
+    componentWillUnmount() {
+        Keyboard.dismiss();
     }
+    onSubmit = () => {
+        const {radioValue, phoneNum, passwordNum} = this.state
+        if(!radioValue) {
+            GlobalToast && GlobalToast.show("请选择角色")
+            return false
+        } else if(phoneNum === '') {
+            GlobalToast && GlobalToast.show("请输入手机号")
+            return false
+        } else if(!ViewUtils.phoneisValid(phoneNum)) {
+            GlobalToast && GlobalToast.show("请输入有效手机号码")
+            return false
+        } else if(passwordNum === '') {
+            GlobalToast && GlobalToast.show("请输入密码")
+            return false
+        } else {
+            login({ radioValue, phoneNum, passwordNum,
+                success: data => {
+                    GlobalToast && GlobalToast.show(JSON.stringify(data))
+                    // this.props.addUser(data)
+                    // this.props.navigation.navigate('TabNav')
+                },
+                error: err => {
+                    GlobalToast && GlobalToast.show("err"+JSON.stringify(err))
+                    // this.props.navigation.navigate('TabNav')
+                }
+            })
+        }
+    }
+
+
+
+    onChecked = (radioValue) => this.setState({radioValue})
     render() {
         const {radioValue, phoneNum, passwordNum, passwordHidden} = this.state
         return <View style={GlobalStyles.root_container}>
@@ -42,18 +78,18 @@ export default class Login extends Component {
             
             <View style={styles.formWrap}>
                 <View style={styles.radioWrap}>
-                    <TouchableWithoutFeedback onPress={() => this.onChecked('partner')}>
+                    <TouchableWithoutFeedback onPress={() => this.onChecked(1)}>
                         <View style={styles.radioContent}>
-                            <Image source={radioValue === 'partner'
+                            <Image source={radioValue === 1
                                 ? Images.login.iconChked
                                 : Images.login.iconChk
                             } style={GlobalStyles.radioImg} />
                             <Text style={GlobalStyles.radioTxt}>我是合伙人</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => this.onChecked('promoter')}>
+                    <TouchableWithoutFeedback onPress={() => this.onChecked(2)}>
                         <View style={styles.radioContent}>
-                            <Image source={radioValue === 'promoter'
+                            <Image source={radioValue === 2
                                 ? Images.login.iconChked
                                 : Images.login.iconChk
                             } style={GlobalStyles.radioImg} />
@@ -71,9 +107,7 @@ export default class Login extends Component {
                         keyboardType="numeric"
                         clearButtonMode={'while-editing'}
                         value={phoneNum}
-                        onChangeText={phoneNum => {
-                            this.setState({ phoneNum })
-                        }}
+                        onChangeText={phoneNum => this.setState({ phoneNum })}
                     />
                 </View>
                 <View style={styles.inputWrap}>
@@ -85,9 +119,7 @@ export default class Login extends Component {
                         placeholder='请输入密码'
                         placeholderTextColor='#B2B2B2'
                         value={passwordNum}
-                        onChangeText={passwordNum => {
-                            this.setState({ passwordNum })
-                        }}
+                        onChangeText={passwordNum => this.setState({ passwordNum })}
                     />
                     <TouchableWithoutFeedback
                         onPress={() => this.setState({passwordHidden: !passwordHidden})}
@@ -102,7 +134,7 @@ export default class Login extends Component {
                 </View>
                         
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('TabNav')}
+                    onPress={this.onSubmit}
                     style={styles.submit}
                 >
                     <Text style={styles.submitTxt}>登录</Text>
@@ -117,3 +149,8 @@ export default class Login extends Component {
         </View>
     }
 }
+export default connect(
+    () => ({}), {
+        addUser: actions.User.addUser
+    }
+)(Login);

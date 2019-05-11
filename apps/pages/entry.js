@@ -17,14 +17,17 @@ class Entry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ReturnDom: "Login"
+            ReturnDom: ""
         }
         // this._getDeviceInfo().then(value => { global.DeviceInfo = value })
     }
     
     componentDidMount() {
         this.props.getUser((User) => {
-            if(JSON.stringify(User) !== "{}") {
+            if(JSON.stringify(User) === "{}") {
+                this.setState({ReturnDom: "Login"})
+            } else {
+                global.sessionId = User.sessionId
                 this.setState({ReturnDom: "TabNav"})
             }
         })

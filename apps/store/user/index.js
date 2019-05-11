@@ -30,7 +30,7 @@ function getUser(call) {
         initState = JSON.parse(data)
       } else {
         initState = {
-          role: 'boss'
+          // role: 'boss'
         }
       }
       dispatch(initUser(initState));

@@ -72,5 +72,36 @@ export default StyleSheet.create({
     forgotTxt: {
         fontSize: 14,
         color: "#47C16F"
+    },
+    
+
+    vcode: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    vcodeBtn: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 40,
+        width: 120,
+        marginLeft: 6,
+        borderWidth: 0.5, 
+        borderRadius: 3,
+    },
+    vcodeBtnA: {
+        borderColor: "#C8DEC6", 
+        backgroundColor: '#F5FFF5'
+    },
+    vcodeBtnD: {
+        borderColor: "#D3D3D3", 
+        backgroundColor: '#EDEDED'
+    },
+    vcodeTxtA: {
+        fontSize: 14,
+        color: "#47C16F"
+    },
+    vcodeTxtD: {
+        fontSize: 14,
+        color: "#C6C6C6"
     }
 })
