@@ -94,9 +94,9 @@ export default function TabNav(user) {
             }
         }
     }
-    if(user === '渠道合伙人') {
+    if(user === '2') {
         delete RouteConfigs.Promoter
-    }else if(user === '推广员') {
+    }else if(user === '3') {
         delete RouteConfigs.Partner
         delete RouteConfigs.Promoter
     }

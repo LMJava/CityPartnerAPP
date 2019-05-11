@@ -17,6 +17,7 @@ class Entry extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            User: {},
             ReturnDom: ""
         }
         // this._getDeviceInfo().then(value => { global.DeviceInfo = value })
@@ -25,14 +26,24 @@ class Entry extends Component {
     componentDidMount() {
         this.props.getUser((User) => {
             if(JSON.stringify(User) === "{}") {
-                this.setState({ReturnDom: "Login"})
+                this.setState({ReturnDom: "Login", User})
             } else {
                 global.sessionId = User.sessionId
-                this.setState({ReturnDom: "TabNav"})
+                this.setState({ReturnDom: "TabNav", User})
             }
         })
     }
-
+    componentWillReceiveProps(nextProps) {
+        const {User} = nextProps
+        if ( User !== this.props.User ) {
+            if(JSON.stringify(User) === "{}") {
+                this.setState({ReturnDom: "Login", User})
+            } else {
+                global.sessionId = User.sessionId
+                this.setState({ReturnDom: "TabNav", User})
+            }
+        }
+    }
     // async _getDeviceInfo() {
     //     // DeviceInfo
     //     var deviceInfos = {};
@@ -61,7 +72,7 @@ class Entry extends Component {
     render() {
         const { User } = this.props
         if (this.state.ReturnDom) {
-            let ReturnDom = createAppContainer(StackNav(this.state.ReturnDom, User.role))
+            let ReturnDom = createAppContainer(StackNav(this.state.ReturnDom, User.userType))
             return <View style={GlobalStyles.root_container}>
                     <ReturnDom />
                     <Toast ref={toast => global.GlobalToast = toast} />

@@ -23,8 +23,8 @@ class Login extends Component {
         super(props)
         this.state = {
             radioValue: 1,
-            phoneNum: '',
-            passwordNum: '',
+            phoneNum: '13666666666',
+            passwordNum: 'rK2E33',
             passwordHidden: true
         }
     }
@@ -47,13 +47,8 @@ class Login extends Component {
             return false
         } else {
             login({ radioValue, phoneNum, passwordNum,
-                success: data => {
-                    GlobalToast && GlobalToast.show(JSON.stringify(data))
-                    // this.props.addUser(data)
-                    // this.props.navigation.navigate('TabNav')
-                },
-                error: err => {
-                    GlobalToast && GlobalToast.show("err"+JSON.stringify(err))
+                success: ({result}) => {
+                    this.props.addUser(result[0])
                     // this.props.navigation.navigate('TabNav')
                 }
             })

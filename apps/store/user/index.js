@@ -4,13 +4,14 @@ import Tool from "../../common/Tool";
 // ======================================================
 // reducer 中心此下面的 state会挂到总state下面 state.User={}
 // ======================================================
-function reducer(state = {}, action) {
-  if (action.type === 'INIT') {
-    return action.data 
-  } else if (action.type === 'ADD') {
+// userType: 1-城市合伙人 2-渠道合伙人 3-推广员
+function reducer(state = {}, {type, data}) {
+  if (type === 'INIT') {
+    return data 
+  } else if (type === 'ADD') {
     Tool.setItem("user", JSON.stringify(data))
-    return action.data 
-  } else if (action.type === 'DEL') {
+    return data 
+  } else if (type === 'DEL') {
     Tool.removeItem("user");
     return {}
   }
@@ -29,9 +30,7 @@ function getUser(call) {
       if (data) {
         initState = JSON.parse(data)
       } else {
-        initState = {
-          // role: 'boss'
-        }
+        initState = {}
       }
       dispatch(initUser(initState));
       call(initState);

@@ -8,13 +8,14 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal'
 
+import { connect, actions } from '../../store/combin';
 import HomeList from "../../components/HomeList";
 import Tool from "../../common/Tool";
 import Images from "../../assets/styles/Images"
 import GlobalStyles from "../../assets/styles/GlobalStyles"
 import styles from "./styles"
 
-export default class Home extends Component {
+class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -41,7 +42,8 @@ export default class Home extends Component {
     // 传入bool控制弹窗显示（true）隐藏（false）
     toggle(flag) {this.setState({isVisible: flag})}
     render() {
-        const { isVisible, buttons } = this.state
+        const { isVisible, buttons } = this.state,
+            {name, address} = this.props.User
         return <View style={GlobalStyles.root_container}>
             {Tool.statusBar()}
             <ImageBackground 
@@ -52,20 +54,16 @@ export default class Home extends Component {
                 <View style={styles.homeHeader}>
                     <Image source={Images.head} style={styles.homeHeaderImg} />
                     <View style={styles.homeHeaderMsg}>
-                        <Text style={styles.homeHeaderName}>张三丰</Text>
+                        <Text style={styles.homeHeaderName}>{name}</Text>
                         <View style={styles.homeHeaderAdd}>
-                            <Text style={styles.homeHeaderAddTxt}>河南</Text>
-                            <Text style={styles.homeHeaderAddTxt}>郑州</Text>
-                            <Text style={styles.homeHeaderAddTxt}>新乡</Text>
-                            <Text style={styles.homeHeaderAddTxt}>范县</Text>
-                            <Text style={styles.homeHeaderAddTxt}>三门峡</Text>
+                            <Text style={styles.homeHeaderAddTxt}>{address}</Text>
                         </View>
                     </View>
                 </View>
             </ImageBackground>
             <View style={styles.homeCode}>
                 <TouchableOpacity 
-                    onPress={() => this.toggle(true)}
+                    onPress={() => this.props.delUser()}
                 >
                     <Image source={Images.F2F} />
                 </TouchableOpacity>
@@ -92,3 +90,10 @@ export default class Home extends Component {
         </View>
     }
 }
+export default connect(
+    (state) => {
+      return { User: state.User };
+    },{
+        delUser: actions.User.delUser
+    }
+)(Home);
