@@ -7,6 +7,7 @@ import {
     View
 } from 'react-native';
 
+import { getQRcodeForOnline } from "../../../common/AppFetch";
 import Images from "../../../assets/styles/Images"
 import GlobalStyles from "../../../assets/styles/GlobalStyles"
 import styles from "./styles"
@@ -15,11 +16,18 @@ export default class Recommend extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            
+            QRcodeForOnline: null
         }
     }
 
+    componentDidMount() {
+        getQRcodeForOnline({success: data => {
+            GlobalToast && GlobalToast.show(JSON.stringify(data))
+            // this.setState({QRcodeForOnline: data.result})
+        }})
+    }
     render() {
+        const {QRcodeForOnline} = this.state
         return <View style={GlobalStyles.root_container}>
             <View style={[GlobalStyles.root_container, styles.bgImageWrap]}>
                 <ImageBackground
@@ -35,7 +43,7 @@ export default class Recommend extends Component {
                     style={styles.button}
                     onPress={() => {}}
                 >
-                    <Image source={Images.sharePage.wechat} />
+                    <Image source={QRcodeForOnline || Images.sharePage.wechat} />
                     <Text style={styles.buttonTxt}>推荐给微信好友</Text>
                 </TouchableOpacity>
                 <TouchableOpacity

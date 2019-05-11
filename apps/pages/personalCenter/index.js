@@ -45,7 +45,7 @@ class PersonalCenter extends Component {
             }]
         }
     }
-
+    
     render() {
         const { messages, buttons } = this.state
         return <ScrollView style={GlobalStyles.root_container}>

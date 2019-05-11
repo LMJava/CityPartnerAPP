@@ -108,7 +108,7 @@ export default function TabNav(userType) {
         swipeEnabled: false, // 是否可以左右滑动切换tab
         backBehavior: "none", // 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转
         tabBarOptions: {
-            activeTintColor: "#29B0DB", // 文字和图片选中颜色
+            activeTintColor: "#47C16F", // 文字和图片选中颜色
             inactiveTintColor: "#8D8D8D", // 文字和图片未选中颜色
             showIcon: true, // android 默认不显示 icon, 需要设置为 true 才会显示
             indicatorStyle: {
