@@ -4,16 +4,19 @@ import {
     Image,
     TouchableOpacity,
     ImageBackground,
+    Alert,
+    ScrollView,
     View
 } from 'react-native';
 
+import { connect, actions } from '../../store/combin';
 import HomeList from "../../components/HomeList";
 import Tool from "../../common/Tool";
 import Images from "../../assets/styles/Images"
 import GlobalStyles from "../../assets/styles/GlobalStyles"
 import styles from "./styles"
 
-export default class PersonalCenter extends Component {
+class PersonalCenter extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -45,7 +48,7 @@ export default class PersonalCenter extends Component {
 
     render() {
         const { messages, buttons } = this.state
-        return <View style={GlobalStyles.root_container}>
+        return <ScrollView style={GlobalStyles.root_container}>
             {Tool.statusBar()}
             <ImageBackground 
                 resizeMode={'stretch'} 
@@ -78,7 +81,18 @@ export default class PersonalCenter extends Component {
                 {messages.map(this.renderMessages)}
             </View>
             <HomeList buttons={buttons} navigation={this.props.navigation}/>
-        </View>
+            <TouchableOpacity
+                style={styles.logout}
+                onPress={() =>
+                    Alert.alert("提示", "确认退出当前用户？", [
+                        { text: "取消" },
+                        { text: "确认", onPress: this.props.delUser }
+                    ], { cancelable: false }
+                )}
+            >
+                <Text style={styles.logoutTxt}>退出</Text>
+            </TouchableOpacity>
+        </ScrollView>
     }
 
     renderMessages = (item, index) => {
@@ -91,3 +105,8 @@ export default class PersonalCenter extends Component {
         </View>
     }
 }
+export default connect(
+    () => ({}),{
+        delUser: actions.User.delUser
+    }
+)(PersonalCenter);

@@ -70,7 +70,7 @@ class Entry extends Component {
     // }
 
     render() {
-        const { User } = this.props
+        const { User } = this.state
         if (this.state.ReturnDom) {
             let ReturnDom = createAppContainer(StackNav(this.state.ReturnDom, User.userType))
             return <View style={GlobalStyles.root_container}>

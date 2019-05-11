@@ -33,8 +33,15 @@ export function login(opt) {
 }
 // 获取验证码
 export function sendvcode(opt) {
-    let url = `${CONFIG.HOST}common/sendvcode?busiType=2&phoneNum=${opt.phoneNum}`
-    Fetch.getJSON(url).then((data) => {
+    const requestBody = {
+        url: CONFIG.HOST + "common/sendvcode",
+        headers: headersJ,
+        body: JSON.stringify({
+            busiType: 2, 
+            phoneNum: opt.phoneNum
+        })
+    };
+    Fetch.postJSON(requestBody).then((data) => {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常

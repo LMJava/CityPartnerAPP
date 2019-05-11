@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal'
 
-import { connect, actions } from '../../store/combin';
+import { connect } from '../../store/combin';
 import HomeList from "../../components/HomeList";
 import Tool from "../../common/Tool";
 import Images from "../../assets/styles/Images"
@@ -38,7 +38,9 @@ class Home extends Component {
             }]
         }
     }
-
+    componentDidMount() {
+        
+    }
     // 传入bool控制弹窗显示（true）隐藏（false）
     toggle(flag) {this.setState({isVisible: flag})}
     render() {
@@ -63,7 +65,7 @@ class Home extends Component {
             </ImageBackground>
             <View style={styles.homeCode}>
                 <TouchableOpacity 
-                    onPress={() => this.props.delUser()}
+                    onPress={() => this.toggle(true)}
                 >
                     <Image source={Images.F2F} />
                 </TouchableOpacity>
@@ -93,7 +95,5 @@ class Home extends Component {
 export default connect(
     (state) => {
       return { User: state.User };
-    },{
-        delUser: actions.User.delUser
     }
 )(Home);

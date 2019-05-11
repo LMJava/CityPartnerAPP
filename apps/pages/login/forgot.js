@@ -20,7 +20,7 @@ export default class Forgot extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            phoneNum: '',
+            phoneNum: '13666666666',
             smsVCode: '',
             validTxt: '获取验证码',
             waiting: false,
@@ -32,7 +32,7 @@ export default class Forgot extends Component {
     }
     componentWillUnmount() {
         this.interval && clearInterval(this.interval);
-        this.timer && clearTimeout()(this.timer);
+        this.timer && clearTimeout(this.timer);
         Keyboard.dismiss();
     }
     onResetPassword = () => {
@@ -78,13 +78,13 @@ export default class Forgot extends Component {
                     this.setState({ waiting: true });
                     this.interval = setInterval(() => {
                         this.setState({
-                            validText: `${this.timeNum}秒后重新获取`
+                            validTxt: `${this.timeNum}秒后重新获取`
                         })
                         this.timeNum--
                         if (this.timeNum <= 0) {
                             clearInterval(this.interval)
                             this.setState({
-                                validText: '重新获取',
+                                validTxt: '重新获取',
                                 waiting: false,
                             })
                         }

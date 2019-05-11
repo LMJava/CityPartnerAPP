@@ -82,4 +82,17 @@ export default StyleSheet.create({
         color: "#323232"
     },
 
+    logout: {
+        height: 43,
+        marginTop: 30,
+        marginHorizontal: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#EDEDED',
+        borderRadius: 3
+    },
+    logoutTxt: {
+        fontSize: 18,
+        color: "#000"
+    }
 })

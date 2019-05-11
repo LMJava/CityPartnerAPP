@@ -24,7 +24,7 @@ class Login extends Component {
         this.state = {
             radioValue: 1,
             phoneNum: '13666666666',
-            passwordNum: 'rK2E33',
+            passwordNum: '1234567',
             passwordHidden: true
         }
     }
