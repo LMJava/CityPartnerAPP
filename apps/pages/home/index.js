@@ -31,24 +31,24 @@ class Home extends Component {
             buttons: [{
                 title: "待审核",
                 target: "Unreviewed",
-                number: "",
+                number: "0",
                 img: Images.unreviewed
             }, {
                 title: "待激活",
                 target: "Inactivated",
-                number: "",
+                number: "0",
                 img: Images.inactivated
             }, {
                 title: "已完成",
                 target: "Done",
-                number: "",
+                number: "0",
                 img: Images.done
             }]
         }
     }
     componentDidMount() {
         const { userType, userId } = this.props.User
-        let getStatistics = '',
+        let getStatistics,
             params = {}
         if(userType === '1') {
             getStatistics = getStatisticsBySession
@@ -66,7 +66,10 @@ class Home extends Component {
                 buttons[0].number = result[0].auditedCount
                 buttons[1].number = result[0].activatedCount
                 buttons[2].number = result[0].completedCount
-                this.setState({buttons})
+                this.setState({
+                    buttons, 
+                    todayHandledCount: result.todayHandledCount
+                })
             }
         })
         getQRcodeForF2F({success: data => {

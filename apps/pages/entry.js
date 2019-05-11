@@ -28,7 +28,6 @@ class Entry extends Component {
             if(JSON.stringify(User) === "{}") {
                 this.setState({ReturnDom: "Login", User})
             } else {
-                global.sessionId = User.sessionId
                 this.setState({ReturnDom: "TabNav", User})
             }
         })
@@ -39,7 +38,6 @@ class Entry extends Component {
             if(JSON.stringify(User) === "{}") {
                 this.setState({ReturnDom: "Login", User})
             } else {
-                global.sessionId = User.sessionId
                 this.setState({ReturnDom: "TabNav", User})
             }
         }

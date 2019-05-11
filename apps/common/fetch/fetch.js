@@ -1,3 +1,4 @@
+import CONFIG from "../config"
 // import 'es5-sham-ie8';
 // import 'es5-shim';
 // var Promise = require('es6-promise').Promise;
@@ -62,6 +63,11 @@ let _fetch = {
         },
         JSON(response) {
             //生成JSON.parse(responseText)的结果
+            // if (response.type === 'default' 
+            //     && (response.url == (CONFIG.HOST+"partner/login"))
+            // ) {
+            //     global.APPCOOKIE = response['headers']['map']['set-cookie']
+            // }
             return response.json();
         },
         BLOB(response) {
@@ -143,6 +149,7 @@ let _fetchPromise = (url, fetchParams, method) => {
         body: method === 'get' ? null : fetchParams.body,
         mode: 'cors',
         cache: 'reload',
+        credentials: 'include',
         headers: headersDeal(fetchParams.headers || {})
     }
     var rq = new Request(url, fetParams);

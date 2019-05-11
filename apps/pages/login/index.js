@@ -23,8 +23,8 @@ class Login extends Component {
         super(props)
         this.state = {
             radioValue: 1,
-            phoneNum: '13666666666',
-            passwordNum: '1234567',
+            phoneNum: '18860383800',
+            passwordNum: '000000',
             passwordHidden: true
         }
     }
@@ -49,7 +49,6 @@ class Login extends Component {
             login({ radioValue, phoneNum, passwordNum,
                 success: ({result}) => {
                     this.props.addUser(result[0])
-                    // this.props.navigation.navigate('TabNav')
                 }
             })
         }

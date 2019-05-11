@@ -30,9 +30,7 @@ function getUser(call) {
       if (data) {
         initState = JSON.parse(data)
       } else {
-        initState = {
-          userType: 1
-        }
+        initState = {}
       }
       dispatch(initUser(initState));
       call(initState);

@@ -21,7 +21,7 @@ import {
 const ViewPropTypes = RNViewPropTypes || View.propTypes;
 
 export const DURATION = {
-    LENGTH_LONG: 10000,
+    LENGTH_LONG: 3000,
     LENGTH_SHORT: 1000,
     FOREVER: 0,
 };
@@ -42,7 +42,7 @@ export default class Toast extends Component {
     }
 
     show(text, duration, image) {
-        this.duration = typeof duration === 'number' ? duration : DURATION.LENGTH_LONG;
+        this.duration = typeof duration === 'number' ? duration : DURATION.LENGTH_SHORT;
         this.image = image
             this.setState({
                 isShow: true,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#FFF',
-        fontSize: 18,
+        fontSize: 12,
     },
     icontent: {
         backgroundColor: '#7A7A7A',

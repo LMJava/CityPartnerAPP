@@ -9,6 +9,11 @@ import {
     View
 } from 'react-native';
 
+import { 
+    getStatisticsBySession, 
+    getStatisticsByChildPartner,
+    getStatisticsByPromoters
+} from "../../common/AppFetch";
 import { connect, actions } from '../../store/combin';
 import HomeList from "../../components/HomeList";
 import Tool from "../../common/Tool";
@@ -22,13 +27,13 @@ class PersonalCenter extends Component {
         this.state = {
             messages: [{
                 name: "今日办理",
-                number: "9"
+                number: "0"
             }, {
-                name: "已审核",
-                number: "12"
+                name: "待审核",
+                number: "0"
             }, {
-                name: "未激活",
-                number: "3"
+                name: "待激活",
+                number: "0"
             }],
             buttons: [{
                 title: "推荐给他人",
@@ -45,9 +50,33 @@ class PersonalCenter extends Component {
             }]
         }
     }
-    
+    componentDidMount() {
+        const { userType, userId } = this.props.User
+        let getStatistics = '',
+            params = {}
+        if(userType === '1') {
+            getStatistics = getStatisticsBySession
+        }else if(userType === '2') {
+            getStatistics = getStatisticsByChildPartner
+            params = {childPartnerId: userId}
+        }else if(userType === '3') {
+            getStatistics = getStatisticsByPromoters
+            params = {promotersId: userId}
+        }
+        getStatistics && getStatistics({
+            ...params,
+            success: ({result}) => {
+                const {buttons} = [...this.state.buttons]
+                buttons[0].number = result[0].todayHandledCount
+                buttons[1].number = result[0].auditedCount
+                buttons[2].number = result[0].activatedCount
+                this.setState({buttons})
+            }
+        })
+    }
     render() {
-        const { messages, buttons } = this.state
+        const { messages, buttons } = this.state,
+            {name, address} = this.props.User
         return <ScrollView style={GlobalStyles.root_container}>
             {Tool.statusBar()}
             <ImageBackground 
@@ -59,13 +88,9 @@ class PersonalCenter extends Component {
                     <Image source={Images.head} style={styles.homeHeaderImg} />
                     <View style={styles.homeHeaderOpt}>
                         <View style={styles.homeHeaderMsg}>
-                            <Text style={styles.homeHeaderName}>张三丰</Text>
+                            <Text style={styles.homeHeaderName}>{name}</Text>
                             <View style={styles.homeHeaderAdd}>
-                                <Text style={styles.homeHeaderAddTxt}>河南</Text>
-                                <Text style={styles.homeHeaderAddTxt}>郑州</Text>
-                                <Text style={styles.homeHeaderAddTxt}>新乡</Text>
-                                <Text style={styles.homeHeaderAddTxt}>范县</Text>
-                                <Text style={styles.homeHeaderAddTxt}>三门峡</Text>
+                                <Text style={styles.homeHeaderAddTxt}>{address}</Text>
                             </View>
                         </View>
                         <TouchableOpacity 
@@ -106,7 +131,9 @@ class PersonalCenter extends Component {
     }
 }
 export default connect(
-    () => ({}),{
+    (state) => {
+        return { User: state.User };
+    },{
         delUser: actions.User.delUser
     }
 )(PersonalCenter);
