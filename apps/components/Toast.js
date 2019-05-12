@@ -22,7 +22,7 @@ const ViewPropTypes = RNViewPropTypes || View.propTypes;
 
 export const DURATION = {
     LENGTH_LONG: 3000,
-    LENGTH_SHORT: 10000,
+    LENGTH_SHORT: 1000,
     FOREVER: 0,
 };
 

@@ -5,6 +5,7 @@ import {
     TextInput,
     Text, 
     ScrollView,
+    Keyboard,
     View
 } from 'react-native';
 import Modal from 'react-native-modal'
@@ -68,7 +69,7 @@ export default class AddPromoter extends Component {
         } else if(addrTxt === '') {
             GlobalToast.show("具体地址不能为空")
         } else {
-            addPartner({
+            addPromoters({
                 telephone, 
                 cardId, 
                 name, 
@@ -78,9 +79,12 @@ export default class AddPromoter extends Component {
                 city, 
                 county, 
                 street: addrTxt,
-                success: (data) => {
+                success: () => {
+                    const params = this.props.navigation
+                        && this.props.navigation.state
+                        && this.props.navigation.state.params
                     GlobalToast.show('成功添加')
-                    this.props.refresh && this.props.refresh()
+                    params.refresh && params.refresh()
                     this.timer = setTimeout(() => {
                         this.props.navigation.goBack(null)
                     }, 1000);
