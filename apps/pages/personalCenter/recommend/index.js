@@ -35,7 +35,7 @@ export default class Recommend extends Component {
                     source={Images.sharePage.shareBg} 
                     style={styles.bgImage}
                 >
-                    <Image source={Images.sharePage.miniProgram} />
+                    <Image source={QRcodeForOnline ? { uri: QRcodeForOnline } : null} />
                 </ImageBackground>
             </View>
             <View style={styles.buttons}>
@@ -43,7 +43,7 @@ export default class Recommend extends Component {
                     style={styles.button}
                     onPress={() => GlobalToast.show('功能建设中...')}
                 >
-                    <Image source={QRcodeForOnline ? { uri: QRcodeForOnline } : null} />
+                    <Image source={Images.sharePage.wechat} />
                     <Text style={styles.buttonTxt}>推荐给微信好友</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
