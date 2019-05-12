@@ -34,7 +34,7 @@ export default class Unreviewed extends Component {
         await getOrderListBySession({
             ...params,
             success: (data) => {
-                startFetch(data.result, 10);
+                startFetch(data.result, 10)
             },
             error: (data) => {
                 abortFetch();
@@ -85,7 +85,10 @@ export default class Unreviewed extends Component {
     renderItem = (item) => {
         return <TouchableOpacity 
             style={styles.listItem}
-            onPress={() => this.props.navigation.navigate('UnreviewedDetail', {orderId: item.orderId})}
+            onPress={() => this.props.navigation.navigate('UnreviewedDetail', {
+                orderId: item.orderId,
+                refresh: this.listView.refresh
+            })}
         >
             <View style={styles.itemAlignRow}>
                 <View style={styles.itemRow}>

@@ -96,44 +96,46 @@ export function getStatisticsBySession(opt) {
         opt.error && opt.error(err)
     })
 }
+// 废弃，没地方调用
 // 获取业务办理统计信息(下属渠道合伙人)
 // 用于城市合伙人获取下属渠道合伙人信息
 // auditedCount         待审核数
 // activatedCount       待激活数
 // completedCount       已完成数
 // todayHandledCount    今日办理人数
-export function getStatisticsByChildPartner(opt) {
-    let url = `${CONFIG.HOST}partner/getStatisticsByChildPartner?childPartnerId=${opt.childPartnerId}`
-    Fetch.getJSON(url).then((data) => {
-        if (data.code === SUCCESSCODE) {
-            opt.success && opt.success(data);
-        } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
-            opt.error && opt.error(data)
-        }
-    }).catch((err) => {
-        opt.error && opt.error(err)
-    })
-}
+// export function getStatisticsByChildPartner(opt) {
+//     let url = `${CONFIG.HOST}partner/getStatisticsByChildPartner?childPartnerId=${opt.childPartnerId}`
+//     Fetch.getJSON(url).then((data) => {
+//         if (data.code === SUCCESSCODE) {
+//             opt.success && opt.success(data);
+//         } else { // 运行时异常、业务异常、系统内部异常
+//             GlobalToast && GlobalToast.show(data.msg)
+//             opt.error && opt.error(data)
+//         }
+//     }).catch((err) => {
+//         opt.error && opt.error(err)
+//     })
+// }
+// 废弃，没地方调用
 // 获取业务办理统计信息(下属推广员)
 // 用于合伙人获取下属推广员的业务推广信息
 // auditedCount         待审核数
 // activatedCount       待激活数
 // completedCount       已完成数
 // todayHandledCount    今日办理人数
-export function getStatisticsByPromoters(opt) {
-    let url = `${CONFIG.HOST}partner/getStatisticsByPromoters?promotersId=${opt.promotersId}`
-    Fetch.getJSON(url).then((data) => {
-        if (data.code === SUCCESSCODE) {
-            opt.success && opt.success(data);
-        } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
-            opt.error && opt.error(data)
-        }
-    }).catch((err) => {
-        opt.error && opt.error(err)
-    })
-}
+// export function getStatisticsByPromoters(opt) {
+//     let url = `${CONFIG.HOST}partner/getStatisticsByPromoters?promotersId=${opt.promotersId}`
+//     Fetch.getJSON(url).then((data) => {
+//         if (data.code === SUCCESSCODE) {
+//             opt.success && opt.success(data);
+//         } else { // 运行时异常、业务异常、系统内部异常
+//             GlobalToast && GlobalToast.show(data.msg)
+//             opt.error && opt.error(data)
+//         }
+//     }).catch((err) => {
+//         opt.error && opt.error(err)
+//     })
+// }
 // 获取业务办理记录(当前用户)
 // 分页查询，合伙人、推广员通用
 // memberId     会员ID
@@ -154,6 +156,30 @@ export function getOrderListBySession(opt) {
             vehiclePlate: opt.vehiclePlate || null, // 车牌号 ?
             pageNum: opt.pageNum, // 页码
             pageSize: 10
+        })
+    };
+    Fetch.postJSON(requestBody).then((data) => {
+        if (data.code === SUCCESSCODE) {
+            opt.success && opt.success(data);
+        } else { // 运行时异常、业务异常、系统内部异常
+            GlobalToast && GlobalToast.show(data.msg)
+            opt.error && opt.error(data)
+        }
+    }).catch((err) => {
+        opt.error && opt.error(err)
+    })
+}
+// 业务办理工单审核
+export function auditOrder(opt) {
+    const requestBody = {
+        url: CONFIG.HOST + "smallprogram/auditOrder",
+        headers: headersJ,
+        body: JSON.stringify({
+            orderId: opt.orderId, // 订单号
+            auditResult: opt.auditResult, // 审核结果(1-通过，2-不通过)
+            noPassReasons: opt.auditResult === 2 
+                ? opt.noPassReasons 
+                : null // 不通过原因(不通过需填写)
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
@@ -214,7 +240,7 @@ export function getOrderListBySession(opt) {
 // licenseMainPage      行驶证正页图片地址
 // licenseVcePage       行驶证副页图片地址
 export function getOrderDetailsByPartner(opt) {
-    let url = `${CONFIG.HOST}partner/getOrderDetailsByPartner?orderId=${opt.orderId}`
+    let url = `${CONFIG.HOST}smallprogram/getOrderDetailsByPartner?orderId=${opt.orderId}`
     Fetch.getJSON(url).then((data) => {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
@@ -234,13 +260,14 @@ export function getOrderDetailsByPartner(opt) {
 // province     归属省份
 // city         归属城市
 // createTime   加入时间
+// count        办理数量
 export function getChildPartnerList(opt) {
     const requestBody = {
         url: CONFIG.HOST + "partner/getChildPartnerList",
         headers: headersJ,
         body: JSON.stringify({
             name: opt.name || null, // 会员姓名 ?
-            telephone: opt.telephone || null, // 手机号 ?
+            vehiclePlate: opt.vehiclePlate || null, // 车牌号 ?
             pageNum: opt.pageNum, // 页码
             pageSize: 10
         })
@@ -286,6 +313,34 @@ export function addPartner(opt) {
         opt.error && opt.error(err)
     })
 }
+// 获取下属推广员列表
+// 用于城市/渠道合伙人获取下属推广员信息，分页查询
+// promotersId  推广员ID
+// name         推广员姓名
+// telephone    手机号
+// province     归属省份
+// city         归属城市
+// createTime   加入时间
+// count        办理数量
+export function getPromotersList(opt) {
+    let url = `${CONFIG.HOST}partner/getPromotersList?pageNum=${opt.pageNum}&pageSize=10`
+    if (opt.name && "" !== opt.name) {
+        url = url + "&name=" + opt.name;
+    }
+    if (opt.vehiclePlate && "" !== opt.vehiclePlate) {
+        url = url + "&vehiclePlate=" + opt.vehiclePlate;
+    }
+    Fetch.getJSON(url).then((data) => {
+        if (data.code === SUCCESSCODE) {
+            opt.success && opt.success(data);
+        } else { // 运行时异常、业务异常、系统内部异常
+            GlobalToast && GlobalToast.show(data.msg)
+            opt.error && opt.error(data)
+        }
+    }).catch((err) => {
+        opt.error && opt.error(err)
+    })
+}
 // 添加推广员
 // promotersId    推广员ID
 export function addPromoters(opt) {
@@ -302,57 +357,6 @@ export function addPromoters(opt) {
             street: opt.street, // 县
             age: opt.age, // 年龄
             sex: opt.sex // 性别(1-男，2-女)
-        })
-    };
-    Fetch.postJSON(requestBody).then((data) => {
-        if (data.code === SUCCESSCODE) {
-            opt.success && opt.success(data);
-        } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
-            opt.error && opt.error(data)
-        }
-    }).catch((err) => {
-        opt.error && opt.error(err)
-    })
-}
-// 获取下属推广员列表
-// 用于城市/渠道合伙人获取下属推广员信息，分页查询
-// promotersId  推广员ID
-// name         推广员姓名
-// telephone    手机号
-// province     归属省份
-// city         归属城市
-// createTime   加入时间
-export function getPromotersList(opt) {
-    let url = `${CONFIG.HOST}partner/getPromotersList?pageNum=${opt.pageNum}&pageSize=10`
-    if (opt.name && "" !== opt.name) {
-        url = url + "&name=" + opt.name;
-    }
-    if (opt.telephone && "" !== opt.telephone) {
-        url = url + "&telephone=" + opt.telephone;
-    }
-    Fetch.getJSON(url).then((data) => {
-        if (data.code === SUCCESSCODE) {
-            opt.success && opt.success(data);
-        } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
-            opt.error && opt.error(data)
-        }
-    }).catch((err) => {
-        opt.error && opt.error(err)
-    })
-}
-// 业务办理工单审核
-export function auditOrder(opt) {
-    const requestBody = {
-        url: CONFIG.HOST + "partner/auditOrder",
-        headers: headersJ,
-        body: JSON.stringify({
-            orderId: opt.orderId, // 订单号
-            auditResult: opt.auditResult, // 审核结果(1-通过，2-不通过)
-            noPassReasons: opt.auditResult === 2 
-                ? opt.noPassReasons 
-                : null // 不通过原因(不通过需填写)
         })
     };
     Fetch.postJSON(requestBody).then((data) => {

@@ -11,8 +11,6 @@ import {
 
 import { 
     getStatisticsBySession, 
-    getStatisticsByChildPartner,
-    getStatisticsByPromoters
 } from "../../common/AppFetch";
 import { connect, actions } from '../../store/combin';
 import HomeList from "../../components/HomeList";
@@ -51,20 +49,7 @@ class PersonalCenter extends Component {
         }
     }
     componentDidMount() {
-        const { userType, userId } = this.props.User
-        let getStatistics = '',
-            params = {}
-        if(userType === '1') {
-            getStatistics = getStatisticsBySession
-        }else if(userType === '2') {
-            getStatistics = getStatisticsByChildPartner
-            params = {childPartnerId: userId}
-        }else if(userType === '3') {
-            getStatistics = getStatisticsByPromoters
-            params = {promotersId: userId}
-        }
-        getStatistics && getStatistics({
-            ...params,
+        getStatisticsBySession({
             success: ({result}) => {
                 const {buttons} = [...this.state.buttons]
                 buttons[0].number = result[0].todayHandledCount

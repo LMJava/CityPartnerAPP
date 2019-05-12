@@ -71,9 +71,7 @@ export default class ViewUtils {
      * @returns {XML}
      */
     static renderListFooter() {
-        return (
-            <Text style={styles.footer}>- 我是有底线的 -</Text>
-        )
+        return <Text style={styles.footer}>- 我是有底线的 -</Text>
     }
 
     /**

@@ -4,11 +4,12 @@ import {
     Image,
     TouchableOpacity,
     TextInput,
-    FlatList,
     Text, 
     View
 } from 'react-native';
+import { UltimateListView } from "react-native-ultimate-listview";
 
+import { getChildPartnerList } from "../../common/AppFetch";
 import HeaderBar from "../../components/HeaderBar";
 import ViewUtils from "../../components/ViewUtils";
 import FilterItem from "../../components/FilterItem";
@@ -24,6 +25,27 @@ export default class Partner extends Component {
             searchTxt: '',
             areaFilter: {name: '全部区域', value: 'all'}
         }
+    }
+    onFetch = async (page, startFetch, abortFetch) => {
+        const {searchTxt} = this.state
+        let params = {
+            pageNum: page
+        }
+        if(searchTxt !== '') {
+            params.vehiclePlate = searchTxt
+        }
+        await getChildPartnerList({
+            ...params,
+            success: (data) => {
+                startFetch(data.result, 10)
+            },
+            error: (data) => {
+                abortFetch();
+                this.listView.setState({
+                    paginationStatus: 2
+                })
+            }
+        })
     }
 
     render() {
@@ -47,11 +69,17 @@ export default class Partner extends Component {
                         <TextInput
                             style={styles.searchInput}
                             underlineColorAndroid='transparent'
-                            placeholder='姓名或手机号码检索'
+                            placeholder='姓名或车牌号检索'
                             placeholderTextColor='#999'
                             value={searchTxt}
                             onChangeText={searchTxt => {
                                 this.setState({ searchTxt })
+                            }}
+                            onEndEditing={() => {
+                                this.listView.setState({
+                                    dataSource: [],
+                                    paginationStatus: 0
+                                }, this.listView.refresh)
                             }}
                         />
                     </View>
@@ -70,32 +98,33 @@ export default class Partner extends Component {
                         />
                     </FilterItem>
                 </View>
-                <FlatList
-                    data={[{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2}]}
-                    keyExtractor={(item, index) => item.name +''+ index}
-                    renderItem={this.renderItem}
-                    ItemSeparatorComponent={ViewUtils.itemSeparatorComponent}
-                    style={{marginTop: 10}}
+                <UltimateListView
+                    ref={ref => (this.listView = ref)}
+                    onFetch={this.onFetch}
+                    keyExtractor={(item, index) => `${index} - ${item}`}
+                    item={item => this.renderItem(item)}
+                    waitingSpinnerText={"正在加载更多..."}
+                    paginationAllLoadedView={() => ViewUtils.renderListFooter()}
+                    separator={() => ViewUtils.itemSeparatorComponent()}
+                    displayDate
+                    arrowImageStyle={{ width: 20, height: 20, resizeMode: "contain" }}
                 />
             </View>
         </View>
     }
-    renderItem = ({item}) => {
+    renderItem = (item) => {
         return <View style={styles.listItem}>
-            <View style={styles.itemAlignRow}>
-                <View style={styles.itemRow}>
-                    <Text style={GlobalStyles.itemTxt_15_32}>张无忌</Text>
-                    <Text style={GlobalStyles.itemTxt_12_64}>1357924680</Text>
-                    <Text style={GlobalStyles.itemTxt_12_64}>116</Text>
-                </View>
-                {/* <Image source={Images.right} style={{marginLeft: 15}} /> */}
+            <View style={styles.itemRow}>
+                <Text style={GlobalStyles.itemTxt_15_32}>{item.name}</Text>
+                <Text style={GlobalStyles.itemTxt_12_64}>{item.telephone}</Text>
+                <Text style={GlobalStyles.itemTxt_12_64}>{item.count}</Text>
             </View>
             <View style={[styles.itemRow, {marginTop: 12}]}>
                 <View style={styles.itemAlignRow}>
                     <Image source={Images.location} style={{marginRight: 5}} />
-                    <Text style={GlobalStyles.itemTxt_12_64}>河南省三门峡市</Text>
+                    <Text style={GlobalStyles.itemTxt_12_64}>{item.province} {item.city}</Text>
                 </View>
-                <Text style={GlobalStyles.itemTxt_12_96}>2019/04/21加入</Text>
+                {item.createTime?<Text style={GlobalStyles.itemTxt_12_96}>{item.createTime}加入</Text>:null}
             </View>
         </View>
     }

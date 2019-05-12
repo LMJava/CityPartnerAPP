@@ -10,6 +10,10 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal'
 
+import { 
+    getOrderDetailsByPartner,
+    auditOrder
+} from "../../../common/AppFetch";
 import Images from "../../../assets/styles/Images"
 import GlobalStyles from "../../../assets/styles/GlobalStyles"
 import styles from "./styles"
@@ -19,27 +23,27 @@ export default class UnreviewedDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            orderDetails: {},
             isVisible: false,
-            refuseText: '',
-            fastCheckedArr: [],
+            noPassReasons: '',
             imageData: [{
                 key: 'IdCard1',
-                image: Images.credentials.IdCard1,
+                image: 'referidcardPostive',
                 text: '身份证（人像面）',
                 bg: Images.credentials.IdCard1
             }, {
                 key: 'IdCard2',
-                image: '',
+                image: 'referidcardNegative',
                 text: '身份证（国徽面）',
                 bg: Images.credentials.IdCard2
             }, {
                 key: 'DrivingPermit1',
-                image: '',
+                image: 'licenseMainPage',
                 text: '行驶证（正页）',
                 bg: Images.credentials.DrivingPermit1
             }, {
                 key: 'DrivingPermit2',
-                image: '',
+                image: 'licenseVcePage',
                 text: '行驶证（副页）',
                 bg: Images.credentials.DrivingPermit2
             }],
@@ -50,34 +54,70 @@ export default class UnreviewedDetail extends Component {
             ]
         }
     }
-
+    componentDidMount() {
+        const params = this.props.navigation
+            && this.props.navigation.state
+            && this.props.navigation.state.params
+        getOrderDetailsByPartner({
+            orderId: params.orderId,
+            success: ({result}) => {
+                this.setState({orderDetails: result[0]})
+            }
+        })
+    }
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+    }
+    onAuditOrder = (auditResult) => {
+        const {orderDetails, noPassReasons} = this.state
+        let params = {
+            orderId: orderDetails.orderId,
+            auditResult
+        }
+        if(!orderDetails.orderId) {
+            GlobalToast && GlobalToast.show('无效数据')
+            return false;
+        }else if(auditResult === 2) {
+            params.noPassReasons = noPassReasons
+        }
+        auditOrder({
+            ...params,
+            success: ({result}) => {
+                GlobalToast && GlobalToast.show('通过审核')
+                this.props.refresh && this.props.refresh()
+                this.timer = setTimeout(() => {
+                    this.props.navigation.goBack(null)
+                }, 1000);
+            }
+        })
+    }
+    onSubmit = () => {
+        const {noPassReasons, } = this.state
+        if(noPassReasons == '') {
+            GlobalToast && GlobalToast.show('请填写不通过原因')
+            return false;
+        }
+        this.onAuditOrder(2)
+        this.toggle(false)
+    }
     // 传入bool控制弹窗显示（true）隐藏（false）
     toggle(flag) {this.setState({isVisible: flag})}
-    onFastCheck = (value) => {
-        let fastCheckedArr = [...this.state.fastCheckedArr]
-        if (fastCheckedArr.includes(value)) {
-            fastCheckedArr = fastCheckedArr.filter((e) => { return e != value });
-        } else {
-            fastCheckedArr.push(value)
-        }
-        this.setState({ fastCheckedArr })
-    }
     render() {
-        const {imageData, isVisible, refuseText, fastButtons} = this.state
+        const {orderDetails, imageData, isVisible, noPassReasons, fastButtons} = this.state
         return <ScrollView style={GlobalStyles.root_container}>
             <View style={styles.detailMes}>
                 <View style={styles.itemRow}>
-                    <Text style={GlobalStyles.itemTxt_15_32}>张无忌</Text>
-                    <Text style={GlobalStyles.itemTxt_12_64}>推广员</Text>
+                    <Text style={GlobalStyles.itemTxt_15_32}>{orderDetails.receiverName}</Text>
+                    <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.mobilePhone}</Text>
                 </View>
                 <View style={[styles.itemRow, {marginTop: 12}]}>
-                    <Text style={GlobalStyles.itemTxt_12_64}>1357924680</Text>
+                    <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.vehiclePlate}</Text>
                     <Text style={GlobalStyles.itemTxt_12_96}>2019/04/21</Text>
                 </View>
-                <View style={[styles.itemRow, {marginTop: 15}]}>
+                <View style={[styles.itemRow, {marginTop: 15, justifyContent: 'flex-start'}]}>
                     <Image source={Images.location} style={{marginRight: 5}} />
                     <Text numberOfLines={2} style={GlobalStyles.itemTxt_12_64}>
-                        河南省郑州市高新技术产业开发区长椿路88号院3单元6号楼119号区长椿路88号院3单元6号楼119号
+                        {orderDetails.province}{orderDetails.city}{orderDetails.county}{orderDetails.address}
                     </Text>
                 </View>
             </View>
@@ -88,13 +128,13 @@ export default class UnreviewedDetail extends Component {
                 <View style={styles.detailBtns}>
                     <TouchableOpacity 
                         style={[styles.detailBtn, styles.detailSubmit]}
-                        onPress={()=>{}}
+                        onPress={() => this.onAuditOrder(1)}
                     >
                         <Text style={styles.detailSubmitTxt}>审核通过</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style={[styles.detailBtn, styles.detailCancel]}
-                        onPress={()=>this.toggle(true)}
+                        onPress={() => this.toggle(true)}
                     >
                         <Text style={styles.detailCancelTxt}>审核不通过</Text>
                     </TouchableOpacity>
@@ -128,8 +168,8 @@ export default class UnreviewedDetail extends Component {
                         numberOfLines={6}
                         textAlignVertical="top"
                         underlineColorAndroid="transparent"
-                        value={refuseText}
-                        onChangeText={(refuseText) => this.setState({refuseText})}
+                        value={noPassReasons}
+                        onChangeText={(noPassReasons) => this.setState({noPassReasons})}
                     />
                     <View style={styles.modalFast}>
                         <Text style={styles.modalFastTitle}>快捷输入：</Text>
@@ -139,7 +179,7 @@ export default class UnreviewedDetail extends Component {
                     </View>
                     <TouchableOpacity 
                         style={styles.modalSubmit}
-                        onPress={() => this.toggle(false)}
+                        onPress={this.onSubmit}
                     >
                         <Text style={styles.modalSubmitTxt}>提交</Text>
                     </TouchableOpacity>
@@ -148,24 +188,23 @@ export default class UnreviewedDetail extends Component {
         </ScrollView>
     }
     renderdetailImgItem = (item, index) => {
+        const {orderDetails} = this.state
         return <View key={index} style={styles.detailImgItem}>
             <ImageBackground
                 resizeMode={'stretch'} 
                 source={item.bg} 
                 style={styles.detailImgItemImg}
             >
-                <Image source={item.image || null} resizeMode={'contain'} style={styles.detailImgItemData} />
+                <Image source={item.image ? { uri: orderDetails[item.image] } : null} resizeMode={'contain'} style={styles.detailImgItemData} />
                 <Text style={[GlobalStyles.itemTxt_12_ff, styles.detailImgItemTxt]}>{item.text}</Text>
             </ImageBackground>
         </View>
     }
     renderFastItem = (item, index)  => {
-        const {fastCheckedArr} = this.state,
-            flag = fastCheckedArr.includes(item.value)
         return <TouchableOpacity 
             key={index}
-            style={[styles.modalFastItem, flag ? {backgroundColor: '#0BF'} : {}]}
-            onPress={() => this.onFastCheck(item.value)}
+            style={styles.modalFastItem}
+            onPress={() => this.setState({ noPassReasons: item.value })}
         >
             <Text style={styles.modalFastTxt}>{item.name}</Text>
         </TouchableOpacity>

@@ -10,8 +10,6 @@ import Modal from 'react-native-modal'
 
 import { 
     getStatisticsBySession, 
-    getStatisticsByChildPartner,
-    getStatisticsByPromoters,
     getQRcodeForF2F 
 } from "../../common/AppFetch";
 import { connect } from '../../store/combin';
@@ -47,20 +45,7 @@ class Home extends Component {
         }
     }
     componentDidMount() {
-        const { userType, userId } = this.props.User
-        let getStatistics,
-            params = {}
-        if(userType === '1') {
-            getStatistics = getStatisticsBySession
-        }else if(userType === '2') {
-            getStatistics = getStatisticsByChildPartner
-            params = {childPartnerId: userId}
-        }else if(userType === '3') {
-            getStatistics = getStatisticsByPromoters
-            params = {promotersId: userId}
-        }
-        getStatistics && getStatistics({
-            ...params,
+        getStatisticsBySession({
             success: ({result}) => {
                 const {buttons} = [...this.state.buttons]
                 buttons[0].number = result[0].auditedCount
