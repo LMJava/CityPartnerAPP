@@ -41,14 +41,14 @@ export default class Recommend extends Component {
             <View style={styles.buttons}>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {}}
+                    onPress={() => GlobalToast.show('功能建设中...')}
                 >
                     <Image source={QRcodeForOnline ? { uri: QRcodeForOnline } : null} />
                     <Text style={styles.buttonTxt}>推荐给微信好友</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => {}}
+                    onPress={() => GlobalToast.show('功能建设中...')}
                 >
                     <Image source={Images.sharePage.friends} />
                     <Text style={styles.buttonTxt}>分享到朋友圈</Text>
