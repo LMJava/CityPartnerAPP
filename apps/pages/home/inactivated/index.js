@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {
     Image,
-    TouchableOpacity,
     TextInput,
-    FlatList,
     Text, 
     View
 } from 'react-native';
+import { UltimateListView } from "react-native-ultimate-listview";
 
+import { getOrderListBySession } from "../../../common/AppFetch";
 import ViewUtils from "../../../components/ViewUtils";
 import Images from "../../../assets/styles/Images"
 import GlobalStyles from "../../../assets/styles/GlobalStyles"
@@ -20,6 +20,28 @@ export default class Inactivated extends Component {
         this.state = {
             searchTxt: ''
         }
+    }
+    onFetch = async (page, startFetch, abortFetch) => {
+        const {searchTxt} = this.state
+        let params = {
+            orderState: 4,
+            pageNum: page
+        }
+        if(searchTxt !== '') {
+            params.vehiclePlate = searchTxt
+        }
+        await getOrderListBySession({
+            ...params,
+            success: (data) => {
+                startFetch(data.result, 10);
+            },
+            error: (data) => {
+                abortFetch();
+                this.listView.setState({
+                    paginationStatus: 2
+                })
+            }
+        })
     }
 
     render() {
@@ -37,27 +59,37 @@ export default class Inactivated extends Component {
                         onChangeText={searchTxt => {
                             this.setState({ searchTxt })
                         }}
+                        onEndEditing={() => {
+                            this.listView.setState({
+                                dataSource: [],
+                                paginationStatus: 0
+                            }, this.listView.refresh)
+                        }}
                     />
                 </View>
             </View>
-            <FlatList
-                data={[{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2}]}
-                keyExtractor={(item, index) => item.name +''+ index}
-                renderItem={this.renderItem}
-                ItemSeparatorComponent={ViewUtils.itemSeparatorComponent}
-                style={{marginTop: 10}}
+            <UltimateListView
+                ref={ref => (this.listView = ref)}
+                onFetch={this.onFetch}
+                keyExtractor={(item, index) => `${index} - ${item}`}
+                item={item => this.renderItem(item)}
+                waitingSpinnerText={"正在加载更多..."}
+                paginationAllLoadedView={() => ViewUtils.renderListFooter()}
+                separator={() => ViewUtils.itemSeparatorComponent()}
+                displayDate
+                arrowImageStyle={{ width: 20, height: 20, resizeMode: "contain" }}
             />
         </View>
     }
-    renderItem = ({item}) => {
+    renderItem = (item) => {
         return <View style={styles.listItem}>
             <View style={styles.itemRow}>
-                <Text style={GlobalStyles.itemTxt_15_32}>张无忌</Text>
-                <Text style={GlobalStyles.itemTxt_12_64}>推广员</Text>
+                <Text style={GlobalStyles.itemTxt_15_32}>{item.name}</Text>
+                <Text style={GlobalStyles.itemTxt_12_64}>{item.channelType}</Text>
             </View>
             <View style={[styles.itemRow, {marginTop: 12}]}>
-                <Text style={GlobalStyles.itemTxt_12_64}>1357924680</Text>
-                <Text style={GlobalStyles.itemTxt_12_96}>2019/04/21</Text>
+                <Text style={GlobalStyles.itemTxt_12_64}>{item.mobilePhone}</Text>
+                <Text style={GlobalStyles.itemTxt_12_96}>{item.createTime}</Text>
             </View>
         </View>
     }

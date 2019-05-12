@@ -152,7 +152,8 @@ export function getOrderListBySession(opt) {
             orderState: opt.orderState, // 业务办理状态（3-待审核,4-待激活,5-已激活）
             name: opt.name || null, // 会员姓名 ?
             vehiclePlate: opt.vehiclePlate || null, // 车牌号 ?
-            pageIndex: opt.pageIndex // 页码
+            pageNum: opt.pageNum, // 页码
+            pageSize: 10
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
@@ -166,6 +167,7 @@ export function getOrderListBySession(opt) {
         opt.error && opt.error(err)
     })
 }
+// 废弃，没地方调用
 // 获取业务办理记录(下属推广员)
 // 分页查询，用于合伙人获取下属推广员的业务推广信息
 // memberId     会员ID
@@ -174,29 +176,30 @@ export function getOrderListBySession(opt) {
 // vehiclePlate 车牌号
 // orderId      订单号
 // createTime   办理时间
-export function getOrderListByChildPartner(opt) {
-    const requestBody = {
-        url: CONFIG.HOST + "partner/getOrderListByChildPartner",
-        headers: headersJ,
-        body: JSON.stringify({
-            promotersId: opt.promotersId, // 下属推广员ID
-            orderState: opt.orderState, // 业务办理状态（3-待审核,4-待激活,5-已激活）
-            name: opt.name || null, // 会员姓名 ?
-            mobilePhone: opt.mobilePhone || null, // 手机号 ?
-            pageIndex: opt.pageIndex // 页码
-        })
-    };
-    Fetch.postJSON(requestBody).then((data) => {
-        if (data.code === SUCCESSCODE) {
-            opt.success && opt.success(data);
-        } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
-            opt.error && opt.error(data)
-        }
-    }).catch((err) => {
-        opt.error && opt.error(err)
-    })
-}
+// export function getOrderListByChildPartner(opt) {
+//     const requestBody = {
+//         url: CONFIG.HOST + "partner/getOrderListByChildPartner",
+//         headers: headersJ,
+//         body: JSON.stringify({
+//             promotersId: opt.promotersId, // 下属推广员ID
+//             orderState: opt.orderState, // 业务办理状态（3-待审核,4-待激活,5-已激活）
+//             name: opt.name || null, // 会员姓名 ?
+//             mobilePhone: opt.mobilePhone || null, // 手机号 ?
+//             pageNum: opt.pageNum, // 页码
+//             pageSize: 10
+//         })
+//     };
+//     Fetch.postJSON(requestBody).then((data) => {
+//         if (data.code === SUCCESSCODE) {
+//             opt.success && opt.success(data);
+//         } else { // 运行时异常、业务异常、系统内部异常
+//             GlobalToast && GlobalToast.show(data.msg)
+//             opt.error && opt.error(data)
+//         }
+//     }).catch((err) => {
+//         opt.error && opt.error(err)
+//     })
+// }
 // 业务办理详情查询
 // orderId              订单号
 // vehiclePlate         车牌号
@@ -238,7 +241,8 @@ export function getChildPartnerList(opt) {
         body: JSON.stringify({
             name: opt.name || null, // 会员姓名 ?
             telephone: opt.telephone || null, // 手机号 ?
-            pageIndex: opt.pageIndex // 页码
+            pageNum: opt.pageNum, // 页码
+            pageSize: 10
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
@@ -261,14 +265,14 @@ export function addPartner(opt) {
         headers: headersJ,
         body: JSON.stringify({
             name: opt.name, // 渠道合伙人名称
-            cardId: opt.vehiclePlate, // 身份证号
-            telephone: opt.vehiclePlate, // 手机号
-            provice: opt.vehiclePlate, // 省
-            city: opt.vehiclePlate, // 市
-            county: opt.vehiclePlate, // 区
-            street: opt.vehiclePlate, // 县
-            age: opt.vehiclePlate, // 年龄
-            sex: opt.pageIndex // 性别(1-男，2-女)
+            cardId: opt.cardId, // 身份证号
+            telephone: opt.telephone, // 手机号
+            provice: opt.provice, // 省
+            city: opt.city, // 市
+            county: opt.county, // 区
+            street: opt.street, // 县
+            age: opt.age, // 年龄
+            sex: opt.sex // 性别(1-男，2-女)
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
@@ -290,14 +294,14 @@ export function addPromoters(opt) {
         headers: headersJ,
         body: JSON.stringify({
             name: opt.name, // 渠道合伙人名称
-            cardId: opt.vehiclePlate, // 身份证号
-            telephone: opt.vehiclePlate, // 手机号
-            provice: opt.vehiclePlate, // 省
-            city: opt.vehiclePlate, // 市
-            county: opt.vehiclePlate, // 区
-            street: opt.vehiclePlate, // 县
-            age: opt.vehiclePlate, // 年龄
-            sex: opt.pageIndex // 性别(1-男，2-女)
+            cardId: opt.cardId, // 身份证号
+            telephone: opt.telephone, // 手机号
+            provice: opt.provice, // 省
+            city: opt.city, // 市
+            county: opt.county, // 区
+            street: opt.street, // 县
+            age: opt.age, // 年龄
+            sex: opt.sex // 性别(1-男，2-女)
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
@@ -320,7 +324,7 @@ export function addPromoters(opt) {
 // city         归属城市
 // createTime   加入时间
 export function getPromotersList(opt) {
-    let url = `${CONFIG.HOST}partner/getPromotersList?pageIndex=${opt.pageIndex}`
+    let url = `${CONFIG.HOST}partner/getPromotersList?pageNum=${opt.pageNum}&pageSize=10`
     if (opt.name && "" !== opt.name) {
         url = url + "&name=" + opt.name;
     }

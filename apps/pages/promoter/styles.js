@@ -1,7 +1,5 @@
 import { StyleSheet } from "react-native"
 
-import Tool from "../../common/Tool";
-
 export default StyleSheet.create({
     rightButton: {
         flexDirection: 'row',
