@@ -43,7 +43,7 @@ export default class Recommend extends Component {
                     style={styles.button}
                     onPress={() => {}}
                 >
-                    <Image source={QRcodeForOnline || Images.sharePage.wechat} />
+                    <Image source={QRcodeForOnline ? { uri: QRcodeForOnline } : null} />
                     <Text style={styles.buttonTxt}>推荐给微信好友</Text>
                 </TouchableOpacity>
                 <TouchableOpacity

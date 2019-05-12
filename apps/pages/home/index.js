@@ -116,7 +116,7 @@ class Home extends Component {
                 propagateSwipe
             >
                 <View style={styles.modalContent}>
-                    <Image source={QRcodeForF2F || Images.sharePage.miniProgram} />
+                    <Image source={QRcodeForF2F ? { uri: QRcodeForF2F } : null} />
                     <Text style={styles.modalTxt}>使用微信扫描办理</Text>
                 </View>
             </Modal>
