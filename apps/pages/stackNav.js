@@ -12,6 +12,7 @@ import UnreviewedDetail from './home/unreviewedDetail'; // 待审核详情
 import AddPartner from './partner/addPartner'; // 添加渠道
 import AddPromoter from './promoter/addPromoter'; // 添加推广员
 
+import EditPwd from './personalCenter/editPwd'; // 修改密码页面
 import Recommend from './personalCenter/recommend'; // 推荐给他人
 import HandleList from './personalCenter/handleList'; // 办理数量明细
 import RenewList from './personalCenter/renewList'; // 续费数量明细
@@ -60,7 +61,7 @@ export default function StackNav(type, user) {
 
 
             EditPwd: {
-                screen: Forgot,
+                screen: EditPwd,
                 navigationOptions: {
                     header: ({navigation}) => <HeaderBar title={"修改密码"} leftButton={true} navigation={navigation} backgroundG={true}/>
                 }
