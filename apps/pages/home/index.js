@@ -58,7 +58,7 @@ class Home extends Component {
             }
         })
         getQRcodeForF2F({success: data => {
-            GlobalToast && GlobalToast.show(JSON.stringify(data))
+            GlobalToast.show(JSON.stringify(data))
             // this.setState({QRcodeForF2F: data.result})
         }})
     }

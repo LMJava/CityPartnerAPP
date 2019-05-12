@@ -38,29 +38,26 @@ export default class Forgot extends Component {
     onResetPassword = () => {
         const {phoneNum, smsVCode, newPassword, confirmNum} = this.state
         if (phoneNum === '') {
-            GlobalToast && GlobalToast.show('手机号为空')
+            GlobalToast.show('手机号为空')
         } else if (!ViewUtils.phoneisValid(phoneNum)) {
-            GlobalToast && GlobalToast.show("请输入有效手机号码")
-            return false
+            GlobalToast.show("请输入有效手机号码")
         } else if(newPassword === '' || confirmNum === '') {
-            GlobalToast && GlobalToast.show("请输入密码")
-            return false
+            GlobalToast.show("请输入密码")
         } else if(newPassword !== confirmNum) {
-            GlobalToast && GlobalToast.show("两次输入密码不一致")
-            return false
+            GlobalToast.show("两次输入密码不一致")
         } else {
             resetPassword({
                 telephone: phoneNum,
                 smsVCode,
                 newPassword,
                 success: data => {
-                    GlobalToast && GlobalToast.show('您的密码已重置')
+                    GlobalToast.show('您的密码已重置')
                     this.timer = setTimeout(() => {
                         this.props.navigation.goBack(null)
                     }, 1000);
                 },
                 error: err => {
-                    GlobalToast && GlobalToast.show("err"+JSON.stringify(err))
+                    GlobalToast.show("err"+JSON.stringify(err))
                 }
             })
         }
@@ -68,12 +65,12 @@ export default class Forgot extends Component {
     onSendvcode = () => {
         const {phoneNum} = this.state
         if (phoneNum === '') {
-            GlobalToast && GlobalToast.show('手机号为空')
+            GlobalToast.show('手机号为空')
         } else if (ViewUtils.phoneisValid(phoneNum)) {
             sendvcode({
                 phoneNum,
                 success: data => {
-                    GlobalToast && GlobalToast.show('验证码已发送')
+                    GlobalToast.show('验证码已发送')
                     this.timeNum = 60
                     this.setState({ waiting: true });
                     this.interval = setInterval(() => {
@@ -91,11 +88,11 @@ export default class Forgot extends Component {
                     }, 1000);
                 },
                 error: err => {
-                    GlobalToast && GlobalToast.show("err"+JSON.stringify(err))
+                    GlobalToast.show("err"+JSON.stringify(err))
                 }
             })
         } else {
-            GlobalToast && GlobalToast.show('请输入有效手机号码')
+            GlobalToast.show('请输入有效手机号码')
         }
     }
     render() {

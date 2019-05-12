@@ -22,7 +22,7 @@ export default class Recommend extends Component {
 
     componentDidMount() {
         getQRcodeForOnline({success: data => {
-            GlobalToast && GlobalToast.show(JSON.stringify(data))
+            GlobalToast.show(JSON.stringify(data))
             // this.setState({QRcodeForOnline: data.result})
         }})
     }

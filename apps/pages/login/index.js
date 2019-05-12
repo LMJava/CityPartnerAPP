@@ -34,17 +34,13 @@ class Login extends Component {
     onSubmit = () => {
         const {radioValue, phoneNum, passwordNum} = this.state
         if(!radioValue) {
-            GlobalToast && GlobalToast.show("请选择角色")
-            return false
+            GlobalToast.show("请选择角色")
         } else if(phoneNum === '') {
-            GlobalToast && GlobalToast.show("请输入手机号")
-            return false
+            GlobalToast.show("请输入手机号")
         } else if(!ViewUtils.phoneisValid(phoneNum)) {
-            GlobalToast && GlobalToast.show("请输入有效手机号码")
-            return false
+            GlobalToast.show("请输入有效手机号码")
         } else if(passwordNum === '') {
-            GlobalToast && GlobalToast.show("请输入密码")
-            return false
+            GlobalToast.show("请输入密码")
         } else {
             login({ radioValue, phoneNum, passwordNum,
                 success: ({result}) => {

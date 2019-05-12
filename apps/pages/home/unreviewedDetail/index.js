@@ -75,15 +75,15 @@ export default class UnreviewedDetail extends Component {
             auditResult
         }
         if(!orderDetails.orderId) {
-            GlobalToast && GlobalToast.show('无效数据')
+            GlobalToast.show('无效数据')
             return false;
         }else if(auditResult === 2) {
             params.noPassReasons = noPassReasons
         }
         auditOrder({
             ...params,
-            success: ({result}) => {
-                GlobalToast && GlobalToast.show('通过审核')
+            success: () => {
+                GlobalToast.show('通过审核')
                 this.props.refresh && this.props.refresh()
                 this.timer = setTimeout(() => {
                     this.props.navigation.goBack(null)
@@ -94,7 +94,7 @@ export default class UnreviewedDetail extends Component {
     onSubmit = () => {
         const {noPassReasons, } = this.state
         if(noPassReasons == '') {
-            GlobalToast && GlobalToast.show('请填写不通过原因')
+            GlobalToast.show('请填写不通过原因')
             return false;
         }
         this.onAuditOrder(2)

@@ -39,15 +39,15 @@ class EditPwd extends Component {
     onResetPassword = () => {
         const {phoneNum, smsVCode, newPassword, confirmNum} = this.state
         if (phoneNum === '') {
-            GlobalToast && GlobalToast.show('手机号为空')
+            GlobalToast.show('手机号为空')
         } else if (!ViewUtils.phoneisValid(phoneNum)) {
-            GlobalToast && GlobalToast.show("请输入有效手机号码")
+            GlobalToast.show("请输入有效手机号码")
             return false
         } else if(newPassword === '' || confirmNum === '') {
-            GlobalToast && GlobalToast.show("请输入密码")
+            GlobalToast.show("请输入密码")
             return false
         } else if(newPassword !== confirmNum) {
-            GlobalToast && GlobalToast.show("两次输入密码不一致")
+            GlobalToast.show("两次输入密码不一致")
             return false
         } else {
             resetPassword({
@@ -55,13 +55,13 @@ class EditPwd extends Component {
                 smsVCode,
                 newPassword,
                 success: data => {
-                    GlobalToast && GlobalToast.show('您的密码已修改')
+                    GlobalToast.show('您的密码已修改')
                     this.timer = setTimeout(() => {
                         this.props.delUser()
                     }, 1000);
                 },
                 error: err => {
-                    GlobalToast && GlobalToast.show("err"+JSON.stringify(err))
+                    GlobalToast.show("err"+JSON.stringify(err))
                 }
             })
         }
@@ -69,12 +69,12 @@ class EditPwd extends Component {
     onSendvcode = () => {
         const {phoneNum} = this.state
         if (phoneNum === '') {
-            GlobalToast && GlobalToast.show('手机号为空')
+            GlobalToast.show('手机号为空')
         } else if (ViewUtils.phoneisValid(phoneNum)) {
             sendvcode({
                 phoneNum,
                 success: data => {
-                    GlobalToast && GlobalToast.show('验证码已发送')
+                    GlobalToast.show('验证码已发送')
                     this.timeNum = 60
                     this.setState({ waiting: true });
                     this.interval = setInterval(() => {
@@ -92,11 +92,11 @@ class EditPwd extends Component {
                     }, 1000);
                 },
                 error: err => {
-                    GlobalToast && GlobalToast.show("err"+JSON.stringify(err))
+                    GlobalToast.show("err"+JSON.stringify(err))
                 }
             })
         } else {
-            GlobalToast && GlobalToast.show('请输入有效手机号码')
+            GlobalToast.show('请输入有效手机号码')
         }
     }
     render() {

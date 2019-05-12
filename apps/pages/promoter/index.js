@@ -52,7 +52,7 @@ export default class Promoter extends Component {
                 rightButton={<TouchableOpacity 
                     style={styles.rightButton} 
                     hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
-                    onPress={() => this.props.navigation.navigate('AddPromoter')}
+                    onPress={() => this.props.navigation.navigate('AddPromoter', {refresh: this.listView.refresh})}
                 >
                     <Image source={Images.add} />
                     <Text style={styles.rightButtonTxt}>添加</Text>

@@ -11,9 +11,12 @@ import {
 } from 'react-native'
 
 import ViewUtils from "../ViewUtils"
-import Toast from "../Toast";
 
-import {getRegnList} from '../../common/filterFetch'
+import {
+    queryProvinces,
+    queryCities,
+    queryAreas
+} from '../../common/AppFetch'
 
 export default class SelectArea extends Component {
     constructor(props) {
@@ -34,9 +37,9 @@ export default class SelectArea extends Component {
             let provinceData = this.state.provinceData,
                 province = this.props.selectedProvince
             // 判断有选择省份且不为默认时
-            if(province && province.regnCode != '-1') {
+            if(province) {
                 let provinceIndex = null
-                provinceIndex = this.findIndex(provinceData, province.regnCode)
+                provinceIndex = this.findIndex('province', provinceData, province)
                 if(!provinceIndex || provinceIndex === -1){
                     return false;
                 }
@@ -46,7 +49,7 @@ export default class SelectArea extends Component {
                     // 判断有选择区县且不为默认时
                     if(city) {
                         let cityIndex = null
-                        cityIndex = this.findIndex(cityData, city.regnCode)
+                        cityIndex = this.findIndex('city', cityData, city)
                         if(!cityIndex || cityIndex === -1){
                             return false;
                         }
@@ -55,109 +58,113 @@ export default class SelectArea extends Component {
                 })
             }
         })
-        : this.getData({
-            regnLvlCd: '-1',
-            regnCode: '-1',
-            regnNm: '全国'
-        })
+        : this.getData()
     }
 
-    getData(_item){
-        let item = JSON.parse(JSON.stringify(_item))
-        item.isSelectable = true
-        if(item.regnLvlCd == -1) {
-            this.getRegnListFn(item)
-        } else if(item.regnLvlCd == 1) {
-            let provinceIndex = null, cityData = null
-            item.regnNm = "全"+item.regnNm
-            provinceIndex = this.findIndex(global.mapList, item.regnCode)
-            if(!provinceIndex || provinceIndex === -1){
+    getData(_item = {}){
+        if(_item.cityid) {
+            let provinceIndex = -1, cityIndex = -1, areaData = null
+            provinceIndex = this.findIndex('provinceid', global.mapList, _item.provinceid)
+            if(provinceIndex === -1){
                 return false;
             }
-            cityData = global.mapList[provinceIndex].children
-            cityData
-                ? this.setState({cityData: cityData, areaData: null})
-                : this.getRegnListFn(item, provinceIndex)
-        } else if(item.regnLvlCd == 2) {
-            item.regnNm = "全"+item.regnNm
-            let provinceIndex = null, cityIndex = null, areaData = null
-            provinceIndex = this.findIndex(global.mapList, item.suprRegnCode)
-            if(!provinceIndex || provinceIndex === -1){
-                return false;
-            }
-            cityIndex = this.findIndex(global.mapList[provinceIndex].children, item.regnCode)
-            if(!cityIndex || cityIndex === -1){
+            cityIndex = this.findIndex('cityid', global.mapList[provinceIndex].children, _item.cityid)
+            if(cityIndex === -1){
                 return false;
             }
             areaData = global.mapList[provinceIndex].children[cityIndex].children
             areaData
                 ? this.setState({areaData: areaData})
-                : this.getRegnListFn(item, provinceIndex, cityIndex)
-        }
+                : this.getRegnListFn(_item, provinceIndex, cityIndex)
+                // 获取县
+        }else if(_item.provinceid) {
+            let provinceIndex = -1, cityData = null
+            provinceIndex = this.findIndex('provinceid', global.mapList, _item.provinceid)
+            if(provinceIndex === -1){
+                return false;
+            }
+            cityData = global.mapList[provinceIndex].children
+            cityData
+                ? this.setState({cityData: cityData, areaData: null})
+                : this.getRegnListFn(_item, provinceIndex)
+                // 获取市
+        } else {
+            // 获取省
+            this.getRegnListFn({})
+        } 
     }
 
     getRegnListFn(item, provinceIndex, cityIndex){
         // 传出去 item.regnCode 获取对应下级的数据
-        getRegnList({
-            suprRegnCode: item.regnCode,
-            success: data => {
-                data.unshift(item)
-                if(item.regnLvlCd == -1) {
-                    this.setState({provinceData: data})
-                    global.mapList = data
-                } else if(item.regnLvlCd == 1) {
-                    this.setState({cityData: data, areaData: null})
-                    global.mapList[provinceIndex].children = data
-                } else if(item.regnLvlCd == 2) {
-                    this.setState({areaData: data})
-                    global.mapList[provinceIndex].children[cityIndex].children = data
+        if(item.cityid) {
+            queryAreas({
+                cityid: item.cityid,
+                success: (result) => {
+                    this.setState({areaData: result})
+                    global.mapList[provinceIndex].children[cityIndex].children = result
+                },
+                error: () => {
+                    const {selectedProvince, selectedCity} = this.state
+                    this.props.onClose
+                        && this.props.onClose(selectedProvince, selectedCity)
+                    GlobalToast.show('获取区县失败')
                 }
-            },
-            error: error => this.toast.show('获取区域失败')
-        })
-    }
-
-    findIndex(_array, _code, _data){
-        return _array && _array.findIndex((i) => (i.regnCode === _code))
-    }
-
-    onClick(__item) {
-        if(__item.isSelectable || __item.regnLvlCd == 3) {
-            let selectedProvince = this.state.selectedProvince,
-                selectedCity = this.state.selectedCity
-            if (__item.regnLvlCd == 3) {
-                this.props.onClose
-                    && this.props.onClose(__item, selectedProvince, selectedCity, __item)
-            } else if(__item.regnLvlCd == 2) {
-                this.props.onClose
-                    && this.props.onClose(__item, selectedProvince, __item)
-            } else {
-                this.props.onClose
-                    && this.props.onClose(__item, __item)
-            }
+            })
+        } else if(item.provinceid) {
+            queryCities({
+                provinceid: item.provinceid,
+                success: (result) => {
+                    this.setState({cityData: result, areaData: null})
+                    global.mapList[provinceIndex].children = result
+                },
+                error: () => {
+                    const {selectedProvince} = this.state
+                    this.props.onClose
+                        && this.props.onClose(selectedProvince)
+                    GlobalToast.show('获取地市失败')
+                }
+            })
         } else {
-            if (__item.regnLvlCd == 2) {
-                this.setState({selectedCity: __item}, ()=>this.getData(__item))
-            } else {
-                this.setState({selectedProvince: __item}, ()=>this.getData(__item))
-            }
+            queryProvinces({
+                success: (result) => {
+                    this.setState({provinceData: result})
+                    global.mapList = result
+                },
+                error: () => {
+                    this.props.onClose
+                        && this.props.onClose()
+                    GlobalToast.show('获取省份失败')
+                }
+            })
         }
     }
 
-    _renderItem(_item, _selected) {
-        let isAllSelect = _item.isSelectable
+    findIndex(_key, _array, _code){
+        return _array.length 
+            ? _array.findIndex((i) => (i[_key] == _code))
+            : -1
+    }
+
+    onClick(__item) {
+        const {selectedProvince, selectedCity} = this.state
+        if(__item.areaid) {
+            this.props.onClose
+                && this.props.onClose(selectedProvince, selectedCity, __item.area)
+        } else if(__item.cityid) {
+            this.setState({selectedCity: __item.city}, () => this.getData(__item))
+        } else {
+            this.setState({selectedProvince: __item.province}, ()=>this.getData(__item))
+        }
+    }
+
+    _renderItem(_key, _item, _selected) {
         let isSelected = _selected 
-            && _selected.regnCode === _item.regnCode
-        return <TouchableOpacity 
-            onPress={() => this.onClick(_item)}
-        >
-            <View style={styles.itemWarp}>
-                <Text numberOfLines={1} style={[
-                    styles.title, 
-                    isAllSelect && {color: "#888"},
-                    isSelected && {color: "#4A8EF2"}
-                ]}>{_item.regnNm}</Text>
-            </View>
+            && _selected === _item[_key]
+        return <TouchableOpacity style={styles.itemWarp} onPress={() => this.onClick(_item)}>
+            <Text numberOfLines={1} style={[
+                styles.title, 
+                isSelected && {color: "#888"}
+            ]}>{_item[_key]}</Text>
         </TouchableOpacity>
     }
     render() {
@@ -167,8 +174,8 @@ export default class SelectArea extends Component {
             ]}>
                 <FlatList
                     ItemSeparatorComponent={ViewUtils.itemAllSeparatorComponent}
-                    renderItem={({item}) => this._renderItem(item, this.state.selectedProvince)}
-                    keyExtractor={(item, index) => item + index}
+                    renderItem={({item}) => this._renderItem('province', item, this.state.selectedProvince)}
+                    keyExtractor={(item, index) => `${index} - ${item}`}
                     data={this.state.provinceData}
                 />
             </View>
@@ -178,8 +185,8 @@ export default class SelectArea extends Component {
                 ]}>
                     <FlatList
                         ItemSeparatorComponent={ViewUtils.itemAllSeparatorComponent}
-                        renderItem={({item}) => this._renderItem(item, this.state.selectedCity)}
-                        keyExtractor={(item, index) => item + index}
+                        renderItem={({item}) => this._renderItem('city', item, this.state.selectedCity)}
+                        keyExtractor={(item, index) => `${index} - ${item}`}
                         data={this.state.cityData}
                     />
                 </View>
@@ -189,14 +196,13 @@ export default class SelectArea extends Component {
                 ? <View style = {[{backgroundColor: '#F5F6F9'}, styles.listWarpNormal]}>
                     <FlatList
                         ItemSeparatorComponent={ViewUtils.itemAllSeparatorComponent}
-                        renderItem={({item}) => this._renderItem(item, this.state.selectedArea)}
-                        keyExtractor={(item, index) => item + index}
+                        renderItem={({item}) => this._renderItem('area', item, this.state.selectedArea)}
+                        keyExtractor={(item, index) => `${index} - ${item}`}
                         data={this.state.areaData}
                     />
                 </View>
                 : null
             }
-            <Toast ref={toast => this.toast = toast} />
         </View>
     }
 }
@@ -204,7 +210,7 @@ export default class SelectArea extends Component {
 const styles = StyleSheet.create({
     container: { flexDirection: 'row', flex: 1},
     listWarpNormal: {flex: 1},
-    listWarpSelected: {width: '25%',},
+    listWarpSelected: {width: '30%',},
     itemWarp: {padding: 15, flexDirection: "row", alignItems: "center", justifyContent: 'space-between'},
     title: {flex: 1, color: "#333", fontSize: 15},
 });

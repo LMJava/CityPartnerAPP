@@ -57,6 +57,10 @@ export default class ViewUtils {
     static phoneisValid(_phoneNum) {
         return /^1[3|4|5|7|8][0-9]{9}$/.test(_phoneNum)
     }
+    // 校验身份证号合法性
+      static IDCardisValid(_IDCardNum) {
+        return  /^(\d{15}$|^\d{18}$|^\d{17}(\d|X))$/.test(_IDCardNum)
+    }
     // 校验验证码合法性
     static textisValid(_validNum) {
         return /^[0-9]{6}$/.test(_validNum)

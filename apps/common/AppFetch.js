@@ -25,7 +25,7 @@ export function login(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -46,7 +46,7 @@ export function sendvcode(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -68,7 +68,7 @@ export function resetPassword(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -89,7 +89,7 @@ export function getStatisticsBySession(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -109,7 +109,7 @@ export function getStatisticsBySession(opt) {
 //         if (data.code === SUCCESSCODE) {
 //             opt.success && opt.success(data);
 //         } else { // 运行时异常、业务异常、系统内部异常
-//             GlobalToast && GlobalToast.show(data.msg)
+//             GlobalToast.show(data.msg)
 //             opt.error && opt.error(data)
 //         }
 //     }).catch((err) => {
@@ -129,7 +129,7 @@ export function getStatisticsBySession(opt) {
 //         if (data.code === SUCCESSCODE) {
 //             opt.success && opt.success(data);
 //         } else { // 运行时异常、业务异常、系统内部异常
-//             GlobalToast && GlobalToast.show(data.msg)
+//             GlobalToast.show(data.msg)
 //             opt.error && opt.error(data)
 //         }
 //     }).catch((err) => {
@@ -162,7 +162,7 @@ export function getOrderListBySession(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -186,7 +186,7 @@ export function auditOrder(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -219,7 +219,7 @@ export function auditOrder(opt) {
 //         if (data.code === SUCCESSCODE) {
 //             opt.success && opt.success(data);
 //         } else { // 运行时异常、业务异常、系统内部异常
-//             GlobalToast && GlobalToast.show(data.msg)
+//             GlobalToast.show(data.msg)
 //             opt.error && opt.error(data)
 //         }
 //     }).catch((err) => {
@@ -245,7 +245,7 @@ export function getOrderDetailsByPartner(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -276,7 +276,7 @@ export function getChildPartnerList(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -294,7 +294,7 @@ export function addPartner(opt) {
             name: opt.name, // 渠道合伙人名称
             cardId: opt.cardId, // 身份证号
             telephone: opt.telephone, // 手机号
-            provice: opt.provice, // 省
+            province: opt.province, // 省
             city: opt.city, // 市
             county: opt.county, // 区
             street: opt.street, // 县
@@ -306,7 +306,7 @@ export function addPartner(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -334,7 +334,7 @@ export function getPromotersList(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -351,7 +351,7 @@ export function addPromoters(opt) {
             name: opt.name, // 渠道合伙人名称
             cardId: opt.cardId, // 身份证号
             telephone: opt.telephone, // 手机号
-            provice: opt.provice, // 省
+            province: opt.province, // 省
             city: opt.city, // 市
             county: opt.county, // 区
             street: opt.street, // 县
@@ -363,7 +363,7 @@ export function addPromoters(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -381,7 +381,7 @@ export function getQRcodeForF2F(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            // GlobalToast && GlobalToast.show(data.msg)
+            // GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -395,9 +395,65 @@ export function getQRcodeForOnline(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast && GlobalToast.show(data.msg)
+            GlobalToast.show(data.msg)
             opt.error && opt.error(data)
         }
+    }).catch((err) => {
+        opt.error && opt.error(err)
+    })
+}
+
+
+
+// 查询省份信息
+export function queryProvinces(opt) {
+    Fetch.postJSON(CONFIG.HOST + "partner/queryProvinces").then((data) => {
+        // if (data.code === SUCCESSCODE) {
+            opt.success && opt.success(data);
+        // } else { // 运行时异常、业务异常、系统内部异常
+        //     GlobalToast.show(data.code)
+        //     opt.error && opt.error(data)
+        // }
+    }).catch((err) => {
+        opt.error && opt.error(err)
+    })
+}
+// 根据省份ID查询地市信息
+export function queryCities(opt) {
+    const requestBody = {
+        url: CONFIG.HOST + "partner/queryCities",
+        headers: headersJ,
+        body: JSON.stringify({
+            provinceid: opt.provinceid // 省份ID
+        })
+    };
+    Fetch.postJSON(requestBody).then((data) => {
+        // if (data.code === SUCCESSCODE) {
+            opt.success && opt.success(data);
+        // } else { // 运行时异常、业务异常、系统内部异常
+        //     GlobalToast.show(data.msg)
+        //     opt.error && opt.error(data)
+        // }
+    }).catch((err) => {
+        opt.error && opt.error(err)
+    })
+}
+// 根据地市ID查询区县信息
+export function queryAreas(opt) {
+    const requestBody = {
+        url: CONFIG.HOST + "partner/queryAreas",
+        headers: headersJ,
+        body: JSON.stringify({
+            cityid: opt.cityid // 地市ID
+        })
+    };
+    Fetch.postJSON(requestBody).then((data) => {
+        // if (data.code === SUCCESSCODE) {
+            opt.success && opt.success(data);
+        // } else { // 运行时异常、业务异常、系统内部异常
+        //     GlobalToast.show(data.msg)
+        //     opt.error && opt.error(data)
+        // }
     }).catch((err) => {
         opt.error && opt.error(err)
     })

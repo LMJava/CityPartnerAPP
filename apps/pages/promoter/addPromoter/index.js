@@ -7,13 +7,17 @@ import {
     ScrollView,
     View
 } from 'react-native';
+import Modal from 'react-native-modal'
 
+import { addPromoters } from "../../../common/AppFetch";
+import SelectArea from "../../../components/FilterItem/SelectArea";
 import HeaderBar from "../../../components/HeaderBar";
 import ViewUtils from "../../../components/ViewUtils";
 import Images from "../../../assets/styles/Images"
 import GlobalStyles from "../../../assets/styles/GlobalStyles"
 import styles from "./styles"
 
+let that = null
 export default class AddPromoter extends Component {
     static navigationOptions = ({ navigation }) => ({
         header: (<HeaderBar
@@ -21,31 +25,76 @@ export default class AddPromoter extends Component {
             leftButton={true}
             navigation={navigation}
             rightButton={ViewUtils.getTabBtn(
-                '提交',
-                () => {
-                    GlobalToast.show('提交')
-                }
+                '提交', () => that && that.onAddPromoter()
             )}
         />)
     })
     constructor(props) {
         super(props)
+        that = this
         this.state = {
-            phoneNum: '', 
-            cardNum: '', 
-            nameTxt: '', 
-            sexVal: '1',
-            ageNum: '', 
-            cityTxt: '', 
-            addrTxt: ''
+            isVisible: false,
+            telephone: '18237137867', 
+            cardId: '412724199504020311', 
+            name: '刘猛', 
+            sex: 1,
+            age: '24', 
+            province: '河南省', 
+            city: '郑州市', 
+            county: '高新区', 
+            addrTxt: 'YX'
         }
     }
-
-    onChecked = (sexVal) => {
-        this.setState({sexVal})
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+        Keyboard.dismiss();
     }
+    onAddPromoter = () => {
+        const {telephone, cardId, name, sex, age, province, city, county, addrTxt} = this.state
+        if (telephone === '') {
+            GlobalToast.show('手机号不能为空')
+        } else if (!ViewUtils.phoneisValid(telephone)) {
+            GlobalToast.show("请输入有效手机号码")
+        } else if(cardId === '') {
+            GlobalToast.show('身份证号')
+        } else if(!ViewUtils.IDCardisValid(cardId)) {
+            GlobalToast.show("请输入有效身份证号码")
+        } else if(name === '') {
+            GlobalToast.show("姓名不能为空")
+        } else if(age === '') {
+            GlobalToast.show("年龄不能为空")
+        } else if(province === '' || city === '' || county === '') {
+            GlobalToast.show("所属区域不能为空")
+        } else if(addrTxt === '') {
+            GlobalToast.show("具体地址不能为空")
+        } else {
+            addPartner({
+                telephone, 
+                cardId, 
+                name, 
+                sex,
+                age, 
+                province, 
+                city, 
+                county, 
+                street: addrTxt,
+                success: (data) => {
+                    GlobalToast.show('成功添加')
+                    this.props.refresh && this.props.refresh()
+                    this.timer = setTimeout(() => {
+                        this.props.navigation.goBack(null)
+                    }, 1000);
+                }
+            })
+        }
+    }
+    onChecked = (sex) => {
+        this.setState({sex})
+    }
+    // 传入bool控制弹窗显示（true）隐藏（false）
+    toggle(flag) {this.setState({isVisible: flag})}
     render() {
-        let {phoneNum, cardNum, nameTxt, sexVal, ageNum, cityTxt, addrTxt} = this.state
+        const {telephone, cardId, name, sex, age, province, city, county, addrTxt, isVisible} = this.state
         return <ScrollView style={styles.addPromoterWrap}>
             <View style={styles.inputWrap}>
                 <Image source={Images.pho} />
@@ -54,10 +103,8 @@ export default class AddPromoter extends Component {
                     underlineColorAndroid='transparent'
                     placeholder='请输入推广员手机号码'
                     placeholderTextColor='#999'
-                    value={phoneNum}
-                    onChangeText={phoneNum => {
-                        this.setState({ phoneNum })
-                    }}
+                    value={telephone}
+                    onChangeText={telephone => this.setState({ telephone })}
                 />
             </View>
             <View style={styles.inputWrap}>
@@ -67,10 +114,8 @@ export default class AddPromoter extends Component {
                     underlineColorAndroid='transparent'
                     placeholder='身份证号码'
                     placeholderTextColor='#999'
-                    value={cardNum}
-                    onChangeText={cardNum => {
-                        this.setState({ cardNum })
-                    }}
+                    value={cardId}
+                    onChangeText={cardId => this.setState({ cardId })}
                 />
             </View>
             <View style={styles.inputWrap}>
@@ -80,27 +125,25 @@ export default class AddPromoter extends Component {
                     underlineColorAndroid='transparent'
                     placeholder='姓名'
                     placeholderTextColor='#999'
-                    value={nameTxt}
-                    onChangeText={nameTxt => {
-                        this.setState({ nameTxt })
-                    }}
+                    value={name}
+                    onChangeText={name => this.setState({ name })}
                 />
             </View>
             <View style={styles.inputWrap}>
                 <Image source={Images.sex} />
                 <View style={GlobalStyles.radioWrap}>
-                    <TouchableWithoutFeedback onPress={() => this.onChecked('1')}>
+                    <TouchableWithoutFeedback onPress={() => this.onChecked(1)}>
                         <View style={GlobalStyles.radioContent}>
-                            <Image source={sexVal === '1'
+                            <Image source={sex === 1
                                 ? Images.login.iconChked
                                 : Images.login.iconChk
                             } style={GlobalStyles.radioImg} />
                             <Text style={GlobalStyles.radioTxt}>男</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={() => this.onChecked('0')}>
+                    <TouchableWithoutFeedback onPress={() => this.onChecked(2)}>
                         <View style={GlobalStyles.radioContent}>
-                            <Image source={sexVal === '0'
+                            <Image source={sex === 2
                                 ? Images.login.iconChked
                                 : Images.login.iconChk
                             } style={GlobalStyles.radioImg} />
@@ -116,24 +159,18 @@ export default class AddPromoter extends Component {
                     underlineColorAndroid='transparent'
                     placeholder='年龄'
                     placeholderTextColor='#999'
-                    value={ageNum}
-                    onChangeText={ageNum => {
-                        this.setState({ ageNum })
-                    }}
+                    value={age}
+                    onChangeText={age => this.setState({ age })}
                 />
             </View>
             <View style={styles.inputWrap}>
                 <Image source={Images.city} />
-                <TextInput
-                    style={styles.input}
-                    underlineColorAndroid='transparent'
-                    placeholder='输入所属地市'
-                    placeholderTextColor='#999'
-                    value={cityTxt}
-                    onChangeText={cityTxt => {
-                        this.setState({ cityTxt })
-                    }}
-                />
+                <TouchableWithoutFeedback hitSlop={{top: 10, bottom: 10, left: 0, right: 0}} onPress={() => this.toggle(true)}>
+                    {province
+                        ? <Text style={styles.input}>{province+city+county}</Text>
+                        : <Text style={[styles.input, {color: '#999'}]}>输入所属地市</Text>
+                    }
+                </TouchableWithoutFeedback>
             </View>
             <View style={styles.inputWrap}>
                 <Image source={Images.addr} />
@@ -143,11 +180,34 @@ export default class AddPromoter extends Component {
                     placeholder='具体区域'
                     placeholderTextColor='#999'
                     value={addrTxt}
-                    onChangeText={addrTxt => {
-                        this.setState({ addrTxt })
-                    }}
+                    onChangeText={addrTxt => this.setState({ addrTxt })}
                 />
             </View>
+            <Modal
+                style={{margin: 0}}
+                backdropColor={'transparent'}
+                animationIn={'fadeIn'}
+                animationOut={'fadeOut'}
+                isVisible={isVisible}
+                onBackdropPress={() => this.toggle(false)}
+                onBackButtonPress={() => this.toggle(false)}
+                avoidKeyboard
+                propagateSwipe
+            >
+                <SelectArea
+                    selectedProvince={province}
+                    selectedCity={city}
+                    selectedArea={county}
+                    onClose={(_province = '', _city = '', _area = '') => {
+                        this.setState({ 
+                            province: _province, 
+                            city: _city, 
+                            county: _area
+                        })
+                        this.toggle(false)
+                    }}
+                />
+            </Modal>
         </ScrollView>
     }
 }
