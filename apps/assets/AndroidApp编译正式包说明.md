@@ -1,3 +1,8 @@
+
+keytool -genkeypair -v -keystore city-partner.keystore -alias city-partner-android -keyalg RSA -keysize 2048 -validity 10000
+liuzhawa
+
+
 # Android App编译正式包说明
 ### 1.先把index.android.bundle文件生成放入Android目录下app/src/main/assets下 可在项目更目录执行如下命令 更多命令说明请查看react-native bundle --help
 

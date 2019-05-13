@@ -200,8 +200,30 @@ if (propFile.canRead()) {
 //         newName = apk.name.replace(".apk", "Android_App_V" + versionName + "_debug.apk");
 //     }
 //     newName = newName.replace("-" + variant.buildType.name, "");
-//     variant.outputs[0].outputFile = new File(apk.parentFile, newName);
+//     variant.outputs[0].outputFileName = new File(apk.parentFile, newName).getName();
 //     if (variant.outputs[0].zipAlign) {
 //         variant.outputs[0].zipAlign.outputFile = new File(apk.parentFile, newName.replace("-unaligned", ""));
 //     }
 // }
+android.applicationVariants.all { variant ->
+    variant.outputs.all { output ->// each 改为 all
+        def fileName = "${variant.versionName}_release.apk"
+        def outFile = output.outputFile
+        if (outFile != null && outFile.name.endsWith('.apk')) {
+            // outputFileName = fileName  //  output.outputFile 改为 outputFileName 
+            //或者 
+            outputFileName = new File(outFile.parent, fileName).getName()
+        }   
+    }
+    // APK名称：版本名_渠道名.apk，此外，AS 3.0后打包完，apk所在层级发生了变化：release/xxx.apk，而且还多一个release/output.json参数文件。如果不想要output.json文件，可以打包完成后自动删除。
+    variant.assemble.doLast {
+        variant.outputs.all { output ->
+            delete output.outputFile.parent + "/output.json"
+            copy {
+                from output.outputFile.parent
+                into output.outputFile.parentFile.parent
+            }
+            delete output.outputFile.parent
+        }
+    }
+}
