@@ -76,7 +76,7 @@ class Entry extends Component {
                     <Toast ref={toast => global.GlobalToast = toast} />
             </View>
         } else {
-            return null;
+            return <View />
         }
     }
 }
