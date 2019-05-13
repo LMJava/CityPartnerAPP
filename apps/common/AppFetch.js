@@ -154,6 +154,8 @@ export function getOrderListBySession(opt) {
             orderState: opt.orderState, // 业务办理状态（3-待审核,4-待激活,5-已激活）
             name: opt.name || null, // 会员姓名 ?
             vehiclePlate: opt.vehiclePlate || null, // 车牌号 ?
+            startTime: opt.startTime || null, // 起始时间 ?
+            endTime: opt.endTime || null, // 结束时间 ?
             pageNum: opt.pageNum, // 页码
             pageSize: 10
         })
@@ -268,6 +270,7 @@ export function getChildPartnerList(opt) {
         body: JSON.stringify({
             name: opt.name || null, // 会员姓名 ?
             vehiclePlate: opt.vehiclePlate || null, // 车牌号 ?
+            city: opt.city || null, // 车牌号 ?
             pageNum: opt.pageNum, // 页码
             pageSize: 10
         })
@@ -458,3 +461,29 @@ export function queryAreas(opt) {
         opt.error && opt.error(err)
     })
 }
+// 合伙人区域筛选
+export function queryPartnerRegion(opt) {
+    Fetch.postJSON(CONFIG.HOST + "partner/queryPartnerRegion").then((data) => {
+        if (data.code === SUCCESSCODE) {
+            opt.success && opt.success(data);
+        } else { // 运行时异常、业务异常、系统内部异常
+            GlobalToast.show(data.message)
+            opt.error && opt.error(data)
+        }
+    }).catch((err) => {
+        opt.error && opt.error(err)
+    })
+}
+// 推广人的区域筛选
+// export function queryPromotersRegion(opt) {
+//     Fetch.postJSON(CONFIG.HOST + "partner/queryPromotersRegion").then((data) => {
+//         if (data.code === SUCCESSCODE) {
+//             opt.success && opt.success(data);
+//         } else { // 运行时异常、业务异常、系统内部异常
+//             GlobalToast.show(data.message)
+//             opt.error && opt.error(data)
+//         }
+//     }).catch((err) => {
+//         opt.error && opt.error(err)
+//     })
+// }

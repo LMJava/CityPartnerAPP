@@ -21,13 +21,13 @@ class EditPwd extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            phoneNum: '18860383800',
+            phoneNum: '', // T 18860383800
             smsVCode: '',
             validTxt: '获取验证码',
             waiting: false,
-            newPassword: '000000',
+            newPassword: '', // T 000000
             passwordHidden: true,
-            confirmNum: '000000',
+            confirmNum: '', // T 000000
             confirmHidden: true
         }
     }

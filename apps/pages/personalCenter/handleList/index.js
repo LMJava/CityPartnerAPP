@@ -133,7 +133,7 @@ export default class HandleList extends Component {
             <View style={[styles.itemRow, {marginTop: 12}]}>
                 <Text style={GlobalStyles.itemTxt_12_64}>
                     激活人：
-                    <Text style={GlobalStyles.itemTxt_12_64}>{item.createTime}</Text>
+                    <Text style={GlobalStyles.itemTxt_12_64}></Text>
                 </Text>
                 <Text style={GlobalStyles.itemTxt_12_96}>
                     办理时间：

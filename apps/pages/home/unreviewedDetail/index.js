@@ -108,11 +108,11 @@ export default class UnreviewedDetail extends Component {
             <View style={styles.detailMes}>
                 <View style={styles.itemRow}>
                     <Text style={GlobalStyles.itemTxt_15_32}>{orderDetails.receiverName}</Text>
-                    <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.mobilePhone}</Text>
+                    <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.channelType}</Text>
                 </View>
                 <View style={[styles.itemRow, {marginTop: 12}]}>
-                    <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.vehiclePlate}</Text>
-                    <Text style={GlobalStyles.itemTxt_12_96}>2019/04/21</Text>
+                    <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.mobilePhone}</Text>
+                    <Text style={GlobalStyles.itemTxt_12_96}>{orderDetails.createTime}</Text>
                 </View>
                 <View style={[styles.itemRow, {marginTop: 15, justifyContent: 'flex-start'}]}>
                     <Image source={Images.location} style={{marginRight: 5}} />

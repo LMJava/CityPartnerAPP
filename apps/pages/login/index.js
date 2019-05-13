@@ -23,8 +23,8 @@ class Login extends Component {
         super(props)
         this.state = {
             radioValue: 1,
-            phoneNum: '18860383800',
-            passwordNum: '000000',
+            phoneNum: '', // T 18860383800
+            passwordNum: '', // T 000000
             passwordHidden: true
         }
     }

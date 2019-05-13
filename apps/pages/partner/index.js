@@ -23,16 +23,19 @@ export default class Partner extends Component {
         super(props)
         this.state = {
             searchTxt: '',
-            areaFilter: {name: '全部区域', value: 'all'}
+            city: '全部'
         }
     }
     onFetch = async (page, startFetch, abortFetch) => {
-        const {searchTxt} = this.state
+        const {searchTxt, city} = this.state
         let params = {
             pageNum: page
         }
         if(searchTxt !== '') {
             params.vehiclePlate = searchTxt
+        }
+        if(city !== '' && city !== '全部') {
+            params.city = city
         }
         await getChildPartnerList({
             ...params,
@@ -49,7 +52,7 @@ export default class Partner extends Component {
     }
 
     render() {
-        const {searchTxt, areaFilter} = this.state
+        const {searchTxt, city} = this.state
         return <View style={GlobalStyles.root_container}>
             <HeaderBar
                 title={"渠道"}
@@ -84,14 +87,19 @@ export default class Partner extends Component {
                         />
                     </View>
                     <FilterItem 
-                        labelName={areaFilter.name} 
+                        labelName={city} 
                         wrapStyle={{marginLeft: 20}}
                         ref={ref => this.areaFilter = ref}
                     >
                         <AreaFilter 
-                            selected={areaFilter.value}
+                            isPartner={true}
+                            selected={city}
                             onSelect={(item) => {
-                                this.setState({areaFilter: item}, () => {
+                                this.setState({city: item}, () => {
+                                    this.listView.setState({
+                                        dataSource: [],
+                                        paginationStatus: 0
+                                    }, this.listView.refresh)
                                     this.areaFilter && this.areaFilter.toggle(false)
                                 })
                             }}

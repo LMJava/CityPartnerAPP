@@ -8,23 +8,37 @@ import {
 } from 'react-native'
 import styles from "./AreaFilterStyles"
 
+import {
+    queryPartnerRegion,
+    // queryPromotersRegion
+} from '../../common/AppFetch'
 export default class FilterItem extends Component {
     static defaultProps = {
-        selected: 'all',
+        selected: '全部',
     };
     constructor(props) {
         super(props);
         this.state={
-            areaData: [
-                {name: '三门峡', value: '三门峡'},
-                {name: '商丘', value: '商丘'},
-                {name: '洛阳', value: '洛阳'},
-                {name: '信阳', value: '信阳'},
-                {name: '鹤壁', value: '鹤壁'},
-                {name: '开封', value: '开封'},
-                {name: '平顶山', value: '平顶山'}
-            ]
+            areaData: []
         }
+    }
+    componentDidMount() {
+        const {isPartner, onSelect} = this.props
+        // let queryRegion = ''
+        // if(isPartner) {
+        //     queryRegion = queryPartnerRegion
+        // } else {
+        //     queryRegion = queryPromotersRegion
+        // }
+        queryPartnerRegion({
+            success: ({result}) => {
+                this.setState({areaData: result})
+            },
+            error: () => {
+                onSelect && onSelect('全部')
+                GlobalToast.show('获取区域失败')
+            }
+        })
     }
     render() {
         const {areaData} = this.state
@@ -32,17 +46,16 @@ export default class FilterItem extends Component {
             <ScrollView>
                 <Text style={styles.containerTitle}>区域选择：</Text>
                 <View style={styles.filterWrap}>
-                    {this.renderFilterItem({name: '全部', value: 'all'}, 'all')}
+                    {this.renderFilterItem('全部')}
                     {areaData.map(this.renderFilterItem)}
                 </View>
             </ScrollView>
         </View>
     }
-    renderFilterItem = (item, index) => {
-        const { name, value } = item,
-            {selected, onSelect} = this.props,
-            flag = value === selected 
-        return <View key={index} style={styles.filterItemWrap}>
+    renderFilterItem = (item) => {
+        const {selected, onSelect} = this.props,
+            flag = item === selected 
+        return <View key={item} style={styles.filterItemWrap}>
             <TouchableOpacity 
                 style={[
                     styles.filterItem, flag
@@ -58,7 +71,7 @@ export default class FilterItem extends Component {
                             ? styles.filterTextA 
                             : {}
                     ]}
-                >{name}</Text>
+                >{item}</Text>
             </TouchableOpacity>
         </View>
     }
