@@ -12,9 +12,12 @@ import styles from "./styles"
 export default class HomeList extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            buttons: props.buttons
+        }
     }
     render() {
-        const {buttons} = this.props
+        const {buttons} = this.state
         return <View style={styles.homeButtonsWrap}>
             {buttons.map(this.renderButtons)}
         </View>

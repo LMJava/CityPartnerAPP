@@ -48,13 +48,13 @@ class Home extends Component {
     componentDidMount() {
         getStatisticsBySession({
             success: ({result}) => {
-                const {buttons} = [...this.state.buttons]
-                buttons[0].number = result[0].auditedCount
-                buttons[1].number = result[0].activatedCount
-                buttons[2].number = result[0].completedCount
+                let buttons = [...this.state.buttons]
+                buttons[0].number = result[0].auditedCount || 0
+                buttons[1].number = result[0].activatedCount || 0
+                buttons[2].number = result[0].completedCount || 0
                 this.setState({
                     buttons, 
-                    todayHandledCount: result.todayHandledCount
+                    todayHandledCount: result[0].todayHandledCount || 0
                 })
             }
         })

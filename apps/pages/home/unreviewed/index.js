@@ -33,10 +33,10 @@ export default class Unreviewed extends Component {
         }
         await getOrderListBySession({
             ...params,
-            success: (data) => {
-                startFetch(data.result, 10)
+            success: ({result}) => {
+                startFetch(result, 10)
             },
-            error: (data) => {
+            error: () => {
                 abortFetch();
                 this.listView.setState({
                     paginationStatus: 2

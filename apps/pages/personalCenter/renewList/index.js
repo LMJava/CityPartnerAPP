@@ -23,6 +23,12 @@ export default class RenewList extends Component {
             endTime: ''
         }
     }
+    componentDidMount() {
+        GlobalToast.show('功能建设中...')
+    }
+    componentWillUnmount() {
+        DatePickerUtils.hide()
+    }
     _showDatePicker = (_flag) => {
         let {beginTime, endTime} = this.state
         DatePickerUtils.show((date) => {

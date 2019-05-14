@@ -152,7 +152,7 @@ export function getOrderListBySession(opt) {
         headers: headersJ,
         body: JSON.stringify({
             orderState: opt.orderState, // 业务办理状态（3-待审核,4-待激活,5-已激活）
-            name: opt.name || null, // 会员姓名 ?
+            name: opt.vehiclePlate || null, // 会员姓名 ?
             vehiclePlate: opt.vehiclePlate || null, // 车牌号 ?
             startTime: opt.startTime || null, // 起始时间 ?
             endTime: opt.endTime || null, // 结束时间 ?
@@ -268,7 +268,7 @@ export function getChildPartnerList(opt) {
         url: CONFIG.HOST + "partner/getChildPartnerList",
         headers: headersJ,
         body: JSON.stringify({
-            name: opt.name || null, // 会员姓名 ?
+            name: opt.telephone || null, // 会员姓名 ?
             telephone: opt.telephone || null, // 手机号码 ?
             city: opt.city || null, // 城市 ?
             pageNum: opt.pageNum, // 页码
@@ -327,11 +327,12 @@ export function addPartner(opt) {
 // count        办理数量
 export function getPromotersList(opt) {
     let url = `${CONFIG.HOST}partner/getPromotersList?pageNum=${opt.pageNum}&pageSize=10`
-    if (opt.name && "" !== opt.name) {
-        url = url + "&name=" + opt.name;
-    }
+    // if (opt.name && "" !== opt.name) {
+    //     url = url + "&name=" + opt.name;
+    // }
     if (opt.telephone && "" !== opt.telephone) {
         url = url + "&telephone=" + opt.telephone;
+        url = url + "&name=" + opt.telephone;
     }
     Fetch.getJSON(url).then((data) => {
         if (data.code === SUCCESSCODE) {

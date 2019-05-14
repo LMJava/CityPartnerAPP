@@ -51,11 +51,11 @@ class PersonalCenter extends Component {
     componentDidMount() {
         getStatisticsBySession({
             success: ({result}) => {
-                const {buttons} = [...this.state.buttons]
-                buttons[0].number = result[0].todayHandledCount
-                buttons[1].number = result[0].auditedCount
-                buttons[2].number = result[0].activatedCount
-                this.setState({buttons})
+                const messages = [...this.state.messages]
+                messages[0].number = result[0].todayHandledCount || 0
+                messages[1].number = result[0].auditedCount || 0
+                messages[2].number = result[0].activatedCount || 0
+                this.setState({messages})
             }
         })
     }

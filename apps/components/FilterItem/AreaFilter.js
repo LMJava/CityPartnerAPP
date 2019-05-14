@@ -34,8 +34,7 @@ export default class FilterItem extends Component {
             success: ({result}) => {
                 this.setState({areaData: result})
             },
-            error: () => {
-                onSelect && onSelect('全部')
+            error: (a) => {
                 GlobalToast.show('获取区域失败')
             }
         })

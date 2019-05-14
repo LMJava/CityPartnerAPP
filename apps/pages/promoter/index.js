@@ -32,10 +32,10 @@ export default class Promoter extends Component {
         }
         await getPromotersList({
             ...params,
-            success: (data) => {
-                startFetch(data.result, 10)
+            success: ({result}) => {
+                startFetch(result, 10)
             },
-            error: (data) => {
+            error: () => {
                 abortFetch();
                 this.listView.setState({
                     paginationStatus: 2

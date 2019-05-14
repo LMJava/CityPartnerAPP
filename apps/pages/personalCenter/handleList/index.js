@@ -41,11 +41,11 @@ export default class HandleList extends Component {
         }
         await getOrderListBySession({
             ...params,
-            success: (data) => {
-                startFetch(data.result, 10)
-                this.setState({countNum: data.totalCount})
+            success: ({result, totalCount}) => {
+                startFetch(result, 10)
+                this.setState({countNum: totalCount})
             },
-            error: (data) => {
+            error: () => {
                 abortFetch();
                 this.listView.setState({
                     paginationStatus: 2

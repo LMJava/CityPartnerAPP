@@ -39,10 +39,10 @@ export default class Partner extends Component {
         }
         await getChildPartnerList({
             ...params,
-            success: (data) => {
-                startFetch(data.result, 10)
+            success: ({result}) => {
+                startFetch(result, 10)
             },
-            error: (data) => {
+            error: () => {
                 abortFetch();
                 this.listView.setState({
                     paginationStatus: 2
