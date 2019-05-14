@@ -4,6 +4,7 @@ import {
     Image,
     TouchableOpacity,
     ImageBackground,
+    ScrollView,
     View
 } from 'react-native';
 import Modal from 'react-native-modal'
@@ -57,9 +58,8 @@ class Home extends Component {
                 })
             }
         })
-        getQRcodeForF2F({success: data => {
-            GlobalToast.show(JSON.stringify(data))
-            // this.setState({QRcodeForF2F: data.result})
+        getQRcodeForF2F({success: ({result}) => {
+            this.setState({QRcodeForF2F: `data:image/png;base64,${result[0].imgbase64}`})
         }})
     }
     // 传入bool控制弹窗显示（true）隐藏（false）
@@ -67,7 +67,7 @@ class Home extends Component {
     render() {
         const { todayHandledCount, QRcodeForF2F, isVisible, buttons } = this.state,
             {name, address} = this.props.User
-        return <View style={GlobalStyles.root_container}>
+        return <ScrollView style={GlobalStyles.root_container}>
             {Tool.statusBar()}
             <ImageBackground 
                 resizeMode={'stretch'} 
@@ -116,11 +116,13 @@ class Home extends Component {
                 propagateSwipe
             >
                 <View style={styles.modalContent}>
-                    <Image source={QRcodeForF2F ? { uri: QRcodeForF2F } : null} />
-                    <Text style={styles.modalTxt}>使用微信扫描办理</Text>
+                    <Image 
+                        source={QRcodeForF2F ? { uri: QRcodeForF2F } : null} 
+                        style={{width: 300, height: 300}}
+                    />
                 </View>
             </Modal>
-        </View>
+        </ScrollView>
     }
 }
 export default connect(

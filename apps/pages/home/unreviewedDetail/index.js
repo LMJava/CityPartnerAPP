@@ -111,7 +111,7 @@ export default class UnreviewedDetail extends Component {
                     <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.channelType}</Text>
                 </View>
                 <View style={[styles.itemRow, {marginTop: 12}]}>
-                    <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.mobilePhone}</Text>
+                    <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.vehiclePlate}</Text>
                     <Text style={GlobalStyles.itemTxt_12_96}>{orderDetails.createTime}</Text>
                 </View>
                 <View style={[styles.itemRow, {marginTop: 15, justifyContent: 'flex-start'}]}>

@@ -7,6 +7,7 @@ import {
     TouchableWithoutFeedback,
     ImageBackground,
     Keyboard,
+    ScrollView,
     View
 } from 'react-native';
 
@@ -55,7 +56,7 @@ class Login extends Component {
     onChecked = (radioValue) => this.setState({radioValue})
     render() {
         const {radioValue, phoneNum, passwordNum, passwordHidden} = this.state
-        return <View style={GlobalStyles.root_container}>
+        return <ScrollView style={GlobalStyles.root_container}>
             {Tool.statusBar()}
             <ImageBackground 
                 resizeMode={'stretch'} 
@@ -136,7 +137,7 @@ class Login extends Component {
                     <Text style={styles.forgotTxt}>忘记密码？</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     }
 }
 export default connect(

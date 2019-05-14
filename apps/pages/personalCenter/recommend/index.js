@@ -21,9 +21,8 @@ export default class Recommend extends Component {
     }
 
     componentDidMount() {
-        getQRcodeForOnline({success: data => {
-            GlobalToast.show(JSON.stringify(data))
-            // this.setState({QRcodeForOnline: data.result})
+        getQRcodeForOnline({success: ({result}) => {
+            this.setState({QRcodeForOnline: `data:image/png;base64,${result[0].imgbase64}`})
         }})
     }
     render() {
@@ -35,7 +34,12 @@ export default class Recommend extends Component {
                     source={Images.sharePage.shareBg} 
                     style={styles.bgImage}
                 >
-                    <Image source={QRcodeForOnline ? { uri: QRcodeForOnline } : null} />
+                    <View style={{padding: 10, backgroundColor: '#FFF'}}>
+                        <Image 
+                            source={QRcodeForOnline ? { uri: QRcodeForOnline } : null} 
+                            style={{width: 140, height: 140}}
+                        />
+                    </View>
                 </ImageBackground>
             </View>
             <View style={styles.buttons}>

@@ -32,7 +32,7 @@ export default class Partner extends Component {
             pageNum: page
         }
         if(searchTxt !== '') {
-            params.vehiclePlate = searchTxt
+            params.telephone = searchTxt
         }
         if(city !== '' && city !== '全部') {
             params.city = city
@@ -72,7 +72,7 @@ export default class Partner extends Component {
                         <TextInput
                             style={styles.searchInput}
                             underlineColorAndroid='transparent'
-                            placeholder='姓名或车牌号检索'
+                            placeholder='姓名或手机号码检索'
                             placeholderTextColor='#999'
                             value={searchTxt}
                             onChangeText={searchTxt => {

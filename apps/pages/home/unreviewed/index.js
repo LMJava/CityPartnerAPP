@@ -98,7 +98,7 @@ export default class Unreviewed extends Component {
                 <Image source={Images.right} style={{marginLeft: 15}} />
             </View>
             <View style={[styles.itemRow, {marginTop: 12}]}>
-                <Text style={GlobalStyles.itemTxt_12_64}>{item.mobilePhone}</Text>
+                <Text style={GlobalStyles.itemTxt_12_64}>{item.vehiclePlate}</Text>
                 <Text style={GlobalStyles.itemTxt_12_96}>{item.createTime}</Text>
             </View>
         </TouchableOpacity>

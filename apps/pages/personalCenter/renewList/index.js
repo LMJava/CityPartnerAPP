@@ -18,7 +18,7 @@ export default class RenewList extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            countNum: '8821',
+            countNum: '0',
             beginTime: '', 
             endTime: ''
         }
@@ -74,7 +74,7 @@ export default class RenewList extends Component {
                 人
             </Text>
             <FlatList
-                data={[{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2},{name: 1}, {name: 2}]}
+                data={[]}
                 keyExtractor={(item, index) => item.name +''+ index}
                 renderItem={this.renderItem}
                 ItemSeparatorComponent={ViewUtils.itemSeparatorComponent}

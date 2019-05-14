@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { 
     // Platform, 
+    Alert,
     View, 
 } from 'react-native';
 import Toast from "../components/Toast";
@@ -24,23 +25,27 @@ class Entry extends Component {
     }
     
     componentDidMount() {
-        this.props.getUser((User) => {
-            if(JSON.stringify(User) === "{}") {
-                this.setState({ReturnDom: "Login", User})
-            } else {
-                this.setState({ReturnDom: "TabNav", User})
-            }
-        })
+        this.props.getUser(
+            // (User) => {
+            //     if(JSON.stringify(User) === "{}") {
+            //         this.setState({ReturnDom: "Login", User})
+            //     } else {
+            //         this.setState({ReturnDom: "TabNav", User})
+            //     }
+            // }
+        )
     }
     componentWillReceiveProps(nextProps) {
         const {User} = nextProps
-        if ( User !== this.props.User ) {
+        // , {User: preUser} = this.props
+        // userId
+        // if ( JSON.stringify(User) !== JSON.stringify(preUser) ) {
             if(JSON.stringify(User) === "{}") {
                 this.setState({ReturnDom: "Login", User})
             } else {
                 this.setState({ReturnDom: "TabNav", User})
             }
-        }
+        // }
     }
     // async _getDeviceInfo() {
     //     // DeviceInfo
@@ -68,16 +73,21 @@ class Entry extends Component {
     // }
 
     render() {
-        const { User } = this.state
-        if (this.state.ReturnDom) {
-            let ReturnDom = createAppContainer(StackNav(this.state.ReturnDom, User.userType))
-            return <View style={GlobalStyles.root_container}>
-                    <ReturnDom />
-                    <Toast ref={toast => global.GlobalToast = toast} />
-            </View>
+        const { User, ReturnDom } = this.state
+        let ReturnDomContainer = View
+        if(ReturnDom) {
+            ReturnDomContainer = createAppContainer(StackNav(ReturnDom, User.userType))
         } else {
-            return <View />
+            ReturnDomContainer = View
         }
+        return <View style={GlobalStyles.root_container}>
+            {ReturnDom
+                ? <ReturnDomContainer />
+                : <View />
+
+            }
+            <Toast ref={toast => global.GlobalToast = toast} />
+        </View>
     }
 }
 export default connect(

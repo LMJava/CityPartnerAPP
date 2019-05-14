@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
+    ScrollView,
     View
 } from 'react-native';
 
@@ -97,7 +98,7 @@ export default class Forgot extends Component {
     }
     render() {
         const {phoneNum, smsVCode, validTxt, waiting, newPassword, passwordHidden, confirmNum, confirmHidden} = this.state
-        return <View style={GlobalStyles.root_container}>
+        return <ScrollView style={GlobalStyles.root_container}>
             <View style={[styles.formWrap, {marginTop: 42}]}>
                 <View style={styles.inputWrap}>
                     <Image source={Images.login.tel} />
@@ -181,6 +182,6 @@ export default class Forgot extends Component {
                     <Text style={styles.submitTxt}>提交重置</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     }
 }

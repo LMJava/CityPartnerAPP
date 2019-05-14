@@ -25,7 +25,7 @@ export function login(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -46,7 +46,7 @@ export function sendvcode(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -68,7 +68,7 @@ export function resetPassword(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -89,7 +89,7 @@ export function getStatisticsBySession(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -109,7 +109,7 @@ export function getStatisticsBySession(opt) {
 //         if (data.code === SUCCESSCODE) {
 //             opt.success && opt.success(data);
 //         } else { // 运行时异常、业务异常、系统内部异常
-//             GlobalToast.show(data.message)
+//             GlobalToast.show(data.message || data.msg)
 //             opt.error && opt.error(data)
 //         }
 //     }).catch((err) => {
@@ -129,7 +129,7 @@ export function getStatisticsBySession(opt) {
 //         if (data.code === SUCCESSCODE) {
 //             opt.success && opt.success(data);
 //         } else { // 运行时异常、业务异常、系统内部异常
-//             GlobalToast.show(data.message)
+//             GlobalToast.show(data.message || data.msg)
 //             opt.error && opt.error(data)
 //         }
 //     }).catch((err) => {
@@ -164,7 +164,7 @@ export function getOrderListBySession(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -188,7 +188,7 @@ export function auditOrder(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -221,7 +221,7 @@ export function auditOrder(opt) {
 //         if (data.code === SUCCESSCODE) {
 //             opt.success && opt.success(data);
 //         } else { // 运行时异常、业务异常、系统内部异常
-//             GlobalToast.show(data.message)
+//             GlobalToast.show(data.message || data.msg)
 //             opt.error && opt.error(data)
 //         }
 //     }).catch((err) => {
@@ -247,7 +247,7 @@ export function getOrderDetailsByPartner(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -269,8 +269,8 @@ export function getChildPartnerList(opt) {
         headers: headersJ,
         body: JSON.stringify({
             name: opt.name || null, // 会员姓名 ?
-            vehiclePlate: opt.vehiclePlate || null, // 车牌号 ?
-            city: opt.city || null, // 车牌号 ?
+            telephone: opt.telephone || null, // 手机号码 ?
+            city: opt.city || null, // 城市 ?
             pageNum: opt.pageNum, // 页码
             pageSize: 10
         })
@@ -279,7 +279,7 @@ export function getChildPartnerList(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -309,7 +309,7 @@ export function addPartner(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -330,14 +330,14 @@ export function getPromotersList(opt) {
     if (opt.name && "" !== opt.name) {
         url = url + "&name=" + opt.name;
     }
-    if (opt.vehiclePlate && "" !== opt.vehiclePlate) {
-        url = url + "&vehiclePlate=" + opt.vehiclePlate;
+    if (opt.telephone && "" !== opt.telephone) {
+        url = url + "&telephone=" + opt.telephone;
     }
     Fetch.getJSON(url).then((data) => {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -366,7 +366,7 @@ export function addPromoters(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -379,12 +379,11 @@ export function addPromoters(opt) {
 
 // 获取面对面扫码办理小程序码
 export function getQRcodeForF2F(opt) {
-    let url = `${CONFIG.HOST}partner/getQRcodeForF2F`
-    Fetch.getJSON(url).then((data) => {
+    Fetch.postJSON(`${CONFIG.HOST}partner/getQRcodeForF2F`).then((data) => {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            // GlobalToast.show(data.message)
+            // GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -393,12 +392,11 @@ export function getQRcodeForF2F(opt) {
 }
 // 获取线上分享小程序码
 export function getQRcodeForOnline(opt) {
-    let url = `${CONFIG.HOST}partner/getQRcodeForOnline`
-    Fetch.getJSON(url).then((data) => {
+    Fetch.postJSON(`${CONFIG.HOST}partner/getQRcodeForOnline`).then((data) => {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -434,7 +432,7 @@ export function queryCities(opt) {
         // if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         // } else { // 运行时异常、业务异常、系统内部异常
-        //     GlobalToast.show(data.message)
+        //     GlobalToast.show(data.message || data.msg)
         //     opt.error && opt.error(data)
         // }
     }).catch((err) => {
@@ -454,7 +452,7 @@ export function queryAreas(opt) {
         // if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         // } else { // 运行时异常、业务异常、系统内部异常
-        //     GlobalToast.show(data.message)
+        //     GlobalToast.show(data.message || data.msg)
         //     opt.error && opt.error(data)
         // }
     }).catch((err) => {
@@ -467,7 +465,7 @@ export function queryPartnerRegion(opt) {
         if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
-            GlobalToast.show(data.message)
+            GlobalToast.show(data.message || data.msg)
             opt.error && opt.error(data)
         }
     }).catch((err) => {
@@ -480,7 +478,7 @@ export function queryPartnerRegion(opt) {
 //         if (data.code === SUCCESSCODE) {
 //             opt.success && opt.success(data);
 //         } else { // 运行时异常、业务异常、系统内部异常
-//             GlobalToast.show(data.message)
+//             GlobalToast.show(data.message || data.msg)
 //             opt.error && opt.error(data)
 //         }
 //     }).catch((err) => {

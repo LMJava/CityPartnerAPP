@@ -124,7 +124,7 @@ export default class HandleList extends Component {
         return <View style={styles.listItem}>
             <View style={styles.itemRow}>
                 <Text style={GlobalStyles.itemTxt_15_32}>{item.name}</Text>
-                <Text style={GlobalStyles.itemTxt_12_64}>{item.mobilePhone}</Text>
+                <Text style={GlobalStyles.itemTxt_12_64}>{item.vehiclePlate}</Text>
                 <Text style={GlobalStyles.itemTxt_12_64}>{item.channelType}</Text>
             </View>
             <View style={[styles.itemRow, {marginTop: 12}]}>

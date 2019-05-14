@@ -33,7 +33,7 @@ function getUser(call) {
         initState = {}
       }
       dispatch(initUser(initState));
-      call(initState);
+      call && call(initState);
     })
   }
 }
