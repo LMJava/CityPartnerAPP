@@ -95,7 +95,7 @@ export default function TabNav(userType) {
         }
     }
     if(userType === '2') {
-        delete RouteConfigs.Promoter
+        delete RouteConfigs.Partner
     }else if(userType === '3') {
         delete RouteConfigs.Partner
         delete RouteConfigs.Promoter
