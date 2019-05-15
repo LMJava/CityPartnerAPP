@@ -6,6 +6,7 @@ import {
     ImageBackground,
     Alert,
     ScrollView,
+    DeviceEventEmitter,
     View
 } from 'react-native';
 
@@ -49,6 +50,13 @@ class PersonalCenter extends Component {
         }
     }
     componentDidMount() {
+        this.countListener = DeviceEventEmitter.addListener('COUNT_STATE', this.getStatistics);
+        this.getStatistics()
+    }
+    componentWillUnmount() {
+        this.countListener && this.countListener.remove();
+    }
+    getStatistics = () => {
         getStatisticsBySession({
             success: ({result}) => {
                 const messages = [...this.state.messages]

@@ -11,7 +11,7 @@ import {
     View
 } from 'react-native';
 
-import { sendvcode, resetPassword } from "../../common/AppFetch";
+import { sendUpdatePswSms, resetPassword } from "../../common/AppFetch";
 import ViewUtils from "../../components/ViewUtils";
 import Images from "../../assets/styles/Images"
 import GlobalStyles from "../../assets/styles/GlobalStyles"
@@ -42,6 +42,8 @@ export default class Forgot extends Component {
             GlobalToast.show('手机号为空')
         } else if (!ViewUtils.phoneisValid(phoneNum)) {
             GlobalToast.show("请输入有效手机号码")
+        } else if(smsVCode === '') {
+            GlobalToast.show("请输入验证码")
         } else if(newPassword === '' || confirmNum === '') {
             GlobalToast.show("请输入密码")
         } else if(newPassword !== confirmNum) {
@@ -51,7 +53,7 @@ export default class Forgot extends Component {
                 telephone: phoneNum,
                 smsVCode,
                 newPassword,
-                success: data => {
+                success: () => {
                     GlobalToast.show('您的密码已重置')
                     this.timer = setTimeout(() => {
                         this.props.navigation.goBack(null)
@@ -68,9 +70,9 @@ export default class Forgot extends Component {
         if (phoneNum === '') {
             GlobalToast.show('手机号为空')
         } else if (ViewUtils.phoneisValid(phoneNum)) {
-            sendvcode({
+            sendUpdatePswSms({
                 phoneNum,
-                success: data => {
+                success: () => {
                     GlobalToast.show('验证码已发送')
                     this.timeNum = 60
                     this.setState({ waiting: true });

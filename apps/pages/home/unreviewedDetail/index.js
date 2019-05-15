@@ -5,6 +5,7 @@ import {
     TextInput,
     TouchableOpacity,
     ScrollView,
+    DeviceEventEmitter,
     Text, 
     View
 } from 'react-native';
@@ -73,20 +74,25 @@ export default class UnreviewedDetail extends Component {
         let params = {
             orderId: orderDetails.orderId,
             auditResult
-        }
+        },
+        toastMsg = '审核通过'
         if(!orderDetails.orderId) {
             GlobalToast.show('无效数据')
             return false;
         }else if(auditResult === 2) {
+            toastMsg = '审核不通过'
             params.noPassReasons = noPassReasons
         }
         auditOrder({
             ...params,
             success: () => {
-                GlobalToast.show('通过审核')
-                this.props.refresh && this.props.refresh()
+                const {state, goBack} = this.props.navigation,
+                    params = state && state.params
+                GlobalToast.show(toastMsg)
+                DeviceEventEmitter.emit("COUNT_STATE")
+                params.refresh && params.refresh()
                 this.timer = setTimeout(() => {
-                    this.props.navigation.goBack(null)
+                    goBack(null)
                 }, 1000);
             }
         })

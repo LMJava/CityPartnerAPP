@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { connect, actions } from '../../store/combin';
-import { login } from "../../common/AppFetch";
+import { sendLoginSms, login } from "../../common/AppFetch";
 import ViewUtils from "../../components/ViewUtils";
 import Tool from "../../common/Tool";
 import Images from "../../assets/styles/Images"
@@ -25,25 +25,31 @@ class Login extends Component {
         this.state = {
             radioValue: 1,
             phoneNum: '', // T 18860383800
+            smsVCode: '',
+            validTxt: '获取验证码',
+            waiting: false,
             passwordNum: '', // T 000000
             passwordHidden: true
         }
     }
     componentWillUnmount() {
+        this.interval && clearInterval(this.interval);
         Keyboard.dismiss();
     }
     onSubmit = () => {
-        const {radioValue, phoneNum, passwordNum} = this.state
+        const {radioValue, phoneNum, smsVCode, passwordNum} = this.state
         if(!radioValue) {
             GlobalToast.show("请选择角色")
         } else if(phoneNum === '') {
             GlobalToast.show("请输入手机号")
         } else if(!ViewUtils.phoneisValid(phoneNum)) {
             GlobalToast.show("请输入有效手机号码")
+        } else if(smsVCode === '') {
+            GlobalToast.show("请输入验证码")
         } else if(passwordNum === '') {
             GlobalToast.show("请输入密码")
         } else {
-            login({ radioValue, phoneNum, passwordNum,
+            login({ radioValue, phoneNum, smsVCode, passwordNum,
                 success: ({result}) => {
                     this.props.addUser(result[0])
                 }
@@ -51,11 +57,44 @@ class Login extends Component {
         }
     }
 
+    onSendLoginSms = () => {
+        const {phoneNum} = this.state
+        if (phoneNum === '') {
+            GlobalToast.show('手机号为空')
+        } else if (ViewUtils.phoneisValid(phoneNum)) {
+            sendLoginSms({
+                phoneNum,
+                success: () => {
+                    GlobalToast.show('验证码已发送')
+                    this.timeNum = 60
+                    this.setState({ waiting: true });
+                    this.interval = setInterval(() => {
+                        this.setState({
+                            validTxt: `${this.timeNum}秒后重新获取`
+                        })
+                        this.timeNum--
+                        if (this.timeNum <= 0) {
+                            clearInterval(this.interval)
+                            this.setState({
+                                validTxt: '重新获取',
+                                waiting: false,
+                            })
+                        }
+                    }, 1000);
+                },
+                error: err => {
+                    GlobalToast.show("err"+JSON.stringify(err))
+                }
+            })
+        } else {
+            GlobalToast.show('请输入有效手机号码')
+        }
+    }
 
 
     onChecked = (radioValue) => this.setState({radioValue})
     render() {
-        const {radioValue, phoneNum, passwordNum, passwordHidden} = this.state
+        const {radioValue, phoneNum, smsVCode, validTxt, waiting, passwordNum, passwordHidden} = this.state
         return <ScrollView style={GlobalStyles.root_container}>
             {Tool.statusBar()}
             <ImageBackground 
@@ -100,6 +139,28 @@ class Login extends Component {
                         value={phoneNum}
                         onChangeText={phoneNum => this.setState({ phoneNum })}
                     />
+                </View>
+                <View style={styles.vcode}>
+                    <View style={[styles.inputWrap, {flex: 1}]}>
+                        <Image source={Images.login.chkcode} />
+                        <TextInput
+                            style={styles.input}
+                            underlineColorAndroid='transparent'
+                            placeholder='请输入验证码'
+                            placeholderTextColor='#B2B2B2'
+                            keyboardType="numeric"
+                            clearButtonMode={'while-editing'}
+                            value={smsVCode}
+                            onChangeText={smsVCode => this.setState({ smsVCode })}
+                        />
+                    </View>
+                    <TouchableOpacity 
+                        style={[styles.vcodeBtn, waiting ? styles.vcodeBtnD : styles.vcodeBtnA]}
+                        disabled={waiting}
+                        onPress={this.onSendLoginSms}
+                    >
+                        <Text style={waiting ? styles.vcodeTxtD : styles.vcodeTxtA}>{validTxt}</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.inputWrap}>
                     <Image source={Images.login.pwd} />

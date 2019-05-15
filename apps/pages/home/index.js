@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     ImageBackground,
     ScrollView,
+    DeviceEventEmitter,
     View
 } from 'react-native';
 import Modal from 'react-native-modal'
@@ -46,6 +47,16 @@ class Home extends Component {
         }
     }
     componentDidMount() {
+        this.countListener = DeviceEventEmitter.addListener('COUNT_STATE', this.getStatistics);
+        this.getStatistics()
+        getQRcodeForF2F({success: ({result}) => {
+            this.setState({QRcodeForF2F: `data:image/png;base64,${result[0].imgbase64}`})
+        }})
+    }
+    componentWillUnmount() {
+        this.countListener && this.countListener.remove();
+    }
+    getStatistics = () => {
         getStatisticsBySession({
             success: ({result}) => {
                 let buttons = [...this.state.buttons]
@@ -58,9 +69,6 @@ class Home extends Component {
                 })
             }
         })
-        getQRcodeForF2F({success: ({result}) => {
-            this.setState({QRcodeForF2F: `data:image/png;base64,${result[0].imgbase64}`})
-        }})
     }
     // 传入bool控制弹窗显示（true）隐藏（false）
     toggle(flag) {this.setState({isVisible: flag})}

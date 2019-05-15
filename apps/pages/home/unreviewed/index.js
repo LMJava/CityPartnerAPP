@@ -87,7 +87,7 @@ export default class Unreviewed extends Component {
             style={styles.listItem}
             onPress={() => this.props.navigation.navigate('UnreviewedDetail', {
                 orderId: item.orderId,
-                refresh: this.listView.refresh
+                refresh:() => this.listView.refresh()
             })}
         >
             <View style={styles.itemAlignRow}>

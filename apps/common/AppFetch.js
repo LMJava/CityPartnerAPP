@@ -9,6 +9,26 @@ const headersJ = {
     'Content-Type': 'application/json;charset=utf-8'
 }
 
+// 登录获取验证码
+export function sendLoginSms(opt) {
+    const requestBody = {
+        url: CONFIG.HOST + "partner/sendLoginSms",
+        headers: headersJ,
+        body: JSON.stringify({
+            telephone: opt.phoneNum
+        })
+    };
+    Fetch.postJSON(requestBody).then((data) => {
+        if (data.code === SUCCESSCODE) {
+            opt.success && opt.success(data);
+        } else { // 运行时异常、业务异常、系统内部异常
+            GlobalToast.show(data.message || data.msg)
+            opt.error && opt.error(data)
+        }
+    }).catch((err) => {
+        opt.error && opt.error(err)
+    })
+}
 // 登录
 export function login(opt) {
     const requestBody = {
@@ -16,7 +36,8 @@ export function login(opt) {
         headers: headersJ,
         body: JSON.stringify({
             role: opt.radioValue, 
-            telephone: opt.phoneNum, 
+            telephone: opt.phoneNum,
+            smsVCode: opt.smsVCode,  
             password: opt.passwordNum
         })
     };
@@ -33,13 +54,12 @@ export function login(opt) {
     })
 }
 // 获取验证码
-export function sendvcode(opt) {
+export function sendUpdatePswSms(opt) {
     const requestBody = {
-        url: CONFIG.HOST + "common/sendvcode",
+        url: CONFIG.HOST + "partner/sendUpdatePswSms",
         headers: headersJ,
         body: JSON.stringify({
-            busiType: 2, 
-            phoneNum: opt.phoneNum
+            telephone: opt.phoneNum
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
