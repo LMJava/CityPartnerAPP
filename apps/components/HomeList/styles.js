@@ -18,6 +18,8 @@ export default StyleSheet.create({
         height: 55,
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    homeButtonsConBorder: {
         borderBottomWidth: 0.5,
         borderBottomColor: '#E0E0E0',
     },

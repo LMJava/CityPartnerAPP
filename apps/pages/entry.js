@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { 
     // Platform, 
-    Alert,
+    DeviceEventEmitter, 
     View, 
 } from 'react-native';
 import Toast from "../components/Toast";
@@ -34,6 +34,10 @@ class Entry extends Component {
             //     }
             // }
         )
+        this.ToLoginListener = DeviceEventEmitter.addListener('toLogin', this.props.delUser); 
+    }
+    componentWillUnmount() {
+        this.ToLoginListener && this.ToLoginListener.remove();
     }
     componentWillReceiveProps(nextProps) {
         const {User} = nextProps
@@ -94,6 +98,7 @@ export default connect(
     (state) => {
       return { User: state.User };
     },{
-        getUser: actions.User.getUser
+        getUser: actions.User.getUser,
+        delUser: actions.User.delUser
     }
 )(Entry);

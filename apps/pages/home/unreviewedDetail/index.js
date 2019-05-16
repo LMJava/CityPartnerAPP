@@ -49,9 +49,10 @@ export default class UnreviewedDetail extends Component {
                 bg: Images.credentials.DrivingPermit2
             }],
             fastButtons: [
-                {name: '证件不清楚', value: '证件不清楚'}, 
-                {name: '拍照资料不完整', value: '拍照资料不完整'}, 
-                {name: '姓名与证件信息不符', value: '姓名与证件信息不符'}, 
+                {name: '姓名与身份证号不符', value: '姓名与身份证号不符'}, 
+                {name: '车辆号牌有误', value: '车辆号牌有误'}, 
+                {name: '车辆类型不符合', value: '车辆类型不符合'}, 
+                {name: '车驾号有误', value: '车驾号有误'}, 
             ]
         }
     }
@@ -120,6 +121,15 @@ export default class UnreviewedDetail extends Component {
                     <Text style={GlobalStyles.itemTxt_12_64}>{orderDetails.vehiclePlate}</Text>
                     <Text style={GlobalStyles.itemTxt_12_96}>{orderDetails.createTime}</Text>
                 </View>
+                <Text style={[GlobalStyles.itemTxt_12_64, {marginTop: 15}]}>
+                    身份证号：{orderDetails.idNumber}
+                </Text>
+                <Text style={[GlobalStyles.itemTxt_12_64, {marginTop: 15}]}>
+                    车架号：{orderDetails.vin}
+                </Text>
+                <Text style={[GlobalStyles.itemTxt_12_64, {marginTop: 15}]}>
+                    车辆类型：{orderDetails.vehicleType}
+                </Text>
                 <View style={[styles.itemRow, {marginTop: 15, justifyContent: 'flex-start'}]}>
                     <Image source={Images.location} style={{marginRight: 5}} />
                     <Text numberOfLines={2} style={GlobalStyles.itemTxt_12_64}>
@@ -128,9 +138,9 @@ export default class UnreviewedDetail extends Component {
                 </View>
             </View>
             <View style={styles.detailForm}>
-                <View style={styles.detailImg}>
+                {/*<View style={styles.detailImg}>
                     {imageData.map(this.renderdetailImgItem)}
-                </View>
+                </View>*/}
                 <View style={styles.detailBtns}>
                     <TouchableOpacity 
                         style={[styles.detailBtn, styles.detailSubmit]}

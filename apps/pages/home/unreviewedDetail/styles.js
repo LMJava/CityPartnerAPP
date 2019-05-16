@@ -14,7 +14,7 @@ export default StyleSheet.create({
     },
     detailForm: {
         flex: 1,
-        marginTop: 10,
+        // marginTop: 10,
         paddingBottom: 20,
         backgroundColor: '#FFF'
     },
@@ -52,6 +52,7 @@ export default StyleSheet.create({
     detailBtns: {
         flexDirection: 'row', 
         alignItems: 'center',
+        paddingVertical: 20,
         paddingHorizontal: 11
     },
     detailBtn: {

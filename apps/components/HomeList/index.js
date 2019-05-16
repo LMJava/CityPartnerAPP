@@ -22,7 +22,7 @@ export default class HomeList extends Component {
             {buttons.map(this.renderButtons)}
         </View>
     }
-    renderButtons = (item, index) => (
+    renderButtons = (item, index, buttons) => (
         <TouchableOpacity 
             key={index} 
             style={styles.homeButtons} 
@@ -30,7 +30,12 @@ export default class HomeList extends Component {
             onPress={(e) => this.props.navigation.navigate(item.target)}
         >
             <Image style={styles.homeButtonsImg} source={item.img} />
-            <View style={styles.homeButtonsCon}>
+            <View style={[
+                styles.homeButtonsCon, 
+                index+1 === buttons.length
+                    ? {}
+                    : styles.homeButtonsConBorder
+            ]}>
                 <View style={styles.homeButtonsTxt}>
                     <Text style={styles.homeButtonsTit}>{item.title}</Text>
                     <Text style={styles.homeButtonsNum}>{item.number}</Text>

@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     ImageBackground,
     ScrollView,
+    RefreshControl,
     DeviceEventEmitter,
     View
 } from 'react-native';
@@ -25,6 +26,7 @@ class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            refreshing: false,
             todayHandledCount: 0,
             QRcodeForF2F: null,
             isVisible: false,
@@ -57,6 +59,7 @@ class Home extends Component {
         this.countListener && this.countListener.remove();
     }
     getStatistics = () => {
+        this.setState({refreshing: true})
         getStatisticsBySession({
             success: ({result}) => {
                 let buttons = [...this.state.buttons]
@@ -65,7 +68,13 @@ class Home extends Component {
                 buttons[2].number = result[0].completedCount || 0
                 this.setState({
                     buttons, 
-                    todayHandledCount: result[0].todayHandledCount || 0
+                    todayHandledCount: result[0].todayHandledCount || 0,
+                    refreshing: false
+                })
+            },
+            error: () => {
+                this.setState({
+                    refreshing: false
                 })
             }
         })
@@ -73,9 +82,17 @@ class Home extends Component {
     // 传入bool控制弹窗显示（true）隐藏（false）
     toggle(flag) {this.setState({isVisible: flag})}
     render() {
-        const { todayHandledCount, QRcodeForF2F, isVisible, buttons } = this.state,
+        const { refreshing, todayHandledCount, QRcodeForF2F, isVisible, buttons } = this.state,
             {name, address} = this.props.User
-        return <ScrollView style={GlobalStyles.root_container}>
+        return <ScrollView 
+            style={GlobalStyles.root_container}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={this.getStatistics}
+                />
+            }
+        >
             {Tool.statusBar()}
             <ImageBackground 
                 resizeMode={'stretch'} 

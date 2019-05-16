@@ -6,6 +6,7 @@ import {
     ImageBackground,
     View
 } from 'react-native';
+import * as WeChat from 'react-native-wechat'
 
 import { getQRcodeForOnline } from "../../../common/AppFetch";
 import Images from "../../../assets/styles/Images"

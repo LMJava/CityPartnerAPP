@@ -1,7 +1,9 @@
 import CONFIG from "./config";
 import Fetch from "./fetch/fetch";
+import {DeviceEventEmitter} from "react-native"
 
 const SUCCESSCODE = 0
+const RELOGINCODE = '9999'
 const headersF = {
     'Content-Type': 'multipart/form-data'
 }
@@ -37,7 +39,7 @@ export function login(opt) {
         body: JSON.stringify({
             role: opt.radioValue, 
             telephone: opt.phoneNum,
-            smsVCode: opt.smsVCode,  
+            // smsVCode: opt.smsVCode,  
             password: opt.passwordNum
         })
     };
@@ -63,7 +65,10 @@ export function sendUpdatePswSms(opt) {
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -85,7 +90,10 @@ export function resetPassword(opt) {
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -106,7 +114,10 @@ export function resetPassword(opt) {
 // todayHandledCount    今日办理人数
 export function getStatisticsBySession(opt) {
     Fetch.getJSON(CONFIG.HOST + "partner/getStatisticsBySession").then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -181,7 +192,10 @@ export function getOrderListBySession(opt) {
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -205,7 +219,10 @@ export function auditOrder(opt) {
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -264,7 +281,10 @@ export function auditOrder(opt) {
 export function getOrderDetailsByPartner(opt) {
     let url = `${CONFIG.HOST}smallprogram/getOrderDetailsByPartner?orderId=${opt.orderId}`
     Fetch.getJSON(url).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -296,7 +316,10 @@ export function getChildPartnerList(opt) {
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -326,7 +349,10 @@ export function addPartner(opt) {
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -355,7 +381,10 @@ export function getPromotersList(opt) {
         url = url + "&name=" + opt.telephone;
     }
     Fetch.getJSON(url).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -384,7 +413,10 @@ export function addPromoters(opt) {
         })
     };
     Fetch.postJSON(requestBody).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -401,7 +433,10 @@ export function addPromoters(opt) {
 // 获取面对面扫码办理小程序码
 export function getQRcodeForF2F(opt) {
     Fetch.postJSON(`${CONFIG.HOST}partner/getQRcodeForF2F`).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             // GlobalToast.show(data.message || data.msg)
@@ -414,7 +449,10 @@ export function getQRcodeForF2F(opt) {
 // 获取线上分享小程序码
 export function getQRcodeForOnline(opt) {
     Fetch.postJSON(`${CONFIG.HOST}partner/getQRcodeForOnline`).then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)
@@ -483,7 +521,10 @@ export function queryAreas(opt) {
 // 合伙人区域筛选
 export function queryPartnerRegion(opt) {
     Fetch.postJSON(CONFIG.HOST + "partner/queryPartnerRegion").then((data) => {
-        if (data.code === SUCCESSCODE) {
+        if(data.code === RELOGINCODE) {
+            DeviceEventEmitter.emit('toLogin');
+            opt.error && opt.error(data)
+        } else if (data.code === SUCCESSCODE) {
             opt.success && opt.success(data);
         } else { // 运行时异常、业务异常、系统内部异常
             GlobalToast.show(data.message || data.msg)

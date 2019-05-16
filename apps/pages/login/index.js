@@ -25,7 +25,7 @@ class Login extends Component {
         this.state = {
             radioValue: 1,
             phoneNum: '', // T 18860383800
-            smsVCode: '',
+            smsVCode: '屏蔽',
             validTxt: '获取验证码',
             waiting: false,
             passwordNum: '', // T 000000
@@ -140,7 +140,7 @@ class Login extends Component {
                         onChangeText={phoneNum => this.setState({ phoneNum })}
                     />
                 </View>
-                <View style={styles.vcode}>
+                {/*<View style={styles.vcode}>
                     <View style={[styles.inputWrap, {flex: 1}]}>
                         <Image source={Images.login.chkcode} />
                         <TextInput
@@ -161,7 +161,7 @@ class Login extends Component {
                     >
                         <Text style={waiting ? styles.vcodeTxtD : styles.vcodeTxtA}>{validTxt}</Text>
                     </TouchableOpacity>
-                </View>
+                </View>*/}
                 <View style={styles.inputWrap}>
                     <Image source={Images.login.pwd} />
                     <TextInput

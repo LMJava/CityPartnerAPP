@@ -1,4 +1,5 @@
 import CONFIG from "../config"
+import {DeviceEventEmitter} from "react-native"
 // import 'es5-sham-ie8';
 // import 'es5-shim';
 // var Promise = require('es6-promise').Promise;
@@ -63,11 +64,10 @@ let _fetch = {
         },
         JSON(response) {
             //生成JSON.parse(responseText)的结果
-            // if (response.type === 'default' 
-            //     && (response.url == (CONFIG.HOST+"partner/login"))
-            // ) {
-            //     global.APPCOOKIE = response['headers']['map']['set-cookie']
-            // }
+            if (response.type === 'default' && response.url === `${CONFIG.HOST}login`) {
+                DeviceEventEmitter.emit('toLogin');
+                throw {name: "SessionError", message: "session auth error."};
+            }
             return response.json();
         },
         BLOB(response) {

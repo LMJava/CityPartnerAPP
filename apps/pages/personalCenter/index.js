@@ -6,6 +6,7 @@ import {
     ImageBackground,
     Alert,
     ScrollView,
+    RefreshControl,
     DeviceEventEmitter,
     View
 } from 'react-native';
@@ -24,6 +25,7 @@ class PersonalCenter extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            refreshing: false,
             messages: [{
                 name: "今日办理",
                 number: "0"
@@ -42,10 +44,10 @@ class PersonalCenter extends Component {
                 title: "办理数量明细",
                 target: "HandleList",
                 img: Images.handle
-            }, {
-                title: "续费数量明细",
-                target: "RenewList",
-                img: Images.payDetail
+            // }, {
+            //     title: "续费数量明细",
+            //     target: "RenewList",
+            //     img: Images.payDetail
             }]
         }
     }
@@ -57,20 +59,37 @@ class PersonalCenter extends Component {
         this.countListener && this.countListener.remove();
     }
     getStatistics = () => {
+        this.setState({refreshing: true})
         getStatisticsBySession({
             success: ({result}) => {
                 const messages = [...this.state.messages]
                 messages[0].number = result[0].todayHandledCount || 0
                 messages[1].number = result[0].auditedCount || 0
                 messages[2].number = result[0].activatedCount || 0
-                this.setState({messages})
+                this.setState({
+                    messages,
+                    refreshing: false
+                })
+            },
+            error: () => {
+                this.setState({
+                    refreshing: false
+                })
             }
         })
     }
     render() {
-        const { messages, buttons } = this.state,
+        const { refreshing, messages, buttons } = this.state,
             {name, address} = this.props.User
-        return <ScrollView style={GlobalStyles.root_container}>
+        return <ScrollView 
+            style={GlobalStyles.root_container}
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={this.getStatistics}
+                />
+            }
+        >
             {Tool.statusBar()}
             <ImageBackground 
                 resizeMode={'stretch'} 

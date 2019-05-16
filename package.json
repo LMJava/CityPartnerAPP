@@ -16,6 +16,7 @@
     "react-native-modal": "^10.0.0",
     "react-native-picker": "^4.3.7",
     "react-native-ultimate-listview": "^3.3.0",
+    "react-native-wechat": "^1.9.10",
     "react-navigation": "^3.9.1",
     "react-redux": "^7.0.3",
     "realm": "^2.26.1",
