@@ -67,7 +67,8 @@ export default StyleSheet.create({
     forgot: {
         margin: 20,
         padding: 6,
-        alignItems: 'center',
+        alignSelf: 'center',
+        alignItems: 'center'
     },
     forgotTxt: {
         fontSize: 14,

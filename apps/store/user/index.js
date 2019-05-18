@@ -6,12 +6,12 @@ import Tool from "../../common/Tool";
 // ======================================================
 // userType: 1-城市合伙人 2-渠道合伙人 3-推广员
 function reducer(state = {}, {type, data}) {
-  if (type === 'INIT') {
+  if (type === 'INITUSER') {
     return data 
-  } else if (type === 'ADD') {
+  } else if (type === 'ADDUSER') {
     Tool.setItem("user", JSON.stringify(data))
     return data 
-  } else if (type === 'DEL') {
+  } else if (type === 'DELUSER') {
     Tool.removeItem("user");
     return {}
   }
@@ -39,15 +39,15 @@ function getUser(call) {
 }
 // 行为--初始化用户data
 function initUser(data) {
-  return { type: 'INIT', data };
+  return { type: 'INITUSER', data };
 }
 // 行为--登录用户data
 function addUser(data) {
-  return { type: 'ADD', data };
+  return { type: 'ADDUSER', data };
 }
 // 行为--注销用户data
 function delUser() {
-  return { type: 'DEL' };
+  return { type: 'DELUSER' };
 }
 
 export default {

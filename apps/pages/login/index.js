@@ -24,11 +24,11 @@ class Login extends Component {
         super(props)
         this.state = {
             radioValue: 1,
-            phoneNum: '', // T 18860383800
+            phoneNum: props.Login.telephone || '',
             smsVCode: '屏蔽',
             validTxt: '获取验证码',
             waiting: false,
-            passwordNum: '', // T 000000
+            passwordNum: '',
             passwordHidden: true
         }
     }
@@ -51,6 +51,7 @@ class Login extends Component {
         } else {
             login({ radioValue, phoneNum, smsVCode, passwordNum,
                 success: ({result}) => {
+                    this.props.addLogin({ telephone: phoneNum })
                     this.props.addUser(result[0])
                 }
             })
@@ -202,7 +203,12 @@ class Login extends Component {
     }
 }
 export default connect(
-    () => ({}), {
-        addUser: actions.User.addUser
+    (state) => {
+        return { 
+            Login: state.Login
+        };
+    },{
+        addUser: actions.User.addUser,
+        addLogin: actions.Login.addLogin
     }
 )(Login);

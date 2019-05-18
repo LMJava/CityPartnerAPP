@@ -25,6 +25,7 @@ class Entry extends Component {
     }
     
     componentDidMount() {
+        this.props.getLogin()
         this.props.getUser(
             // (User) => {
             //     if(JSON.stringify(User) === "{}") {
@@ -98,6 +99,7 @@ export default connect(
     (state) => {
       return { User: state.User };
     },{
+        getLogin: actions.Login.getLogin,
         getUser: actions.User.getUser,
         delUser: actions.User.delUser
     }

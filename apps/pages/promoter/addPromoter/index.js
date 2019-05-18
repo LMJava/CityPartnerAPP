@@ -35,15 +35,15 @@ export default class AddPromoter extends Component {
         that = this
         this.state = {
             isVisible: false,
-            telephone: '', // T 18237137867
-            cardId: '', // T 412724199504020311
-            name: '', // T 刘猛
+            telephone: '',
+            cardId: '',
+            name: '',
             sex: 1,
-            age: '', // T 24
-            province: '', // T 河南省
-            city: '', // T 郑州市
-            county: '', // T 高新区
-            addrTxt: '' // T YX
+            age: '',
+            province: '',
+            city: '',
+            county: '',
+            addrTxt: ''
         }
     }
     componentWillUnmount() {

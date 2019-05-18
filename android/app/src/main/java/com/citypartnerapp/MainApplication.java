@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.theweflex.react.WeChatPackage;
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.beefe.picker.PickerViewPackage;
 import io.realm.react.RealmReactPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new WeChatPackage(),
         new MainReactPackage(),
+            new RNDeviceInfo(),
         new PickerViewPackage(),
         new RealmReactPackage(),
         new RNGestureHandlerPackage()

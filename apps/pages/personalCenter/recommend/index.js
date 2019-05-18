@@ -30,28 +30,36 @@ export default class Recommend extends Component {
 
     shareToWX = (type) => {
         WeChat.isWXAppInstalled().then( isInstalled => {
+            GlobalToast.show(Image.resolveAssetSource(Images.sharePage.wechat).uri)
             if ( isInstalled ) {
+                const config = {
+                    type: 'imageResource',// 'imageUrl', 
+                    title: '车主云微ETC来了，限时办理送199红包！',
+                    description: '极速办理微ETC，高速不排队还享9.5折，绑微信支付先通行后付费，免OBU设备费，限时开通赠送199红包，还可定期领取红包！',
+                    imageUrl: Image.resolveAssetSource(Images.sharePage.wechat).uri,
+                    mediaTagName: '城市合伙人',
+                    messageAction: undefined,
+                    messageExt: undefined
+                }
+                // 
                 if (type === 1) {
-                    WeChat.shareToSession({
-                        type: 'text', description: '测试微信好友分享的文本内容'
-                    }).then((requestJson)=>{
+                    WeChat.shareToSession(config).then((requestJson)=>{
                         if (requestJson.errCode == "0"){
-                            GlobalToast.show('分享成功')
+                            GlobalToast.show('分享给好友成功')
                         }
-                        GlobalToast.show('分享失败')
+                        GlobalToast.show('分享给好友失败')
                     }).catch((err)=>{
-                        GlobalToast.show('分享失败')
+
+                        GlobalToast.show('分享给好友失败')
                     })
                 }else {
-                    WeChat.shareToTimeline({
-                        type: 'text', description: '测试微信朋友圈分享的文本内容'
-                    }).then((requestJson)=>{
+                    WeChat.shareToTimeline(config).then((requestJson)=>{
                         if (requestJson.errCode == "0"){
-                            GlobalToast.show('分享成功')
+                            GlobalToast.show('分享朋友圈成功')
                         }
-                        GlobalToast.show('分享失败')
+                        GlobalToast.show('分享朋友圈失败')
                     }).catch((err)=>{
-                        GlobalToast.show('分享失败')
+                        GlobalToast.show('分享朋友圈失败')
                     })
                 }
             } else {

@@ -21,13 +21,13 @@ class EditPwd extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            phoneNum: '', // T 18860383800
+            phoneNum: props.Login.telephone || '',
             smsVCode: '',
             validTxt: '获取验证码',
             waiting: false,
-            newPassword: '', // T 000000
+            newPassword: '',
             passwordHidden: true,
-            confirmNum: '', // T 000000
+            confirmNum: '',
             confirmHidden: true
         }
     }
@@ -105,6 +105,7 @@ class EditPwd extends Component {
                 <View style={styles.inputWrap}>
                     <Image source={Images.login.tel} />
                     <TextInput
+                        editable={false}
                         style={styles.input}
                         underlineColorAndroid='transparent'
                         placeholder='请输入手机号'
@@ -189,7 +190,9 @@ class EditPwd extends Component {
 }
 export default connect(
     (state) => {
-        return { User: state.User };
+        return { 
+            Login: state.Login
+        };
     },{
         delUser: actions.User.delUser
     }

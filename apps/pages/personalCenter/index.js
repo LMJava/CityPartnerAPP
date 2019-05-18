@@ -10,6 +10,7 @@ import {
     DeviceEventEmitter,
     View
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info'
 
 import { 
     getStatisticsBySession, 
@@ -129,6 +130,7 @@ class PersonalCenter extends Component {
             >
                 <Text style={styles.logoutTxt}>退出</Text>
             </TouchableOpacity>
+            <Text style={styles.versionTxt}>城市合伙人 v{DeviceInfo.getVersion()}</Text>
         </ScrollView>
     }
 

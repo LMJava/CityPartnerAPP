@@ -82,7 +82,7 @@ export default StyleSheet.create({
 
     logout: {
         height: 43,
-        marginTop: 30,
+        marginTop: 50,
         marginHorizontal: 15,
         alignItems: 'center',
         justifyContent: 'center',
@@ -92,5 +92,11 @@ export default StyleSheet.create({
     logoutTxt: {
         fontSize: 18,
         color: "#000"
+    },
+    versionTxt: {
+        marginVertical: 50,
+        textAlign: 'center',
+        color: '#B2B2B2',
+        fontSize: 10
     }
 })

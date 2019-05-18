@@ -21,13 +21,13 @@ export default class Forgot extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            phoneNum: '', // T 18860383800
+            phoneNum: '',
             smsVCode: '',
             validTxt: '获取验证码',
             waiting: false,
-            newPassword: '', // T 000000
+            newPassword: '',
             passwordHidden: true,
-            confirmNum: '', // T 000000
+            confirmNum: '',
             confirmHidden: true
         }
     }
