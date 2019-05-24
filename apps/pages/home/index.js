@@ -15,7 +15,7 @@ import {
     getStatisticsBySession, 
     getQRcodeForF2F 
 } from "../../common/AppFetch";
-import { connect } from '../../store/combin';
+import { connect, actions } from '../../store/combin';
 import HomeList from "../../components/HomeList";
 import Tool from "../../common/Tool";
 import Images from "../../assets/styles/Images"
@@ -49,11 +49,18 @@ class Home extends Component {
         }
     }
     componentDidMount() {
+        const Login = {...this.props.Login}
         this.countListener = DeviceEventEmitter.addListener('COUNT_STATE', this.getStatistics);
         this.getStatistics()
-        getQRcodeForF2F({success: ({result}) => {
-            this.setState({QRcodeForF2F: `data:image/png;base64,${result[0].imgbase64}`})
-        }})
+        if(Login.QRcodeForF2F) {
+            this.setState({QRcodeForF2F: `data:image/png;base64,${Login.QRcodeForF2F}`})
+        } else {
+            getQRcodeForF2F({success: ({result}) => {
+                Login.QRcodeForF2F = result[0].imgbase64
+                this.props.addLogin(Login)
+                this.setState({QRcodeForF2F: `data:image/png;base64,${result[0].imgbase64}`})
+            }})
+        }
     }
     componentWillUnmount() {
         this.countListener && this.countListener.remove();
@@ -152,6 +159,11 @@ class Home extends Component {
 }
 export default connect(
     (state) => {
-      return { User: state.User };
+        return { 
+            Login: state.Login, 
+            User: state.User 
+        };
+    },{
+        addLogin: actions.Login.addLogin
     }
 )(Home);
